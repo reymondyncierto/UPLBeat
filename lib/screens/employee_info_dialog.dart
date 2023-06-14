@@ -8,12 +8,10 @@ class EmployeeInfoDialog extends StatefulWidget {
   const EmployeeInfoDialog({Key? key}) : super(key: key);
 
   @override
-  State<EmployeeInfoDialog> createState() =>
-      _EmployeeInfoDialogState();
+  State<EmployeeInfoDialog> createState() => _EmployeeInfoDialogState();
 }
 
 class _EmployeeInfoDialogState extends State<EmployeeInfoDialog> {
-  
   String? _empNo;
   String? _position;
   String? _homeUnit;
@@ -95,7 +93,7 @@ class _EmployeeInfoDialogState extends State<EmployeeInfoDialog> {
                   //     _buildAllergiesTextField()
                   //   else
                   //     _buildIllnessSwitchListTile(_illnesses[i]),
-                  
+
                   _buildEmpNoTextField(),
                   _buildPositionTextField(),
                   _buildHomeUnitTextField(),
@@ -118,8 +116,8 @@ class _EmployeeInfoDialogState extends State<EmployeeInfoDialog> {
             // });
 
             // _saveIllnessesAndAllergies(selectedIllnesses);
-            
-_saveEmployeeInfo(_empNo, _position, _homeUnit);
+
+            _saveEmployeeInfo(_empNo, _position, _homeUnit);
             Navigator.pop(context);
           },
           child: const Text("Submit"),
@@ -137,7 +135,7 @@ _saveEmployeeInfo(_empNo, _position, _homeUnit);
         ),
         onChanged: (value) {
           setState(() {
-            _empNo = value; 
+            _empNo = value;
           });
         },
       ),
@@ -153,9 +151,9 @@ _saveEmployeeInfo(_empNo, _position, _homeUnit);
         ),
         onChanged: (value) {
           setState(() {
-          //   _allergies =
-          //       value.split(",").map((allergy) => allergy.trim()).toList();
-              _position = value;
+            //   _allergies =
+            //       value.split(",").map((allergy) => allergy.trim()).toList();
+            _position = value;
           });
         },
       ),

@@ -95,9 +95,9 @@ class _QRViewExampleState extends State<QRViewExample> {
                           final dateFormat = DateFormat('yyyy-MM-dd');
                           final todayDate = dateFormat.format(now);
                           if (entryDateTime == todayDate) {
-                             if (currentStatus == 'Cleared') {
-                            _saveStudentLog(
-                                result!.code!, studno, currentStatus);
+                            if (currentStatus == 'Cleared') {
+                              _saveStudentLog(
+                                  result!.code!, studno, currentStatus);
                             }
                           } else {
                             currentStatus = "Invalid QR Code";
@@ -213,7 +213,6 @@ class _QRViewExampleState extends State<QRViewExample> {
     );
   }
 
-
   void _onQRViewCreated(QRViewController controller) {
     setState(() {
       this.controller = controller;
@@ -254,10 +253,11 @@ class _QRViewExampleState extends State<QRViewExample> {
     if (data != null) {
       final studno = data['studentNumber'] as String?;
       final currentStatus = data['currentStatus'] as String?;
-      final entryDateTime = data['entries'].last['Timestamp'].toDate().toLocal();
+      final entryDateTime =
+          data['entries'].last['Timestamp'].toDate().toLocal();
       final dateFormat = DateFormat('yyyy-MM-dd');
       final formattedDate = dateFormat.format(entryDateTime);
-      
+
       return {
         'studno': studno ?? 'name not found',
         'currentStatus': currentStatus ?? 'status not found',

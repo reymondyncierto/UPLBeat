@@ -187,11 +187,11 @@ class _LoginPageState extends State<LoginPage> {
                     //         try {
                     //           final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
                     //           final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
-                            
+
                     //           final String? userName = googleUser.displayName;
                     //           final String userEmail = googleUser.email;
                     //           final String userID = googleUser.id;
-                              
+
                     //           print('User ID: $userID');
                     //           print('User Name: $userName');
                     //           print('User Email: $userEmail');
@@ -199,11 +199,11 @@ class _LoginPageState extends State<LoginPage> {
                     //           final userDocRef = FirebaseFirestore.instance.collection('client').doc(userID);
                     //           await userDocRef.set({
                     //             'email': userEmail,
-                                
+
                     //             // User Classification
                     //             'userType': "user", // can be admin, monitor
                     //             'currentStatus': "",
-                                
+
                     //             // For Admin and EM Only
                     //             'empNo': '',
                     //             'position': '',
@@ -243,7 +243,6 @@ class _LoginPageState extends State<LoginPage> {
                     //         } catch (error) {
                     //           print('Failed to sign in with Google: $error');
                     //         }
-
 
                     //       });
                     //     },

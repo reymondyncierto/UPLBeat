@@ -32,7 +32,7 @@ class TodoPage extends StatefulWidget {
 
 class _TodoPageState extends State<TodoPage> {
   bool _isNewUser = false;
-  bool _isNewAdmin = false; 
+  bool _isNewAdmin = false;
   late String userType;
 
   @override
@@ -41,7 +41,6 @@ class _TodoPageState extends State<TodoPage> {
     _checkIsNewUser();
   }
 
-  
   // future method that checks if user is new through bool
   Future<void> _checkIsNewUser() async {
     final authProvider = context.read<AuthProvider>();
@@ -57,12 +56,13 @@ class _TodoPageState extends State<TodoPage> {
       final position = data?['position'] as String?;
       final homeUnit = data?['homeUnit'] as String?;
 
-      
-
       setState(() {
-        _isNewUser = isNewUser ?? true; // Set _isNewUser to true if value is null
+        _isNewUser =
+            isNewUser ?? true; // Set _isNewUser to true if value is null
 
-        _isNewAdmin = empNo!.isEmpty || position!.isEmpty  || homeUnit!.isEmpty; // Set _isNewUser to true if value is null
+        _isNewAdmin = empNo!.isEmpty ||
+            position!.isEmpty ||
+            homeUnit!.isEmpty; // Set _isNewUser to true if value is null
         userType = data?['userType'];
       });
     } catch (error) {
@@ -70,12 +70,8 @@ class _TodoPageState extends State<TodoPage> {
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-
-
     if (_isNewUser) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         showDialog(
@@ -87,7 +83,7 @@ class _TodoPageState extends State<TodoPage> {
       });
     }
 
-    if (_isNewAdmin == true && (userType=='admin' || userType=='em')) {
+    if (_isNewAdmin == true && (userType == 'admin' || userType == 'em')) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         showDialog(
           context: context,
@@ -100,54 +96,52 @@ class _TodoPageState extends State<TodoPage> {
 
     // final String userType = "user";
 
-
     return Scaffold(
-      appBar: AppBar(
-        // leading: Padding(
-        //   padding: const EdgeInsets.only(left: 16.0),
-        //   child: Image.asset(
-        //     'images/logo.png',
-        //     fit: BoxFit.contain,
-        //     width: 40,
-        //     height: 40,
-        //   ),
-        // ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () {
-              context.read<AuthProvider>().signOut();
-              Navigator.pushReplacementNamed(context, '/login');
-            },
-          ),
-        ],
-      ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF5A0011), // Maroon
-              Color(0xFFD4AF37), // Gold
-              Color(0xFF228B22),
-            ],
-          ),
-        ),
-        child: ListView(
-          children: [
-            Column(
-              children: [
-                _buildProfileSection(),
-                const SizedBox(height: 16),
-              ],
+        appBar: AppBar(
+          // leading: Padding(
+          //   padding: const EdgeInsets.only(left: 16.0),
+          //   child: Image.asset(
+          //     'images/logo.png',
+          //     fit: BoxFit.contain,
+          //     width: 40,
+          //     height: 40,
+          //   ),
+          // ),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: () {
+                context.read<AuthProvider>().signOut();
+                Navigator.pushReplacementNamed(context, '/login');
+              },
             ),
           ],
         ),
-      ),
-      // drawer: userType == "user" ? null : const createDrawer(),
-      drawer: const createDrawer()
-    );
+        body: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Color(0xFF5A0011), // Maroon
+                Color(0xFFD4AF37), // Gold
+                Color(0xFF228B22),
+              ],
+            ),
+          ),
+          child: ListView(
+            children: [
+              Column(
+                children: [
+                  _buildProfileSection(),
+                  const SizedBox(height: 16),
+                ],
+              ),
+            ],
+          ),
+        ),
+        // drawer: userType == "user" ? null : const createDrawer(),
+        drawer: const createDrawer());
   }
 
   // checks if two dates are of the same day
@@ -286,11 +280,11 @@ class _TodoPageState extends State<TodoPage> {
                             if (todaysEntry != null &&
                                 todaysEntry['Status'] == "Cleared")
                               Expanded(
-                             child: ElevatedButton(
+                                child: ElevatedButton(
                                   onPressed: () async {
-
                                     final today = DateTime.now();
-                                    final data = authProvider.getCurrentUser()!.uid;
+                                    final data =
+                                        authProvider.getCurrentUser()!.uid;
                                     print(data);
 
                                     final image = await QrPainter(
@@ -300,23 +294,32 @@ class _TodoPageState extends State<TodoPage> {
                                       color: Colors.black,
                                       emptyColor: Colors.white,
                                     ).toImage(300);
-                                     
+
                                     final recorder = PictureRecorder();
                                     final canvas = Canvas(recorder);
                                     final canvasSize = Size(600, 600);
 
-
-                                                                    // Fill the canvas with white background
-                                    canvas.drawRect(Rect.fromLTWH(0, 0, canvasSize.width, canvasSize.height), Paint()..color = Colors.white);
+                                    // Fill the canvas with white background
+                                    canvas.drawRect(
+                                        Rect.fromLTWH(0, 0, canvasSize.width,
+                                            canvasSize.height),
+                                        Paint()..color = Colors.white);
 
                                     // Calculate the coordinates to center the image
-                                    final imageSize = Size(image.width.toDouble(), image.height.toDouble());
-                                    final imageRect = Alignment.center.inscribe(imageSize, Offset.zero & canvasSize);
+                                    final imageSize = Size(
+                                        image.width.toDouble(),
+                                        image.height.toDouble());
+                                    final imageRect = Alignment.center.inscribe(
+                                        imageSize, Offset.zero & canvasSize);
 
                                     // Draw the image at the center of the canvas
-                                    canvas.drawImageRect(image, Offset.zero & imageSize, imageRect, Paint());
+                                    canvas.drawImageRect(
+                                        image,
+                                        Offset.zero & imageSize,
+                                        imageRect,
+                                        Paint());
 
-                                   // Set up the text style
+                                    // Set up the text style
                                     final textStyle = TextStyle(
                                       color: Colors.black,
                                       fontSize: 16,
@@ -325,7 +328,8 @@ class _TodoPageState extends State<TodoPage> {
 
                                     // Calculate the position to insert the text
                                     final textSpan = TextSpan(
-                                      text: 'Generated: $today\nStatus: Cleared',
+                                      text:
+                                          'Generated: $today\nStatus: Cleared',
                                       style: textStyle,
                                     );
                                     final textPainter = TextPainter(
@@ -333,23 +337,35 @@ class _TodoPageState extends State<TodoPage> {
                                       textDirection: TextDirection.ltr,
                                       textAlign: TextAlign.center,
                                     );
-                                    textPainter.layout(minWidth: 0, maxWidth: canvasSize.width);
+                                    textPainter.layout(
+                                        minWidth: 0,
+                                        maxWidth: canvasSize.width);
 
                                     final textPosition = Offset(
-                                      (canvasSize.width - textPainter.width) / 2,
-                                      imageRect.bottom + 16, // Added vertical spacing below the image
+                                      (canvasSize.width - textPainter.width) /
+                                          2,
+                                      imageRect.bottom +
+                                          16, // Added vertical spacing below the image
                                     );
 
                                     // Draw the text onto the canvas
                                     textPainter.paint(canvas, textPosition);
                                     final picture = recorder.endRecording();
-                                    final compositeImage = await picture.toImage(canvasSize.width.toInt(), canvasSize.height.toInt());
+                                    final compositeImage =
+                                        await picture.toImage(
+                                            canvasSize.width.toInt(),
+                                            canvasSize.height.toInt());
 
                                     // Save the composite image to the gallery
-                                    final compositeByteData = await compositeImage.toByteData(format: ImageByteFormat.png);
+                                    final compositeByteData =
+                                        await compositeImage.toByteData(
+                                            format: ImageByteFormat.png);
                                     if (compositeByteData != null) {
-                                      final compositeBytes = compositeByteData.buffer.asUint8List();
-                                      await ImageGallerySaver.saveImage(compositeBytes);
+                                      final compositeBytes = compositeByteData
+                                          .buffer
+                                          .asUint8List();
+                                      await ImageGallerySaver.saveImage(
+                                          compositeBytes);
                                     }
 
                                     // Assign the QR code image to the variable
@@ -397,7 +413,6 @@ class _TodoPageState extends State<TodoPage> {
                                   },
                                   child: const Text('Generate QR Code'),
                                 ),
-
                               ),
                           ],
                         ),

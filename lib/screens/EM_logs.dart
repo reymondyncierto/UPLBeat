@@ -89,7 +89,7 @@ class _EMLogsPageState extends State<EMLogsPage> {
                     final dateTime = log['dateTime'] as Timestamp?;
                     final formattedDateTime = dateTime != null
                         ? DateTime.fromMicrosecondsSinceEpoch(
-                            dateTime.microsecondsSinceEpoch)
+                                dateTime.microsecondsSinceEpoch)
                             .toString()
                         : 'N/A';
 

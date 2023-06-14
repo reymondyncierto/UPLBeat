@@ -89,15 +89,15 @@ class _SignupPageState extends State<SignupPage> {
             FirebaseFirestore.instance.collection('client').doc(userId);
         await userDocRef.set({
           'email': email,
-          
+
           // User Classification
           'userType': "user", // can be admin, monitor
           'currentStatus': "Cleared",
-          
+
           // For Admin and EM Only
           'empNo': '',
           'position': '',
-          'homeUnit':'',
+          'homeUnit': '',
           // For Admin Only
           'requests': [],
 

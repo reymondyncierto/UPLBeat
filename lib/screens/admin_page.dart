@@ -304,13 +304,16 @@ class _AdminPageState extends State<AdminPage> {
                                     mainAxisSize: MainAxisSize.min,
                                     children: <Widget>[
                                       ListTile(
-                                        leading: const Icon(Icons.person_outline_outlined),
+                                        leading: const Icon(
+                                            Icons.person_outline_outlined),
                                         title: Text("$name"),
-                                        subtitle: Text('Status: $currentStatus'),
+                                        subtitle:
+                                            Text('Status: $currentStatus'),
                                         onTap: () {
                                           showDialog(
                                             context: context,
-                                            builder: (BuildContext context) => UserDetailsDialog(
+                                            builder: (BuildContext context) =>
+                                                UserDetailsDialog(
                                               name: name,
                                               email: doc["email"],
                                               college: doc["college"],
@@ -322,16 +325,15 @@ class _AdminPageState extends State<AdminPage> {
                                                 FirebaseFirestore.instance
                                                     .collection('client')
                                                     .doc(doc.id)
-                                                    .update({"userType": value});
+                                                    .update(
+                                                        {"userType": value});
                                               },
                                             ),
                                           );
                                         },
                                       ),
-                                      
                                     ],
                                   ),
-                                 
                                 );
                               },
                             )
@@ -348,8 +350,6 @@ class _AdminPageState extends State<AdminPage> {
       },
     );
   }
-
-
 
   // Widget that shows all users who are cleared
   Widget _showCleared() {
@@ -426,7 +426,8 @@ class _AdminPageState extends State<AdminPage> {
                                         onTap: () {
                                           showDialog(
                                             context: context,
-                                            builder: (BuildContext context) => UserDetailsDialog(
+                                            builder: (BuildContext context) =>
+                                                UserDetailsDialog(
                                               name: name,
                                               email: doc["email"],
                                               college: doc["college"],
@@ -438,7 +439,8 @@ class _AdminPageState extends State<AdminPage> {
                                                 FirebaseFirestore.instance
                                                     .collection('client')
                                                     .doc(doc.id)
-                                                    .update({"userType": value});
+                                                    .update(
+                                                        {"userType": value});
                                               },
                                             ),
                                           );
@@ -551,23 +553,24 @@ class _AdminPageState extends State<AdminPage> {
                                     subtitle: Text('Status: $currentStatus'),
                                     onTap: () {
                                       showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) => UserDetailsDialog(
-                                              name: name,
-                                              email: doc["email"],
-                                              college: doc["college"],
-                                              course: doc["course"],
-                                              studentNo: doc["studentNumber"],
-                                              userType: doc["userType"],
-                                              showUserType: false,
-                                              onUserTypeChanged: (value) {
-                                                FirebaseFirestore.instance
-                                                    .collection('client')
-                                                    .doc(doc.id)
-                                                    .update({"userType": value});
-                                              },
-                                            ),
-                                          );
+                                        context: context,
+                                        builder: (BuildContext context) =>
+                                            UserDetailsDialog(
+                                          name: name,
+                                          email: doc["email"],
+                                          college: doc["college"],
+                                          course: doc["course"],
+                                          studentNo: doc["studentNumber"],
+                                          userType: doc["userType"],
+                                          showUserType: false,
+                                          onUserTypeChanged: (value) {
+                                            FirebaseFirestore.instance
+                                                .collection('client')
+                                                .doc(doc.id)
+                                                .update({"userType": value});
+                                          },
+                                        ),
+                                      );
                                     },
                                     trailing: PopupMenuButton<String>(
                                       icon: const Icon(Icons.swap_horiz),
@@ -702,25 +705,25 @@ class _AdminPageState extends State<AdminPage> {
                                     title: Text("$name"),
                                     subtitle: Text('Status: $currentStatus'),
                                     onTap: () {
-                                     showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) => UserDetailsDialog(
-                                              name: name,
-                                              email: doc["email"],
-                                              college: doc["college"],
-                                              course: doc["course"],
-                                              studentNo: doc["studentNumber"],
-                                              userType: doc["userType"],
-                                              showUserType: false,
-                                              onUserTypeChanged: (value) {
-                                                FirebaseFirestore.instance
-                                                    .collection('client')
-                                                    .doc(doc.id)
-                                                    .update({"userType": value});
-                                              },
-
-                                            ),
-                                          );
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) =>
+                                            UserDetailsDialog(
+                                          name: name,
+                                          email: doc["email"],
+                                          college: doc["college"],
+                                          course: doc["course"],
+                                          studentNo: doc["studentNumber"],
+                                          userType: doc["userType"],
+                                          showUserType: false,
+                                          onUserTypeChanged: (value) {
+                                            FirebaseFirestore.instance
+                                                .collection('client')
+                                                .doc(doc.id)
+                                                .update({"userType": value});
+                                          },
+                                        ),
+                                      );
                                     },
                                     trailing: IconButton(
                                       icon: const Icon(Icons.clear),

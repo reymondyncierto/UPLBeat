@@ -55,7 +55,8 @@ class _UserDetailsDialogState extends State<UserDetailsDialog> {
               const SizedBox(height: 16),
               Text(
                 widget.name,
-                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
               if (widget.showUserType) // Conditionally display the section
