@@ -118,6 +118,17 @@ class _EMLogsPageState extends State<EMLogsPage> {
                           ? DateTime.fromMicrosecondsSinceEpoch(dateTime.microsecondsSinceEpoch).toString()
                           : 'N/A';
 
+                      if(searchQuery.isNotEmpty) {
+                        final name = userData["name"].toLowerCase();
+                        final studentNo = userData["studentNumber"].toLowerCase();
+                        final course = userData["course"].toLowerCase();
+                        final college = userData["college"].toLowerCase();
+
+                        if(!name.contains(searchQuery) && !studentNo.contains(searchQuery) && !course.contains(searchQuery) && !college.contains(searchQuery)){
+                          return Container();
+                        }
+                      }
+
                       if (selectedDate != null) {
                         final logDate = dateTime != null ? DateTime.fromMicrosecondsSinceEpoch(dateTime.microsecondsSinceEpoch) : null;
                         if (logDate == null || logDate.day != selectedDate!.day || logDate.month != selectedDate!.month || logDate.year != selectedDate!.year) {
