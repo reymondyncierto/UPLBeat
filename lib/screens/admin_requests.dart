@@ -308,7 +308,7 @@ void _updateTodayEntry(
         existingEntry['editedAt'] = DateTime.now();
       
 
-      userDoc.update({'entries': entries}).then((_) {
+      userDoc.update({'entries': entries, 'currentStatus': editedEntry['status']}).then((_) {
         print('Today\'s entry updated successfully.');
 
         // Remove the specific request from the admin's request array
