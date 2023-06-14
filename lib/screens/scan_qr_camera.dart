@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -88,14 +89,22 @@ class _QRViewExampleState extends State<QRViewExample> {
                         } else if (snapshot.hasData) {
                           final userInfo = snapshot.data!;
                           final studno = userInfo['studno'];
-                          final currentStatus = userInfo['currentStatus'];
+                          var currentStatus = userInfo['currentStatus'];
+                          final entryDateTime = userInfo['entryDateTime'];
+                          final now = DateTime.now();
+                          final dateFormat = DateFormat('yyyy-MM-dd');
+                          final todayDate = dateFormat.format(now);
                           print(userInfo);
                           print('User Status: $currentStatus');
                           print('User studno: $studno');
-                          if (currentStatus == 'Cleared') {
+                          if (entryDateTime == todayDate) {
+                             if (currentStatus == 'Cleared') {
                             _saveStudentLog(
                                 result!.code!, studno, currentStatus);
+                            }
                           }
+                          currentStatus = "Invalid QR Code";
+
                           return Column(
                             children: [
                               Text(
@@ -248,9 +257,14 @@ class _QRViewExampleState extends State<QRViewExample> {
     if (data != null) {
       final studno = data['studentNumber'] as String?;
       final currentStatus = data['currentStatus'] as String?;
+      final entryDateTime = data['entries'].last['Timestamp'].toDate().toLocal();
+      final dateFormat = DateFormat('yyyy-MM-dd');
+      final formattedDate = dateFormat.format(entryDateTime);
+      
       return {
         'studno': studno ?? 'name not found',
         'currentStatus': currentStatus ?? 'status not found',
+        'entryDateTime': formattedDate ?? 'date not found',
       };
     }
     return null;
