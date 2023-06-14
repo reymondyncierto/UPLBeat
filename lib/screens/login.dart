@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -175,54 +176,93 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     const SizedBox(height: 20),
                     // Google sign in button
-                    Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 20),
-                      height: 48,
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          // sign in then get the user details
-                          _googleSignIn.signIn().then((value) async {
-                            // String userName = value!.displayName!;
-                            // String userEmail = value.email;
-                            // print(userName);
-                            // print(userEmail);
-                            try {
-                              final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-                              final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
+                    // Container(
+                    //   margin: const EdgeInsets.symmetric(horizontal: 20),
+                    //   height: 48,
+                    //   width: double.infinity,
+                    //   child: ElevatedButton(
+                    //     onPressed: () async {
+                    //       // sign in then get the user details
+                    //       _googleSignIn.signIn().then((value) async {
+                    //         try {
+                    //           final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+                    //           final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
                             
-                              final String? userName = googleUser.displayName;
-                              final String userEmail = googleUser.email;
-                              final String userID = googleUser.id;
+                    //           final String? userName = googleUser.displayName;
+                    //           final String userEmail = googleUser.email;
+                    //           final String userID = googleUser.id;
                               
-                              print('User ID: $userID');
-                              print('User Name: $userName');
-                              print('User Email: $userEmail');
-                              
-                              // Continue with further operations using the user ID
-                            } catch (error) {
-                              print('Failed to sign in with Google: $error');
-                            }
+                    //           print('User ID: $userID');
+                    //           print('User Name: $userName');
+                    //           print('User Email: $userEmail');
+
+                    //           final userDocRef = FirebaseFirestore.instance.collection('client').doc(userID);
+                    //           await userDocRef.set({
+                    //             'email': userEmail,
+                                
+                    //             // User Classification
+                    //             'userType': "user", // can be admin, monitor
+                    //             'currentStatus': "",
+                                
+                    //             // For Admin and EM Only
+                    //             'empNo': '',
+                    //             'position': '',
+                    //             'homeUnit':'',
+                    //             // For Admin Only
+                    //             'requests': [],
+
+                    //             // Entrance Monitor
+                    //             'student_logs': [],
+
+                    //             //
+                    //             'name': userName,
+                    //             //  'lastName': lastName,
+                    //             'college': "",
+                    //             'course': "",
+                    //             'studentNumber': "",
+                    //             'isGoogleUser': true,
+                    //             'isNewUser': true,
+                    //             'preExistingIllness': {
+                    //               'Hypertension': false,
+                    //               'Diabetes': false,
+                    //               'Tuberculosis': false,
+                    //               'Cancer': false,
+                    //               'Kidney Disease': false,
+                    //               'Cardiac Disease': false,
+                    //               'Autoimmune Disease': false,
+                    //               'Asthma': false,
+                    //               'Allergies': [],
+                    //             },
+                    //             'entries': []
+                    //           });
+
+                    //           // go to home page '/todo'
+                    //           Navigator.pushReplacementNamed(context, '/todo');
+
+                    //           // Continue with further operations using the user ID
+                    //         } catch (error) {
+                    //           print('Failed to sign in with Google: $error');
+                    //         }
 
 
-                          });
-                        },
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: Colors.green.shade900,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        child: const Text(
-                          'Sign In with Google',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                    ),
+                    //       });
+                    //     },
+                    //     style: ElevatedButton.styleFrom(
+                    //       foregroundColor: Colors.white,
+                    //       backgroundColor: Colors.green.shade900,
+                    //       shape: RoundedRectangleBorder(
+                    //         borderRadius: BorderRadius.circular(8),
+                    //       ),
+                    //     ),
+                    //     child: const Text(
+                    //       'Sign In with Google',
+                    //       style: TextStyle(
+                    //         color: Colors.white,
+                    //         fontSize: 16,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),

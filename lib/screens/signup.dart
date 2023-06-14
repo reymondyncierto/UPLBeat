@@ -110,6 +110,7 @@ class _SignupPageState extends State<SignupPage> {
           'college': college,
           'course': course,
           'studentNumber': studentNumber,
+          'isGoogleUser': false, // 'true' if the user signed up using Google
           'isNewUser': true,
           'preExistingIllness': {
             'Hypertension': false,
