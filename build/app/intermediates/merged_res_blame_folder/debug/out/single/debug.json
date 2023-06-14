@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "com.example.final_project_23_catindig_cruz_rada_yncierto.app-merged_res-27:/mipmap-xxxhdpi_uplbeat.png.flat",
+        "source": "com.example.final_project_23_catindig_cruz_rada_yncierto.app-main-21:/mipmap-xxxhdpi/uplbeat.png"
+    },
+    {
+        "merged": "com.example.final_project_23_catindig_cruz_rada_yncierto.app-merged_res-27:/mipmap-xxhdpi_uplbeat.png.flat",
+        "source": "com.example.final_project_23_catindig_cruz_rada_yncierto.app-main-21:/mipmap-xxhdpi/uplbeat.png"
+    },
+    {
+        "merged": "com.example.final_project_23_catindig_cruz_rada_yncierto.app-merged_res-27:/mipmap-xhdpi_uplbeat.png.flat",
+        "source": "com.example.final_project_23_catindig_cruz_rada_yncierto.app-main-21:/mipmap-xhdpi/uplbeat.png"
+    },
+    {
+        "merged": "com.example.final_project_23_catindig_cruz_rada_yncierto.app-merged_res-27:/mipmap-hdpi_uplbeat.png.flat",
+        "source": "com.example.final_project_23_catindig_cruz_rada_yncierto.app-main-21:/mipmap-hdpi/uplbeat.png"
+    },
+    {
+        "merged": "com.example.final_project_23_catindig_cruz_rada_yncierto.app-merged_res-27:/mipmap-mdpi_uplbeat.png.flat",
+        "source": "com.example.final_project_23_catindig_cruz_rada_yncierto.app-main-21:/mipmap-mdpi/uplbeat.png"
+    },
+    {
+        "merged": "com.example.final_project_23_catindig_cruz_rada_yncierto.app-merged_res-27:/drawable-v21_launch_background.xml.flat",
+        "source": "com.example.final_project_23_catindig_cruz_rada_yncierto.app-main-21:/drawable-v21/launch_background.xml"
+    }
+]
