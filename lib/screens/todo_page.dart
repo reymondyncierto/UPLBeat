@@ -18,6 +18,7 @@ import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
 import 'add_entry_dialog.dart';
 import 'preexisting_illness_dialog.dart';
+import 'employee_info_dialog.dart';
 import 'edit_entry_dialog.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'drawer.dart';
@@ -31,6 +32,8 @@ class TodoPage extends StatefulWidget {
 
 class _TodoPageState extends State<TodoPage> {
   bool _isNewUser = false;
+  bool _isNewAdmin = false; 
+  late String userType;
 
   @override
   void initState() {
@@ -38,6 +41,7 @@ class _TodoPageState extends State<TodoPage> {
     _checkIsNewUser();
   }
 
+  
   // future method that checks if user is new through bool
   Future<void> _checkIsNewUser() async {
     final authProvider = context.read<AuthProvider>();
@@ -49,18 +53,28 @@ class _TodoPageState extends State<TodoPage> {
       final snapshot = await currentUserDoc.get();
       final data = snapshot.data();
       final isNewUser = data?['isNewUser'] as bool?;
+      final empNo = data?['empNo'] as String?;
+      final position = data?['position'] as String?;
+      final homeUnit = data?['homeUnit'] as String?;
+
+      
 
       setState(() {
-        _isNewUser =
-            isNewUser ?? true; // Set _isNewUser to true if value is null
+        _isNewUser = isNewUser ?? true; // Set _isNewUser to true if value is null
+
+        _isNewAdmin = empNo!.isEmpty || position!.isEmpty  || homeUnit!.isEmpty; // Set _isNewUser to true if value is null
+        userType = data?['userType'];
       });
     } catch (error) {
       print("Failed to fetch user data: $error");
     }
   }
 
+
+
   @override
   Widget build(BuildContext context) {
+
 
     if (_isNewUser) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -73,7 +87,18 @@ class _TodoPageState extends State<TodoPage> {
       });
     }
 
-    final String userType = "user";
+    if (_isNewAdmin == true && (userType=='admin' || userType=='em')) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const EmployeeInfoDialog();
+          },
+        );
+      });
+    }
+
+    // final String userType = "user";
 
 
     return Scaffold(
