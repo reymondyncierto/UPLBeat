@@ -56,24 +56,24 @@ class _AdminPageState extends State<AdminPage> {
               },
             ),
           ),
-          IconButton(
-            icon: const Icon(Icons.calendar_today),
-            onPressed: () async {
-              // Show date picker
-              final DateTime? selectedDate = await showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime(2020),
-                lastDate: DateTime.now(),
-              );
+          // IconButton(
+          //   icon: const Icon(Icons.calendar_today),
+          //   onPressed: () async {
+          //     // Show date picker
+          //     final DateTime? selectedDate = await showDatePicker(
+          //       context: context,
+          //       initialDate: DateTime.now(),
+          //       firstDate: DateTime(2020),
+          //       lastDate: DateTime.now(),
+          //     );
 
-              if (selectedDate != null) {
-                setState(() {
-                  searchQuery = DateFormat('yyyy-MM-dd').format(selectedDate);
-                });
-              }
-            },
-          ),
+          //     if (selectedDate != null) {
+          //       setState(() {
+          //         searchQuery = DateFormat('yyyy-MM-dd').format(selectedDate);
+          //       });
+          //     }
+          //   },
+          // ),
           IconButton(
             icon: const Icon(Icons.clear),
             onPressed: () {
