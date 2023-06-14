@@ -600,7 +600,7 @@ void _addToQuarantine(DocumentSnapshot<Map<String, dynamic>> doc) async {
                                         if (value == 'quarantine') {
                                           _moveToQuarantine(doc);
                                         } else if (value == 'endMonitoring') {
-                                          _endMonitoring(doc);
+                                          _clearUserFromQuarantine(doc);
                                         }
                                       },
                                       itemBuilder: (BuildContext context) {
@@ -636,58 +636,58 @@ void _addToQuarantine(DocumentSnapshot<Map<String, dynamic>> doc) async {
 
 void _moveToQuarantine(QueryDocumentSnapshot<Map<String, dynamic>> doc) async {
   try {
-    var documentReference = FirebaseFirestore.instance.collection('client').doc(doc.id);
-    var documentSnapshot = await documentReference.get();
-    List<dynamic> entries = List.from(documentSnapshot.data()?['entries']);
-    
-    // Get the last entry from the list
-    var lastEntry = Map<String, dynamic>.from(entries.last);
-    
-    // Update the last entry's status to 'Under Quarantine'
-    lastEntry['status'] = 'Under Quarantine';
-    
-    // Update the last entry in the entries list
-    entries[entries.length - 1] = lastEntry;
-    
-    // Update the document with the modified list and currentStatus
-    await documentReference.update({
-      'currentStatus': 'Under Quarantine',
-      'entries': entries,
-    });
+    // Assuming you have a reference to the Firestore collection
+    final collectionRef = FirebaseFirestore.instance.collection('client');
 
-    print('User moved to quarantine');
+    // Get the document reference for the current user
+    final currUser = collectionRef.doc(doc.id);
+
+    // Retrieve the document data
+    currUser.get().then((documentSnapshot) {
+      // Get the list of entries
+      List<dynamic> entries = List.from(documentSnapshot.data()?['entries']);
+
+      // Get the index of the last entry in the list
+      int lastIndex = entries.length - 1;
+
+      // Get the last entry
+      Map<String, dynamic> lastEntry = Map.from(entries[lastIndex]);
+
+      // Create a new map with updated fields
+      Map<String, dynamic> updatedEntry = {
+        ...lastEntry,
+        'Fever': false,
+        'Feeling Feverish': false,
+        'Muscle or Joint Pains': false,
+        'Cough': false,
+        'Colds': false,
+        'Sore Throat': false,
+        'Difficulty of Breathing': false,
+        'Diarrhea': false,
+        'Loss of Taste': false,
+        'Loss of Smell': false,
+        'Has Face-to-face Encounter': true,
+        'status': 'Under Quarantine'
+        // Add more fields to update here
+      };
+
+      // Update the last entry in the list
+      entries[lastIndex] = updatedEntry;
+
+      // Update the document with the modified last entry
+      currUser.update({
+        'entries': entries,
+        'currentStatus': 'Under Quarantine',
+      }).then((_) {
+        print('User move to quarantine.');
+      }).catchError((error) {
+        print('Failed to move user to quarantine: $error');
+      });
+    });
   } catch (error) {
     print('Failed to move user to quarantine: $error');
   }
 }
-
-
-void _endMonitoring(QueryDocumentSnapshot<Map<String, dynamic>> doc) async {
-  try {
-    var documentReference = FirebaseFirestore.instance.collection('client').doc(doc.id);
-    var documentSnapshot = await documentReference.get();
-    List<dynamic> entries = List.from(documentSnapshot.data()?['entries']);
-
-    // Get the index of the last entry in the list
-    int lastIndex = entries.length - 1;
-
-    // Update the status of the last entry to 'Cleared'
-    entries[lastIndex]['status'] = 'Cleared';
-
-    // Update the document with the modified list and currentStatus
-    await documentReference.update({
-      'currentStatus': 'Cleared',
-      'entries': entries,
-    });
-
-    print('Monitoring ended for user');
-  } catch (error) {
-    print('Failed to end monitoring for user: $error');
-  }
-}
-
-
-
 
 
   Widget _showQuarantined() {
@@ -801,20 +801,64 @@ void _endMonitoring(QueryDocumentSnapshot<Map<String, dynamic>> doc) async {
     );
   }
 
-  void _clearUserFromQuarantine(
-      QueryDocumentSnapshot<Map<String, dynamic>> doc) {
+void _clearUserFromQuarantine(QueryDocumentSnapshot<Map<String, dynamic>> doc) {
+  try {
     // Assuming you have a reference to the Firestore collection
     final collectionRef = FirebaseFirestore.instance.collection('client');
 
-    // Update the document's currentStatus field to "Cleared"
-    collectionRef.doc(doc.id).update({'currentStatus': 'Cleared'}).then((_) {
-      // Success
-      print('User cleared from quarantine.');
-    }).catchError((error) {
-      // Error handling
-      print('Failed to clear user from quarantine: $error');
+    // Get the document reference for the current user
+    final currUser = collectionRef.doc(doc.id);
+
+    // Retrieve the document data
+    currUser.get().then((documentSnapshot) {
+      // Get the list of entries
+      List<dynamic> entries = List.from(documentSnapshot.data()?['entries']);
+
+      // Get the index of the last entry in the list
+      int lastIndex = entries.length - 1;
+
+      // Get the last entry
+      Map<String, dynamic> lastEntry = Map.from(entries[lastIndex]);
+
+      // Create a new map with updated fields
+      Map<String, dynamic> updatedEntry = {
+        ...lastEntry,
+        'Fever': false,
+        'Feeling Feverish': false,
+        'Muscle or Joint Pains': false,
+        'Cough': false,
+        'Colds': false,
+        'Sore Throat': false,
+        'Difficulty of Breathing': false,
+        'Diarrhea': false,
+        'Loss of Taste': false,
+        'Loss of Smell': false,
+        'Has Face-to-face Encounter': false,
+        'status': 'Cleared'
+        // Add more fields to update here
+      };
+
+      // Update the last entry in the list
+      entries[lastIndex] = updatedEntry;
+
+      // Update the document with the modified last entry
+      currUser.update({
+        'entries': entries,
+        'currentStatus': 'Cleared',
+      }).then((_) {
+        print('User cleared from quarantine.');
+      }).catchError((error) {
+        print('Failed to clear user from quarantine: $error');
+      });
     });
+  } catch (error) {
+    print('Failed to clear user from quarantine: $error');
   }
+}
+
+
+
+
 
   // shows dialog box of selected user's data
   Future<void> _editUser(
