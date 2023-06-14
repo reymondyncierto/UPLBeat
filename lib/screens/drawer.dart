@@ -35,6 +35,7 @@ class createDrawer extends StatelessWidget {
     );
 
     final homeTile = ListTile(
+      leading: Icon(Icons.home), // Customize leading icon
       title: const Text('Home'),
       onTap: () {
         Navigator.pushReplacementNamed(context, "/todo");
@@ -43,6 +44,7 @@ class createDrawer extends StatelessWidget {
     );
 
     final emTile = ListTile(
+      leading: Icon(Icons.monitor), // Customize leading icon
       title: const Text("Logs Monitoring"),
       onTap: () {
         Navigator.pushReplacementNamed(context, "/em_logs");
@@ -50,6 +52,7 @@ class createDrawer extends StatelessWidget {
     );
 
     final userTile = ListTile(
+      leading: Icon(Icons.people), // Customize leading icon
       title: const Text("Manage Users"),
       onTap: () {
         Navigator.pushReplacementNamed(context, "/admin");
@@ -57,6 +60,7 @@ class createDrawer extends StatelessWidget {
     );
 
     final scanqrTile = ListTile(
+      leading: Icon(Icons.qr_code), // Customize leading icon
       title: const Text("Scan QR"),
       onTap: () {
         Navigator.pushReplacementNamed(context, "/scanqr");
@@ -64,6 +68,7 @@ class createDrawer extends StatelessWidget {
     );
 
     final logout = ListTile(
+      leading: Icon(Icons.logout), // Customize leading icon
       title: const Text('Logout'),
       onTap: () {
         context.read<AuthProvider>().signOut();
@@ -85,11 +90,26 @@ class createDrawer extends StatelessWidget {
               padding: EdgeInsets.zero,
               children: <Widget>[
                 header,
-                homeTile,
-                if (userType == 'em') emTile,
-                if (userType == 'em') scanqrTile,
-                if (userType == 'admin') userTile,
-                logout,
+                ListTileTheme(
+                  selectedColor: Colors.blue, // Customize selected tile color
+                  child: homeTile,
+                ),
+                if (userType == 'em') ListTileTheme(
+                  selectedColor: Colors.blue,
+                  child: emTile,
+                ),
+                if (userType == 'em') ListTileTheme(
+                  selectedColor: Colors.blue,
+                  child: scanqrTile,
+                ),
+                if (userType == 'admin') ListTileTheme(
+                  selectedColor: Colors.blue,
+                  child: userTile,
+                ),
+                ListTileTheme(
+                  selectedColor: Colors.blue,
+                  child: logout,
+                ),
               ],
             ),
           );
