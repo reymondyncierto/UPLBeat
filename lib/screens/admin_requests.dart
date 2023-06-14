@@ -140,7 +140,9 @@ class _AdminRequestsState extends State<AdminRequests> {
                                               ),
                                               IconButton(
                                                 icon: const Icon(Icons.close),
-                                                onPressed: () {},
+                                                onPressed: () {
+                                                  _removeRequest(index);
+                                                },
                                               ),
                                             ],
                                           ),
@@ -169,6 +171,17 @@ class _AdminRequestsState extends State<AdminRequests> {
     },
   );
 }
+
+void _removeRequest(int index) async {
+  final doc = entries[index];
+  final adminDocRef = FirebaseFirestore.instance.collection('client').doc(adminID);
+
+  await adminDocRef.update({
+    'requests': FieldValue.arrayRemove([doc]),
+  });
+}
+
+
 
 void _updateTodayEntry(String userId, Map<String, dynamic> editedEntry, int requestIndex) {
   final today = DateTime.now();
