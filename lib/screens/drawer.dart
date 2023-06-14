@@ -4,7 +4,7 @@ import '../providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 
 class createDrawer extends StatelessWidget {
-  const createDrawer({super.key});
+  const createDrawer({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,18 +21,19 @@ class createDrawer extends StatelessWidget {
       return userType;
     }
 
-    const header = DrawerHeader(
+    final header = DrawerHeader(
       decoration: BoxDecoration(
         color: Color(0xFF5A0011), // Maroon
       ),
       child: Center(
-        child: Icon(
-          Icons.medical_information_outlined,
-          size: 75.0,
-          color: Colors.white,
+        child: Image.asset(
+          'images/logo.png', // Replace with the path to your image file
+          width: 150.0,
+          height: 150.0,
         ),
       ),
     );
+
     final homeTile = ListTile(
       title: const Text('Home'),
       onTap: () {
@@ -63,11 +64,12 @@ class createDrawer extends StatelessWidget {
     );
 
     final logout = ListTile(
-        title: const Text('Logout'),
-        onTap: () {
-          context.read<AuthProvider>().signOut();
-          Navigator.pushReplacementNamed(context, '/login');
-        });
+      title: const Text('Logout'),
+      onTap: () {
+        context.read<AuthProvider>().signOut();
+        Navigator.pushReplacementNamed(context, '/login');
+      },
+    );
 
     return FutureBuilder<String?>(
       future: _getUserType(),
