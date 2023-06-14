@@ -200,6 +200,9 @@ class _TodoPageState extends State<TodoPage> {
           if (data != null) {
             final entries = List.from(data['entries'] ?? []);
             final name = data['name'] as String?;
+            // get today's date
+            final today = DateTime.now();
+
             final todaysEntry = entries.firstWhere(
               (entry) => isSameDay(entry['Timestamp'].toDate(), DateTime.now()),
               orElse: () => null,
@@ -258,12 +261,80 @@ class _TodoPageState extends State<TodoPage> {
                             if (todaysEntry != null &&
                                 todaysEntry['Status'] == "Cleared")
                               Expanded(
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    // get the uid of the current user
-                                    final uid =
-                                        authProvider.getCurrentUser()!.uid;
-                                    // generate qr and pass uid as data
+                             child: ElevatedButton(
+                                  onPressed: () async {
+
+                                    final today = DateTime.now();
+                                    final data = authProvider.getCurrentUser()!.uid;
+                                    print(data);
+
+                                    final image = await QrPainter(
+                                      data: data,
+                                      version: QrVersions.auto,
+                                      gapless: false,
+                                      color: Colors.black,
+                                      emptyColor: Colors.white,
+                                    ).toImage(300);
+                                     
+                                    final recorder = PictureRecorder();
+                                    final canvas = Canvas(recorder);
+                                    final canvasSize = Size(600, 600);
+
+
+                                                                    // Fill the canvas with white background
+                                    canvas.drawRect(Rect.fromLTWH(0, 0, canvasSize.width, canvasSize.height), Paint()..color = Colors.white);
+
+                                    // Calculate the coordinates to center the image
+                                    final imageSize = Size(image.width.toDouble(), image.height.toDouble());
+                                    final imageRect = Alignment.center.inscribe(imageSize, Offset.zero & canvasSize);
+
+                                    // Draw the image at the center of the canvas
+                                    canvas.drawImageRect(image, Offset.zero & imageSize, imageRect, Paint());
+
+                                   // Set up the text style
+                                    final textStyle = TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    );
+
+                                    // Calculate the position to insert the text
+                                    final textSpan = TextSpan(
+                                      text: 'Generated: $today\nStatus: Cleared',
+                                      style: textStyle,
+                                    );
+                                    final textPainter = TextPainter(
+                                      text: textSpan,
+                                      textDirection: TextDirection.ltr,
+                                      textAlign: TextAlign.center,
+                                    );
+                                    textPainter.layout(minWidth: 0, maxWidth: canvasSize.width);
+
+                                    final textPosition = Offset(
+                                      (canvasSize.width - textPainter.width) / 2,
+                                      imageRect.bottom + 16, // Added vertical spacing below the image
+                                    );
+
+                                    // Draw the text onto the canvas
+                                    textPainter.paint(canvas, textPosition);
+                                    final picture = recorder.endRecording();
+                                    final compositeImage = await picture.toImage(canvasSize.width.toInt(), canvasSize.height.toInt());
+
+                                    // Save the composite image to the gallery
+                                    final compositeByteData = await compositeImage.toByteData(format: ImageByteFormat.png);
+                                    if (compositeByteData != null) {
+                                      final compositeBytes = compositeByteData.buffer.asUint8List();
+                                      await ImageGallerySaver.saveImage(compositeBytes);
+                                    }
+
+                                    // Assign the QR code image to the variable
+                                    final qrCodeImage = QrImageView(
+                                      data: '\n$today\nCleared',
+                                      version: QrVersions.auto,
+                                      backgroundColor: Colors.white,
+                                      foregroundColor: Colors.black,
+                                    );
+
                                     showDialog(
                                       context: context,
                                       builder: (context) {
@@ -279,13 +350,7 @@ class _TodoPageState extends State<TodoPage> {
                                           content: SizedBox(
                                             width: 300,
                                             height: 300,
-                                            child: QrImageView(
-                                              data: uid,
-                                              version: QrVersions.auto,
-                                              size: 300.0,
-                                              backgroundColor: Colors.white,
-                                              foregroundColor: Colors.black,
-                                            ),
+                                            child: qrCodeImage,
                                           ),
                                           actions: [
                                             TextButton(
@@ -295,47 +360,7 @@ class _TodoPageState extends State<TodoPage> {
                                               child: const Text('Close'),
                                             ),
                                             TextButton(
-                                              onPressed: () async {
-                                                final image = await QrPainter(
-                                                  data: uid,
-                                                  version: QrVersions.auto,
-                                                  gapless: false,
-                                                  color: Colors.black,
-                                                  emptyColor: Colors.white,
-                                                ).toImage(300);
-                                                // Create a new canvas with a white background and the QR code
-                                                // Create a new canvas with a white background and the QR code
-                                                final recorder =
-                                                    PictureRecorder();
-                                                final canvas = Canvas(recorder);
-                                                canvas.drawRect(
-                                                  const Rect.fromLTWH(
-                                                      0, 0, 300, 300),
-                                                  Paint()..color = Colors.white,
-                                                );
-                                                canvas.drawImage(image,
-                                                    Offset.zero, Paint());
-                                                final picture =
-                                                    recorder.endRecording();
-                                                final compositeImage =
-                                                    await picture.toImage(
-                                                        300, 300);
-
-                                                // Save the composite image to the gallery
-                                                final compositeByteData =
-                                                    await compositeImage
-                                                        .toByteData(
-                                                            format:
-                                                                ImageByteFormat
-                                                                    .png);
-                                                if (compositeByteData != null) {
-                                                  final compositeBytes =
-                                                      compositeByteData.buffer
-                                                          .asUint8List();
-                                                  await ImageGallerySaver
-                                                      .saveImage(
-                                                          compositeBytes);
-                                                }
+                                              onPressed: () {
                                                 Navigator.of(context).pop();
                                               },
                                               child: const Text('Save'),
@@ -347,6 +372,7 @@ class _TodoPageState extends State<TodoPage> {
                                   },
                                   child: const Text('Generate QR Code'),
                                 ),
+
                               ),
                           ],
                         ),
