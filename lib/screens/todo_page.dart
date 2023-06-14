@@ -140,8 +140,8 @@ class _TodoPageState extends State<TodoPage> {
             ],
           ),
         ),
-        // drawer: userType == "user" ? null : const createDrawer(),
-        drawer: const createDrawer());
+        drawer: userType == "user" ? null : const createDrawer()
+    );
   }
 
   // checks if two dates are of the same day
