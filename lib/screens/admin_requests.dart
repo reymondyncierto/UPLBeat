@@ -42,144 +42,135 @@ class _AdminRequestsState extends State<AdminRequests> {
 
   // shows all incoming requests from main admin
   Widget _showAllRequests() {
-    final currentUserDoc =
-        FirebaseFirestore.instance.collection('client').doc(adminID);
+  final currentUserDoc = FirebaseFirestore.instance.collection('client').doc(adminID);
 
-    return StreamBuilder<DocumentSnapshot>(
-      stream: currentUserDoc.snapshots(),
-      builder:
-          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
-        }
+  return StreamBuilder<DocumentSnapshot>(
+    stream: currentUserDoc.snapshots(),
+    builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return const CircularProgressIndicator();
+      }
 
-        if (snapshot.hasData) {
-          final data = snapshot.data?.data() as Map<String, dynamic>?;
+      if (snapshot.hasData) {
+        final data = snapshot.data?.data() as Map<String, dynamic>?;
 
-          if (data != null) {
-            entries = List.from(data['requests'] ?? []);
-            //print(entries);
+        if (data != null) {
+          entries = List.from(data['requests'] ?? []);
 
-            return Padding(
-              padding: const EdgeInsets.fromLTRB(
-                  16.0, 16.0, 16.0, 0.0), // Add margin on top
-              child: Column(
-                children: [
-                  const SizedBox(height: 8.0),
+          return Padding(
+            padding: const EdgeInsets.fromLTRB(
+              16.0,
+              16.0,
+              16.0,
+              0.0,
+            ), // Add margin on top
+            child: Column(
+              children: [
+                const SizedBox(height: 8.0),
 
-                  // Entries Container
-                  Container(
-                    padding: const EdgeInsets.all(16.0),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Center(
-                          child: Text(
-                            '${entries.length}',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 25.0,
-                            ),
-                          ),
-                        ),
-                        const Center(
-                          child: Text(
-                            'Requests',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18.0,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 16.0),
-                        const Divider(), // Horizontal line
-                        const SizedBox(height: 16.0),
-                        entries.isNotEmpty
-                            ? ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: entries.length,
-                                itemBuilder: (_, index) {
-                                  final doc = entries[index];
-                                  
-
-                                  return FutureBuilder<DocumentSnapshot>(
-                                      future: FirebaseFirestore.instance
-                                          .collection('client')
-                                          .doc(doc['userid'])
-                                          .get(),
-                                      builder: (context, snapshot) {
-                                        if (snapshot.connectionState ==
-                                            ConnectionState.waiting) {
-                                          return const CircularProgressIndicator(); // Show a loading indicator while data is being fetched
-                                        }
-
-                                        if (snapshot.hasError) {
-                                          print(
-                                              "Failed to fetch student data: ${snapshot.error}");
-                                          return const Text(
-                                              "Failed to fetch student data");
-                                        }
-
-                                        if (snapshot.hasData) {
-                                          final studentData = snapshot.data!
-                                              .data() as Map<String, dynamic>;
-                                          final name = studentData['name'];
-
-                                          return Card(
-                                            child: ListTile(
-                                              title: Text("$name"),
-                                              subtitle: Text(
-                                                  "Request: ${doc['requestType']}"),
-                                              onTap: () {
-                                                _showRequestDetails(doc);
-                                              },
-                                              trailing: Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  IconButton(
-                                                    icon:
-                                                        const Icon(Icons.check),
-                                                    onPressed: () {
-                                                      _updateTodayEntry(doc['userid'], doc['editedEntry']);
-                                                    },
-                                                  ),
-                                                  IconButton(
-                                                    icon: const Icon(
-                                                        Icons.close),
-                                                    onPressed: () {},
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          );
-                                        }
-
-                                        return const Text(
-                                            "No Incoming Requests");
-                                      });
-                                },
-                              )
-                            : const Center(
-                                child: Text('No entry yet'),
-                              ),
-                      ],
-                    ),
+                // Entries Container
+                Container(
+                  padding: const EdgeInsets.all(16.0),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(8.0),
                   ),
-                ],
-              ),
-            );
-          }
-        }
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: Text(
+                          '${entries.length}',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 25.0,
+                          ),
+                        ),
+                      ),
+                      const Center(
+                        child: Text(
+                          'Requests',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18.0,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16.0),
+                      const Divider(), // Horizontal line
+                      const SizedBox(height: 16.0),
+                      entries.isNotEmpty
+                          ? ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: entries.length,
+                              itemBuilder: (_, index) {
+                                final doc = entries[index];
 
-        return const SizedBox.shrink();
-      },
-    );
-  }
-void _updateTodayEntry(String userId, Map<String, dynamic> editedEntry) {
+                                return FutureBuilder<DocumentSnapshot>(
+                                  future: FirebaseFirestore.instance.collection('client').doc(doc['userid']).get(),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState == ConnectionState.waiting) {
+                                      return const CircularProgressIndicator();
+                                    }
+
+                                    if (snapshot.hasError) {
+                                      print('Failed to fetch student data: ${snapshot.error}');
+                                      return const Text('Failed to fetch student data');
+                                    }
+
+                                    if (snapshot.hasData) {
+                                      final studentData = snapshot.data!.data() as Map<String, dynamic>;
+                                      final name = studentData['name'];
+
+                                      return Card(
+                                        child: ListTile(
+                                          title: Text('$name'),
+                                          subtitle: Text('Request: ${doc['requestType']}'),
+                                          onTap: () {
+                                            _showRequestDetails(doc);
+                                          },
+                                          trailing: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              IconButton(
+                                                icon: const Icon(Icons.check),
+                                                onPressed: () {
+                                                  _updateTodayEntry(doc['userid'], doc['editedEntry'], index);
+                                                },
+                                              ),
+                                              IconButton(
+                                                icon: const Icon(Icons.close),
+                                                onPressed: () {},
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    }
+
+                                    return const Text('No Incoming Requests');
+                                  },
+                                );
+                              },
+                            )
+                          : const Center(
+                              child: Text('No entry yet'),
+                            ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+      }
+
+      return const SizedBox.shrink();
+    },
+  );
+}
+
+void _updateTodayEntry(String userId, Map<String, dynamic> editedEntry, int requestIndex) {
   final today = DateTime.now();
   final todayString = DateFormat('yyyy-MM-dd').format(today);
 
@@ -214,6 +205,30 @@ void _updateTodayEntry(String userId, Map<String, dynamic> editedEntry) {
 
       userDoc.update({'entries': entries}).then((_) {
         print('Today\'s entry updated successfully.');
+
+        // Remove the specific request from the admin's request array
+        final adminId = 'mFtrE9FVg0TpWoNKQwVGzq2w7Wv1';
+        final adminDoc = FirebaseFirestore.instance.collection('client').doc(adminId);
+
+        adminDoc.get().then((adminSnapshot) {
+          if (adminSnapshot.exists) {
+            final adminData = adminSnapshot.data() as Map<String, dynamic>;
+            final requests = List<dynamic>.from(adminData['requests'] ?? []);
+
+            if (requestIndex >= 0 && requestIndex < requests.length) {
+              requests.removeAt(requestIndex);
+              adminDoc.update({'requests': requests}).then((_) {
+                print('Request removed from admin\'s requests.');
+              }).catchError((error) {
+                print('Failed to remove request from admin\'s requests: $error');
+              });
+            } else {
+              print('Invalid request index.');
+            }
+          }
+        }).catchError((error) {
+          print('Failed to retrieve admin data: $error');
+        });
       }).catchError((error) {
         print('Failed to update today\'s entry: $error');
       });
@@ -222,6 +237,7 @@ void _updateTodayEntry(String userId, Map<String, dynamic> editedEntry) {
     print('Failed to retrieve user data: $error');
   });
 }
+
 
 
 
