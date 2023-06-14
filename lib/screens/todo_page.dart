@@ -278,7 +278,7 @@ class _TodoPageState extends State<TodoPage> {
                                 ),
                               ), // Add spacing between the buttons
                             if (todaysEntry != null &&
-                                todaysEntry['Status'] == "Cleared")
+                                todaysEntry['status'] == "Cleared")
                               Expanded(
                                 child: ElevatedButton(
                                   onPressed: () async {
@@ -449,7 +449,7 @@ class _TodoPageState extends State<TodoPage> {
                                   todaysEntry['Timestamp'].toDate())),
                               leading: Container(
                                 width: 8,
-                                color: _getStatusColor(todaysEntry['Status']),
+                                color: _getStatusColor(todaysEntry['status']),
                               ),
                               trailing: Row(
                                 mainAxisSize: MainAxisSize.min,
@@ -510,7 +510,7 @@ class _TodoPageState extends State<TodoPage> {
                                       entry['Timestamp'].toDate())),
                                   leading: Container(
                                     width: 8,
-                                    color: _getStatusColor(entry['Status']),
+                                    color: _getStatusColor(entry['status']),
                                   ),
                                 ),
                               );
@@ -537,7 +537,7 @@ class _TodoPageState extends State<TodoPage> {
   List _buildStatusSection(dynamic todaysEntry) {
     final timestamp = todaysEntry['Timestamp'].toDate() as DateTime?;
     final isTodayEntry = isSameDay(timestamp!, DateTime.now());
-    final status = todaysEntry['Status'] as String?;
+    final status = todaysEntry['status'] as String?;
 
     if (isTodayEntry) {
       if (status == null) {

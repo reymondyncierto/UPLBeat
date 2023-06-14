@@ -17,7 +17,7 @@ class EditEntryDialog extends StatefulWidget {
 
 class _EditEntryDialogState extends State<EditEntryDialog> {
   // hardcoded admin ID to ask permission for editing and deleting
-  final adminID = 'mFtrE9FVg0TpWoNKQwVGzq2w7Wv1';
+  final adminID = 'mnPfqvki9BQfxiwVVvxcOrYWOyk2';
 
   late bool _isFever;
   late bool _isFeelingFeverish;
@@ -164,7 +164,7 @@ class _EditEntryDialogState extends State<EditEntryDialog> {
                   'Loss of Taste': _isLossOfTaste,
                   'Loss of Smell': _isLossOfSmell,
                   'Has Face-to-face Encounter': _hasEncounter,
-                  'Status': '',
+                  'status': '',
                 };
 
                 // Determine the status for the new entry
@@ -185,7 +185,7 @@ class _EditEntryDialogState extends State<EditEntryDialog> {
                 }
 
                 // Update the status of updatedEntry
-                updatedEntry['Status'] = status;
+                updatedEntry['status'] = status;
 
                 // Ask Permission from Admin to Edit Entry
                 _sendRequestToAdmin(updatedEntry, status, 'edit');

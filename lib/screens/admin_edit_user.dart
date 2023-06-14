@@ -165,7 +165,7 @@ class _AdminEditsUserState extends State<AdminEditsUser> {
                     'Loss of Smell': isLossOfSmell,
                     'Has Face-to-face Encounter': hasEncounter,
                     'Timestamp': timestamp,
-                    'Status': status
+                    'status': status
                   };
 
                   dataArray[dataArray.length - 1] = updatedEntry;

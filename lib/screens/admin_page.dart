@@ -471,16 +471,38 @@ class _AdminPageState extends State<AdminPage> {
     );
   }
 
-  void _addToQuarantine(DocumentSnapshot<Map<String, dynamic>> doc) async {
-    try {
-      await FirebaseFirestore.instance.collection('client').doc(doc.id).update({
-        'currentStatus': 'Under Quarantine',
-      });
-    } catch (error) {
-      // Handle error
-      print('Error adding user to quarantine: $error');
-    }
+void _addToQuarantine(DocumentSnapshot<Map<String, dynamic>> doc) async {
+  try {
+    // Get the document reference
+    var documentReference = FirebaseFirestore.instance.collection('client').doc(doc.id);
+
+    // Retrieve the document data
+    var documentSnapshot = await documentReference.get();
+
+    // Get the list of entries
+    List<dynamic> entries = List.from(documentSnapshot.data()?['entries']);
+
+    // Get the last entry from the list
+    var lastEntry = Map<String, dynamic>.from(entries.last);
+    print(lastEntry);
+
+    // Update the last entry's status to 'Under Quarantine'
+    lastEntry['status'] = 'Under Quarantine';
+
+    // Update the last entry in the entries list
+    entries[entries.length - 1] = lastEntry;
+
+    // Update the document with the modified list
+    await documentReference.update({
+      'currentStatus': 'Under Quarantine',
+      'entries': entries,
+    });
+  } catch (error) {
+    // Handle error
+    print('Error updating user status to "Under Quarantine": $error');
   }
+}
+
 
   // Widget that shows all users who are Under Monitoring
   Widget _showMonitored() {
@@ -612,31 +634,61 @@ class _AdminPageState extends State<AdminPage> {
     );
   }
 
-  void _moveToQuarantine(QueryDocumentSnapshot<Map<String, dynamic>> doc) {
-    FirebaseFirestore.instance
-        .collection('client')
-        .doc(doc.id)
-        .update({'currentStatus': 'Under Quarantine'}).then((value) {
-      // Update successful
-      print('User moved to quarantine');
-    }).catchError((error) {
-      // Error handling
-      print('Failed to move user to quarantine: $error');
+void _moveToQuarantine(QueryDocumentSnapshot<Map<String, dynamic>> doc) async {
+  try {
+    var documentReference = FirebaseFirestore.instance.collection('client').doc(doc.id);
+    var documentSnapshot = await documentReference.get();
+    List<dynamic> entries = List.from(documentSnapshot.data()?['entries']);
+    
+    // Get the last entry from the list
+    var lastEntry = Map<String, dynamic>.from(entries.last);
+    
+    // Update the last entry's status to 'Under Quarantine'
+    lastEntry['status'] = 'Under Quarantine';
+    
+    // Update the last entry in the entries list
+    entries[entries.length - 1] = lastEntry;
+    
+    // Update the document with the modified list and currentStatus
+    await documentReference.update({
+      'currentStatus': 'Under Quarantine',
+      'entries': entries,
     });
-  }
 
-  void _endMonitoring(QueryDocumentSnapshot<Map<String, dynamic>> doc) {
-    FirebaseFirestore.instance
-        .collection('client')
-        .doc(doc.id)
-        .update({'currentStatus': 'Cleared'}).then((value) {
-      // Update successful
-      print('Monitoring ended for user');
-    }).catchError((error) {
-      // Error handling
-      print('Failed to end monitoring for user: $error');
-    });
+    print('User moved to quarantine');
+  } catch (error) {
+    print('Failed to move user to quarantine: $error');
   }
+}
+
+
+void _endMonitoring(QueryDocumentSnapshot<Map<String, dynamic>> doc) async {
+  try {
+    var documentReference = FirebaseFirestore.instance.collection('client').doc(doc.id);
+    var documentSnapshot = await documentReference.get();
+    List<dynamic> entries = List.from(documentSnapshot.data()?['entries']);
+
+    // Get the index of the last entry in the list
+    int lastIndex = entries.length - 1;
+
+    // Update the status of the last entry to 'Cleared'
+    entries[lastIndex]['status'] = 'Cleared';
+
+    // Update the document with the modified list and currentStatus
+    await documentReference.update({
+      'currentStatus': 'Cleared',
+      'entries': entries,
+    });
+
+    print('Monitoring ended for user');
+  } catch (error) {
+    print('Failed to end monitoring for user: $error');
+  }
+}
+
+
+
+
 
   Widget _showQuarantined() {
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(

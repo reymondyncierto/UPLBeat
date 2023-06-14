@@ -163,7 +163,7 @@ class _AddEntryDialogState extends State<AddEntryDialog> {
         'Loss of Smell': _isLossOfSmell,
         'Has Face-to-face Encounter': _encounter,
         'Timestamp': DateTime.now(),
-        'Status': ''
+        'status': ''
       };
 
       // Determine the status for the new entry
@@ -187,7 +187,7 @@ class _AddEntryDialogState extends State<AddEntryDialog> {
       }
 
       // update status of newEntry
-      newEntry['Status'] = status;
+      newEntry['status'] = status;
 
       existingEntries.add(newEntry);
 
