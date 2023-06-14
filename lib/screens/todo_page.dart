@@ -445,7 +445,7 @@ class _TodoPageState extends State<TodoPage> {
                                   IconButton(
                                     icon: const Icon(Icons.delete),
                                     onPressed: () {
-                                      // _deleteEntry(todaysEntry);
+                                      _deleteEntry(todaysEntry);
                                     },
                                   ),
                                 ],
@@ -584,24 +584,18 @@ class _TodoPageState extends State<TodoPage> {
     showDialog(
       context: context,
       builder: (context) {
-        return EditEntryDialog(entry: entry);
+        return EditEntryDialog(entry: entry, edit: true);
       },
     );
   }
 
   // method to delete entry
-  void _deleteEntry(Map<String, dynamic>? data, Map<String, dynamic> entry) {
-    
-
-    // if (data != null) {
-    //   final entries = List.from(data['entries'] ?? []);
-    //   entries.remove(entry);
-    //   data['entries'] = entries;
-
-    //   final currentUser = FirebaseAuth.instance.currentUser;
-    //   final currentUserDoc =
-    //       FirebaseFirestore.instance.collection('client').doc(currentUser!.uid);
-    //   currentUserDoc.update(data);
-    // }
+  void _deleteEntry(Map<String, dynamic> entry) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return EditEntryDialog(entry: entry, edit: false);
+      },
+    );
   }
 }

@@ -107,65 +107,120 @@ class _AdminRequestsState extends State<AdminRequests> {
                                 itemCount: entries.length,
                                 itemBuilder: (_, index) {
                                   final doc = entries[index];
+                                  
+                                  if(doc['requestType'] == "edit"){
+                                    return FutureBuilder<DocumentSnapshot>(
+                                      future: FirebaseFirestore.instance
+                                          .collection('client')
+                                          .doc(doc['userid'])
+                                          .get(),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return const CircularProgressIndicator();
+                                        }
 
-                                  return FutureBuilder<DocumentSnapshot>(
-                                    future: FirebaseFirestore.instance
-                                        .collection('client')
-                                        .doc(doc['userid'])
-                                        .get(),
-                                    builder: (context, snapshot) {
-                                      if (snapshot.connectionState ==
-                                          ConnectionState.waiting) {
-                                        return const CircularProgressIndicator();
-                                      }
+                                        if (snapshot.hasError) {
+                                          print(
+                                              'Failed to fetch student data: ${snapshot.error}');
+                                          return const Text(
+                                              'Failed to fetch student data');
+                                        }
 
-                                      if (snapshot.hasError) {
-                                        print(
-                                            'Failed to fetch student data: ${snapshot.error}');
-                                        return const Text(
-                                            'Failed to fetch student data');
-                                      }
+                                        if (snapshot.hasData) {
+                                          final studentData = snapshot.data!
+                                              .data() as Map<String, dynamic>;
+                                          final name = studentData['name'];
 
-                                      if (snapshot.hasData) {
-                                        final studentData = snapshot.data!
-                                            .data() as Map<String, dynamic>;
-                                        final name = studentData['name'];
-
-                                        return Card(
-                                          child: ListTile(
-                                            title: Text('$name'),
-                                            subtitle: Text(
-                                                'Request: ${doc['requestType']}'),
-                                            onTap: () {
-                                              _showRequestDetails(doc);
-                                            },
-                                            trailing: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                IconButton(
-                                                  icon: const Icon(Icons.check),
-                                                  onPressed: () {
-                                                    _updateTodayEntry(
-                                                        doc['userid'],
-                                                        doc['editedEntry'],
-                                                        index);
-                                                  },
-                                                ),
-                                                IconButton(
-                                                  icon: const Icon(Icons.close),
-                                                  onPressed: () {
-                                                    _removeRequest(index);
-                                                  },
-                                                ),
-                                              ],
+                                          return Card(
+                                            child: ListTile(
+                                              title: Text('$name'),
+                                              subtitle: Text(
+                                                  'Request: ${doc['requestType']}'),
+                                              onTap: () {
+                                                _showRequestDetails(doc);
+                                              },
+                                              trailing: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  IconButton(
+                                                    icon: const Icon(Icons.check),
+                                                    onPressed: () {
+                                                      _updateTodayEntry(
+                                                          doc['userid'],
+                                                          doc['editedEntry'],
+                                                          index);
+                                                    },
+                                                  ),
+                                                  IconButton(
+                                                    icon: const Icon(Icons.close),
+                                                    onPressed: () {
+                                                      _removeRequest(index);
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        );
-                                      }
+                                          );
+                                        }
 
-                                      return const Text('No Incoming Requests');
-                                    },
-                                  );
+                                        return const Text('No Incoming Requests');
+                                      },
+                                    );
+                                  } else {
+                                    return FutureBuilder<DocumentSnapshot>(
+                                      future: FirebaseFirestore.instance
+                                          .collection('client')
+                                          .doc(doc['userid'])
+                                          .get(),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return const CircularProgressIndicator();
+                                        }
+
+                                        if (snapshot.hasError) {
+                                          print(
+                                              'Failed to fetch student data: ${snapshot.error}');
+                                          return const Text(
+                                              'Failed to fetch student data');
+                                        }
+
+                                        if (snapshot.hasData) {
+                                          final studentData = snapshot.data!
+                                              .data() as Map<String, dynamic>;
+                                          final name = studentData['name'];
+
+                                          return Card(
+                                            child: ListTile(
+                                              title: Text('$name'),
+                                              subtitle: Text(
+                                                  'Request: ${doc['requestType']}'),
+                                              trailing: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  IconButton(
+                                                    icon: const Icon(Icons.check),
+                                                    onPressed: () {
+                                                      _deleteEntry(index, doc['userid'], doc['editedEntry'], index);
+                                                    },
+                                                  ),
+                                                  IconButton(
+                                                    icon: const Icon(Icons.close),
+                                                    onPressed: () {
+                                                      _removeRequest(index);
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        }
+
+                                        return const Text('No Incoming Requests');
+                                      },
+                                    );
+                                  }
                                 },
                               )
                             : const Center(
@@ -192,6 +247,39 @@ class _AdminRequestsState extends State<AdminRequests> {
 
     await adminDocRef.update({
       'requests': FieldValue.arrayRemove([doc]),
+    });
+  }
+
+  void _deleteEntry(int index, String userId, Map<String, dynamic> entry, int requestIndex) async {
+    final userDocRef =
+        FirebaseFirestore.instance.collection('client').doc(userId);    
+
+    await userDocRef.update({
+      'entries': FieldValue.arrayRemove([entry]),
+    });
+
+    // Remove the specific request from the admin's request array
+    final adminId = 'mnPfqvki9BQfxiwVVvxcOrYWOyk2';
+    final adminDoc = FirebaseFirestore.instance.collection('client').doc(adminId);
+
+    adminDoc.get().then((adminSnapshot) {
+      if (adminSnapshot.exists) {
+        final adminData = adminSnapshot.data() as Map<String, dynamic>;
+        final requests = List<dynamic>.from(adminData['requests'] ?? []);
+
+        if (requestIndex >= 0 && requestIndex < requests.length) {
+          requests.removeAt(requestIndex);
+          adminDoc.update({'requests': requests}).then((_) {
+            print('Request removed from admin\'s requests.');
+          }).catchError((error) {
+            print('Failed to remove request from admin\'s requests: $error');
+          });
+        } else {
+          print('Invalid request index.');
+        }
+      }
+    }).catchError((error) {
+      print('Failed to retrieve admin data: $error');
     });
   }
 

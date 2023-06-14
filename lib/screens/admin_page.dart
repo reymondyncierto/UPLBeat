@@ -268,49 +268,61 @@ Widget _showAllUsers() {
           }).toList();
         }
 
-        return Padding(
-          padding: const EdgeInsets.fromLTRB(
-              16.0, 16.0, 16.0, 0.0), // Add margin on top
-          child: Column(
-            children: [
-              const SizedBox(height: 8.0),
+        return SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(
+                16.0, 16.0, 16.0, 0.0), // Add margin on top
+            child: Column(
+              children: [
+                const SizedBox(height: 8.0),
 
-              // Entries Container
-              Container(
-                padding: const EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Center(
-                      child: Text(
-                        '${filteredDocs.length}',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 25.0,
-                        ),
+                // Entries Container
+                Container(
+                  padding: const EdgeInsets.all(16.0),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Current Users',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18.0,
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 4.0,
+                              horizontal: 8.0,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            child: Text(
+                              '${filteredDocs.length}',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18.0,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    const Center(
-                      child: Text(
-                        'Current Users',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18.0,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 16.0),
-                    const Divider(), // Horizontal line
-                    const SizedBox(height: 16.0),
-                    if (filteredDocs.isNotEmpty)
-                      SingleChildScrollView(
-                        child: ListView.builder(
+                      const SizedBox(height: 16.0),
+                      const Divider(), // Horizontal line
+                      const SizedBox(height: 16.0),
+                      if (filteredDocs.isNotEmpty)
+                        ListView.builder(
                           shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
+                          physics: NeverScrollableScrollPhysics(),
                           itemCount: filteredDocs.length,
                           itemBuilder: (_, index) {
                             final doc = filteredDocs[index];
@@ -318,38 +330,24 @@ Widget _showAllUsers() {
                             final currentStatus = doc["currentStatus"];
 
                             return Card(
-                              elevation: 2,
+                              elevation: 4.0,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8.0),
                               ),
                               child: ListTile(
                                 contentPadding: const EdgeInsets.all(16.0),
-                                leading: Container(
-                                  width: 48.0,
-                                  height: 48.0,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: Colors.grey,
-                                      width: 1.0,
-                                    ),
-                                  ),
-                                  child: const Icon(
-                                    Icons.person_outline_outlined,
-                                    color: Colors.black,
-                                  ),
+                                leading: CircleAvatar(
+                                  backgroundColor: Colors.green,
+                                  child: const Icon(Icons.person_outline_outlined),
                                 ),
                                 title: Text(
-                                  name,
-                                  style: const TextStyle(
+                                  "$name",
+                                  style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16.0,
                                   ),
                                 ),
-                                subtitle: Text(
-                                  'Status: $currentStatus',
-                                  style: const TextStyle(fontSize: 14.0),
-                                ),
+                                subtitle: Text('Status: $currentStatus'),
                                 onTap: () {
                                   showDialog(
                                     context: context,
@@ -374,16 +372,22 @@ Widget _showAllUsers() {
                               ),
                             );
                           },
+                        )
+                      else
+                        const Center(
+                          child: Text(
+                            'No User',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              fontStyle: FontStyle.italic,
+                            ),
+                          ),
                         ),
-                      )
-                    else
-                      const Center(
-                        child: Text('No User'),
-                      ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       }
@@ -394,8 +398,9 @@ Widget _showAllUsers() {
 
 
 
+
   // Widget that shows all users who are cleared
-  Widget _showCleared() {
+Widget _showCleared() {
   return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
     stream: FirebaseFirestore.instance
         .collection('client')
@@ -410,103 +415,149 @@ Widget _showAllUsers() {
         final List<QueryDocumentSnapshot<Map<String, dynamic>>> docs =
             snapshot.data!.docs;
 
-        return Padding(
-          padding: const EdgeInsets.fromLTRB(
-              16.0, 16.0, 16.0, 0.0), // Add margin on top
-          child: Column(
-            children: [
-              const SizedBox(height: 8.0),
+        return SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(
+              16.0, 16.0, 16.0, 0.0
+            ), // Add margin on top
+            child: Column(
+              children: [
+                const SizedBox(height: 8.0),
 
-              // Entries Container
-              Container(
-                padding: const EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Center(
-                      child: Text(
-                        '${docs.length}',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 25.0,
-                        ),
-                      ),
-                    ),
-                    const Center(
-                      child: Text(
-                        'Users Cleared',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18.0,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 16.0),
-                    const Divider(), // Horizontal line
-                    const SizedBox(height: 16.0),
-                    if (docs.isNotEmpty)
-                      ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: docs.length,
-                        itemBuilder: (_, index) {
-                          final doc = docs[index];
-                          final name = doc["name"];
-                          final currentStatus = doc["currentStatus"];
-
-                          return Card(
-                            child: ListTile(
-                              leading: const Icon(Icons.person_outline_outlined),
-                              title: Text("$name"),
-                              subtitle: Text('Status: $currentStatus'),
-                              onTap: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      UserDetailsDialog(
-                                    name: name,
-                                    email: doc["email"],
-                                    college: doc["college"],
-                                    course: doc["course"],
-                                    studentNo: doc["studentNumber"],
-                                    userType: doc["userType"],
-                                    showUserType: false,
-                                    onUserTypeChanged: (value) {
-                                      FirebaseFirestore.instance
-                                          .collection('client')
-                                          .doc(doc.id)
-                                          .update({"userType": value});
-                                    },
-                                  ),
-                                );
-                              },
-                              trailing: IconButton(
-                                icon: const Icon(Icons.warning),
-                                onPressed: () {
-                                  _addToQuarantine(doc);
-                                },
+                // Entries Container
+                Container(
+                  padding: const EdgeInsets.all(16.0),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Users Cleared',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18.0,
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 4.0,
+                              horizontal: 8.0,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.green,
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            child: Text(
+                              '${docs.length}',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18.0,
+                                color: Colors.white,
                               ),
                             ),
-                          );
-                        },
-                      )
-                    else
-                      const Center(
-                        child: Text('No User Cleared'),
+                          ),
+                        ],
                       ),
-                  ],
+                      const SizedBox(height: 16.0),
+                      const Divider(), // Horizontal line
+                      const SizedBox(height: 16.0),
+                      if (docs.isNotEmpty)
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: docs.length,
+                          itemBuilder: (_, index) {
+                            final doc = docs[index];
+                            final name = doc["name"];
+                            final currentStatus = doc["currentStatus"];
+
+                            return Card(
+                              elevation: 4.0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: ListTile(
+                                contentPadding: const EdgeInsets.all(16.0),
+                                leading: CircleAvatar(
+                                  backgroundColor: Colors.green,
+                                  child: Icon(
+                                    Icons.person_outline_outlined,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                title: Text(
+                                  name,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.0,
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  'Status: $currentStatus',
+                                  style: TextStyle(fontSize: 14.0),
+                                ),
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        UserDetailsDialog(
+                                      name: name,
+                                      email: doc["email"],
+                                      college: doc["college"],
+                                      course: doc["course"],
+                                      studentNo: doc["studentNumber"],
+                                      userType: doc["userType"],
+                                      showUserType: false,
+                                      onUserTypeChanged: (value) {
+                                        FirebaseFirestore.instance
+                                            .collection('client')
+                                            .doc(doc.id)
+                                            .update({"userType": value});
+                                      },
+                                    ),
+                                  );
+                                },
+                                trailing: IconButton(
+                                  icon: Icon(
+                                    Icons.warning,
+                                    color: Colors.yellow,
+                                  ),
+                                  onPressed: () {
+                                    _addToQuarantine(doc);
+                                  },
+                                ),
+                              ),
+                            );
+                          },
+                        )
+                      else
+                        Center(
+                          child: Text(
+                            'No User Cleared',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              fontStyle: FontStyle.italic,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       }
     },
   );
 }
+
 
 
 void _addToQuarantine(DocumentSnapshot<Map<String, dynamic>> doc) async {
@@ -542,7 +593,7 @@ void _addToQuarantine(DocumentSnapshot<Map<String, dynamic>> doc) async {
 }
 
 
- Widget _showMonitored() {
+Widget _showMonitored() {
   return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
     stream: FirebaseFirestore.instance
         .collection('client')
@@ -557,113 +608,158 @@ void _addToQuarantine(DocumentSnapshot<Map<String, dynamic>> doc) async {
         final List<QueryDocumentSnapshot<Map<String, dynamic>>> docs =
             snapshot.data!.docs;
 
-        return Padding(
-          padding: const EdgeInsets.fromLTRB(
-              16.0, 16.0, 16.0, 0.0), // Add margin on top
-          child: Column(
-            children: [
-              const SizedBox(height: 8.0),
+        return SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(
+              16.0, 16.0, 16.0, 0.0
+            ), // Add margin on top
+            child: Column(
+              children: [
+                const SizedBox(height: 8.0),
 
-              // Entries Container
-              Container(
-                padding: const EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Center(
-                      child: Text(
-                        '${docs.length}',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 25.0,
-                        ),
-                      ),
-                    ),
-                    const Center(
-                      child: Text(
-                        'Users Under Monitoring',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18.0,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 16.0),
-                    const Divider(), // Horizontal line
-                    const SizedBox(height: 16.0),
-                    if (docs.isNotEmpty)
-                      ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: docs.length,
-                        itemBuilder: (_, index) {
-                          final doc = docs[index];
-                          final name = doc["name"];
-                          final currentStatus = doc["currentStatus"];
-
-                          return Card(
-                            child: ListTile(
-                              leading: const Icon(Icons.person_outline_outlined),
-                              title: Text("$name"),
-                              subtitle: Text('Status: $currentStatus'),
-                              onTap: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      UserDetailsDialog(
-                                    name: name,
-                                    email: doc["email"],
-                                    college: doc["college"],
-                                    course: doc["course"],
-                                    studentNo: doc["studentNumber"],
-                                    userType: doc["userType"],
-                                    showUserType: false,
-                                    onUserTypeChanged: (value) {
-                                      FirebaseFirestore.instance
-                                          .collection('client')
-                                          .doc(doc.id)
-                                          .update({"userType": value});
-                                    },
-                                  ),
-                                );
-                              },
-                              trailing: PopupMenuButton<String>(
-                                icon: const Icon(Icons.swap_horiz),
-                                onSelected: (value) {
-                                  if (value == 'quarantine') {
-                                    _moveToQuarantine(doc);
-                                  } else if (value == 'endMonitoring') {
-                                    _clearUserFromQuarantine(doc);
-                                  }
-                                },
-                                itemBuilder: (BuildContext context) {
-                                  return [
-                                    const PopupMenuItem<String>(
-                                      value: 'quarantine',
-                                      child: Text('Move to Quarantine'),
-                                    ),
-                                    const PopupMenuItem<String>(
-                                      value: 'endMonitoring',
-                                      child: Text('End Monitoring'),
-                                    ),
-                                  ];
-                                },
+                // Entries Container
+                Container(
+                  padding: const EdgeInsets.all(16.0),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Users Under Monitoring',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18.0,
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 4.0,
+                              horizontal: 8.0,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            child: Text(
+                              '${docs.length}',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18.0,
+                                color: Colors.white,
                               ),
                             ),
-                          );
-                        },
-                      )
-                    else
-                      const Center(
-                        child: Text('No User Under Monitoring'),
+                          ),
+                        ],
                       ),
-                  ],
+                      const SizedBox(height: 16.0),
+                      const Divider(), // Horizontal line
+                      const SizedBox(height: 16.0),
+                      if (docs.isNotEmpty)
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: docs.length,
+                          itemBuilder: (_, index) {
+                            final doc = docs[index];
+                            final name = doc["name"];
+                            final currentStatus = doc["currentStatus"];
+
+                            return Card(
+                              elevation: 4.0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: ListTile(
+                                contentPadding: const EdgeInsets.all(16.0),
+                                leading: CircleAvatar(
+                                  backgroundColor: Colors.blue,
+                                  child: Icon(
+                                    Icons.person_outline_outlined,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                title: Text(
+                                  name,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.0,
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  'Status: $currentStatus',
+                                  style: TextStyle(fontSize: 14.0),
+                                ),
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        UserDetailsDialog(
+                                      name: name,
+                                      email: doc["email"],
+                                      college: doc["college"],
+                                      course: doc["course"],
+                                      studentNo: doc["studentNumber"],
+                                      userType: doc["userType"],
+                                      showUserType: false,
+                                      onUserTypeChanged: (value) {
+                                        FirebaseFirestore.instance
+                                            .collection('client')
+                                            .doc(doc.id)
+                                            .update({"userType": value});
+                                      },
+                                    ),
+                                  );
+                                },
+                                trailing: PopupMenuButton<String>(
+                                  icon: Icon(
+                                    Icons.swap_horiz,
+                                    color: Colors.grey[700],
+                                  ),
+                                  onSelected: (value) {
+                                    if (value == 'quarantine') {
+                                      _moveToQuarantine(doc);
+                                    } else if (value == 'endMonitoring') {
+                                      _clearUserFromQuarantine(doc);
+                                    }
+                                  },
+                                  itemBuilder: (BuildContext context) {
+                                    return [
+                                      PopupMenuItem<String>(
+                                        value: 'quarantine',
+                                        child: Text('Move to Quarantine'),
+                                      ),
+                                      PopupMenuItem<String>(
+                                        value: 'endMonitoring',
+                                        child: Text('End Monitoring'),
+                                      ),
+                                    ];
+                                  },
+                                ),
+                              ),
+                            );
+                          },
+                        )
+                      else
+                        Center(
+                          child: Text(
+                            'No Users Under Monitoring',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              fontStyle: FontStyle.italic,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       }
@@ -672,27 +768,21 @@ void _addToQuarantine(DocumentSnapshot<Map<String, dynamic>> doc) async {
 }
 
 
+
+
 void _moveToQuarantine(QueryDocumentSnapshot<Map<String, dynamic>> doc) async {
   try {
-    // Assuming you have a reference to the Firestore collection
     final collectionRef = FirebaseFirestore.instance.collection('client');
-
-    // Get the document reference for the current user
     final currUser = collectionRef.doc(doc.id);
 
-    // Retrieve the document data
-    currUser.get().then((documentSnapshot) {
-      // Get the list of entries
-      List<dynamic> entries = List.from(documentSnapshot.data()?['entries']);
+    final documentSnapshot = await currUser.get();
+    final entries = List<dynamic>.from(documentSnapshot.data()?['entries'] ?? []);
 
-      // Get the index of the last entry in the list
-      int lastIndex = entries.length - 1;
+    if (entries.isNotEmpty) {
+      final lastIndex = entries.length - 1;
+      final lastEntry = Map<String, dynamic>.from(entries[lastIndex]);
 
-      // Get the last entry
-      Map<String, dynamic> lastEntry = Map.from(entries[lastIndex]);
-
-      // Create a new map with updated fields
-      Map<String, dynamic> updatedEntry = {
+      final updatedEntry = {
         ...lastEntry,
         'Fever': false,
         'Feeling Feverish': false,
@@ -705,30 +795,29 @@ void _moveToQuarantine(QueryDocumentSnapshot<Map<String, dynamic>> doc) async {
         'Loss of Taste': false,
         'Loss of Smell': false,
         'Has Face-to-face Encounter': true,
-        'status': 'Under Quarantine'
+        'status': 'Under Quarantine',
         // Add more fields to update here
       };
 
-      // Update the last entry in the list
       entries[lastIndex] = updatedEntry;
 
-      // Update the document with the modified last entry
-      currUser.update({
+      await currUser.update({
         'entries': entries,
         'currentStatus': 'Under Quarantine',
-      }).then((_) {
-        print('User move to quarantine.');
-      }).catchError((error) {
-        print('Failed to move user to quarantine: $error');
       });
-    });
+
+      print('User moved to quarantine.');
+    } else {
+      print('User has no entries.');
+    }
   } catch (error) {
     print('Failed to move user to quarantine: $error');
   }
 }
 
 
-  Widget _showQuarantined() {
+
+Widget _showQuarantined() {
   return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
     stream: FirebaseFirestore.instance
         .collection('client')
@@ -736,110 +825,151 @@ void _moveToQuarantine(QueryDocumentSnapshot<Map<String, dynamic>> doc) async {
         .snapshots(),
     builder: (BuildContext context, snapshot) {
       if (snapshot.connectionState == ConnectionState.waiting) {
-        return const Center(child: CircularProgressIndicator());
+        return Center(child: CircularProgressIndicator());
       } else if (snapshot.hasError) {
-        return const Center(child: Text('Error loading data'));
+        return Center(child: Text('Error loading data'));
       } else {
         final List<QueryDocumentSnapshot<Map<String, dynamic>>> docs =
             snapshot.data!.docs;
 
-        return Padding(
-          padding: const EdgeInsets.fromLTRB(
-              16.0, 16.0, 16.0, 0.0), // Add margin on top
-          child: Column(
-            children: [
-              const SizedBox(height: 8.0),
-
-              // Entries Container
-              Container(
-                padding: const EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Center(
-                      child: Text(
-                        '${docs.length}',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 25.0,
-                        ),
-                      ),
-                    ),
-                    const Center(
-                      child: Text(
-                        'Users Under Quarantine',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18.0,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 16.0),
-                    const Divider(), // Horizontal line
-                    const SizedBox(height: 16.0),
-                    if (docs.isNotEmpty)
-                      ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: docs.length,
-                        itemBuilder: (_, index) {
-                          final doc = docs[index];
-                          final name = doc["name"];
-                          final currentStatus = doc["currentStatus"];
-
-                          return Card(
-                            child: ListTile(
-                              leading: const Icon(Icons.person_outline_outlined),
-                              title: Text("$name"),
-                              subtitle: Text('Status: $currentStatus'),
-                              onTap: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      UserDetailsDialog(
-                                    name: name,
-                                    email: doc["email"],
-                                    college: doc["college"],
-                                    course: doc["course"],
-                                    studentNo: doc["studentNumber"],
-                                    userType: doc["userType"],
-                                    showUserType: false,
-                                    onUserTypeChanged: (value) {
-                                      FirebaseFirestore.instance
-                                          .collection('client')
-                                          .doc(doc.id)
-                                          .update({"userType": value});
-                                    },
-                                  ),
-                                );
-                              },
-                              trailing: IconButton(
-                                icon: const Icon(Icons.clear),
-                                onPressed: () {
-                                  _clearUserFromQuarantine(doc);
-                                },
+        return SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                const SizedBox(height: 8.0),
+                Container(
+                  padding: const EdgeInsets.all(16.0),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Users Under Quarantine',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18.0,
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 4.0,
+                              horizontal: 8.0,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            child: Text(
+                              '${docs.length}',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18.0,
+                                color: Colors.white,
                               ),
                             ),
-                          );
-                        },
-                      )
-                    else
-                      const Center(
-                        child: Text('No User Under Quarantine'),
+                          ),
+                        ],
                       ),
-                  ],
+                      const SizedBox(height: 16.0),
+                      if (docs.isNotEmpty)
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: docs.length,
+                          itemBuilder: (_, index) {
+                            final doc = docs[index];
+                            final name = doc["name"];
+                            final currentStatus = doc["currentStatus"];
+
+                            return Card(
+                              elevation: 4.0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: ListTile(
+                                contentPadding: const EdgeInsets.all(16.0),
+                                leading: CircleAvatar(
+                                  backgroundColor: Colors.blue,
+                                  child: Icon(
+                                    Icons.person_outline_outlined,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                title: Text(
+                                  name,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.0,
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  'Status: $currentStatus',
+                                  style: TextStyle(fontSize: 14.0),
+                                ),
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        UserDetailsDialog(
+                                      name: name,
+                                      email: doc["email"],
+                                      college: doc["college"],
+                                      course: doc["course"],
+                                      studentNo: doc["studentNumber"],
+                                      userType: doc["userType"],
+                                      showUserType: false,
+                                      onUserTypeChanged: (value) {
+                                        FirebaseFirestore.instance
+                                            .collection('client')
+                                            .doc(doc.id)
+                                            .update({"userType": value});
+                                      },
+                                    ),
+                                  );
+                                },
+                                trailing: IconButton(
+                                  icon: Icon(
+                                    Icons.clear,
+                                    color: Colors.red,
+                                  ),
+                                  onPressed: () {
+                                    _clearUserFromQuarantine(doc);
+                                  },
+                                ),
+                              ),
+                            );
+                          },
+                        )
+                      else
+                        Center(
+                          child: Text(
+                            'No Users Under Quarantine',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              fontStyle: FontStyle.italic,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       }
     },
   );
 }
+
+
 
 
 void _clearUserFromQuarantine(QueryDocumentSnapshot<Map<String, dynamic>> doc) {
@@ -896,9 +1026,6 @@ void _clearUserFromQuarantine(QueryDocumentSnapshot<Map<String, dynamic>> doc) {
     print('Failed to clear user from quarantine: $error');
   }
 }
-
-
-
 
 
   // shows dialog box of selected user's data
