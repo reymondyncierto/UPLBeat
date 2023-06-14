@@ -219,7 +219,7 @@ Widget _searchField() {
 }
   // widget that shows all users in the collection
 
- Widget _showAllUsers() {
+Widget _showAllUsers() {
   return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
     stream: FirebaseFirestore.instance.collection('client').snapshots(),
     builder: (BuildContext context, snapshot) {
@@ -307,43 +307,74 @@ Widget _searchField() {
                     const Divider(), // Horizontal line
                     const SizedBox(height: 16.0),
                     if (filteredDocs.isNotEmpty)
-                      ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: filteredDocs.length,
-                        itemBuilder: (_, index) {
-                          final doc = filteredDocs[index];
-                          final name = doc["name"];
-                          final currentStatus = doc["currentStatus"];
+                      SingleChildScrollView(
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: filteredDocs.length,
+                          itemBuilder: (_, index) {
+                            final doc = filteredDocs[index];
+                            final name = doc["name"];
+                            final currentStatus = doc["currentStatus"];
 
-                          return Card(
-                            child: ListTile(
-                              leading: const Icon(Icons.person_outline_outlined),
-                              title: Text("$name"),
-                              subtitle: Text('Status: $currentStatus'),
-                              onTap: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      UserDetailsDialog(
-                                    name: name,
-                                    email: doc["email"],
-                                    college: doc["college"],
-                                    course: doc["course"],
-                                    studentNo: doc["studentNumber"],
-                                    userType: doc["userType"],
-                                    showUserType: true,
-                                    onUserTypeChanged: (value) {
-                                      FirebaseFirestore.instance
-                                          .collection('client')
-                                          .doc(doc.id)
-                                          .update({"userType": value});
-                                    },
+                            return Card(
+                              elevation: 2,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: ListTile(
+                                contentPadding: const EdgeInsets.all(16.0),
+                                leading: Container(
+                                  width: 48.0,
+                                  height: 48.0,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: Colors.grey,
+                                      width: 1.0,
+                                    ),
                                   ),
-                                );
-                              },
-                            ),
-                          );
-                        },
+                                  child: const Icon(
+                                    Icons.person_outline_outlined,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                title: Text(
+                                  name,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.0,
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  'Status: $currentStatus',
+                                  style: const TextStyle(fontSize: 14.0),
+                                ),
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        UserDetailsDialog(
+                                      name: name,
+                                      email: doc["email"],
+                                      college: doc["college"],
+                                      course: doc["course"],
+                                      studentNo: doc["studentNumber"],
+                                      userType: doc["userType"],
+                                      showUserType: true,
+                                      onUserTypeChanged: (value) {
+                                        FirebaseFirestore.instance
+                                            .collection('client')
+                                            .doc(doc.id)
+                                            .update({"userType": value});
+                                      },
+                                    ),
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                        ),
                       )
                     else
                       const Center(
@@ -359,6 +390,8 @@ Widget _searchField() {
     },
   );
 }
+
+
 
 
   // Widget that shows all users who are cleared
