@@ -182,12 +182,29 @@ class _LoginPageState extends State<LoginPage> {
                       child: ElevatedButton(
                         onPressed: () async {
                           // sign in then get the user details
-                          _googleSignIn.signIn().then((value) {
-                            String userName = value!.displayName!;
-                            String userEmail = value.email;
-                            print(userName);
-                            print(userEmail);
-                            // save user in the authentification provider which requires email and password
+                          _googleSignIn.signIn().then((value) async {
+                            // String userName = value!.displayName!;
+                            // String userEmail = value.email;
+                            // print(userName);
+                            // print(userEmail);
+                            try {
+                              final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+                              final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
+                            
+                              final String? userName = googleUser.displayName;
+                              final String userEmail = googleUser.email;
+                              final String userID = googleUser.id;
+                              
+                              print('User ID: $userID');
+                              print('User Name: $userName');
+                              print('User Email: $userEmail');
+                              
+                              // Continue with further operations using the user ID
+                            } catch (error) {
+                              print('Failed to sign in with Google: $error');
+                            }
+
+
                           });
                         },
                         style: ElevatedButton.styleFrom(
