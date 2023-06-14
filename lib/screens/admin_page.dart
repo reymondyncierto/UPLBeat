@@ -317,8 +317,6 @@ Widget _showAllUsers() {
                         ],
                       ),
                       const SizedBox(height: 16.0),
-                      const Divider(), // Horizontal line
-                      const SizedBox(height: 16.0),
                       if (filteredDocs.isNotEmpty)
                         ListView.builder(
                           shrinkWrap: true,
@@ -464,8 +462,7 @@ Widget _showCleared() {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 16.0),
-                      const Divider(), // Horizontal line
+          
                       const SizedBox(height: 16.0),
                       if (docs.isNotEmpty)
                         ListView.builder(
@@ -657,8 +654,6 @@ Widget _showMonitored() {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 16.0),
-                      const Divider(), // Horizontal line
                       const SizedBox(height: 16.0),
                       if (docs.isNotEmpty)
                         ListView.builder(
