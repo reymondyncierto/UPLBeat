@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 import 'admin_request_dialog.dart';
 
 class AdminRequests extends StatefulWidget {
@@ -103,6 +104,7 @@ class _AdminRequestsState extends State<AdminRequests> {
                                 itemCount: entries.length,
                                 itemBuilder: (_, index) {
                                   final doc = entries[index];
+                                  
 
                                   return FutureBuilder<DocumentSnapshot>(
                                       future: FirebaseFirestore.instance
@@ -142,7 +144,7 @@ class _AdminRequestsState extends State<AdminRequests> {
                                                     icon:
                                                         const Icon(Icons.check),
                                                     onPressed: () {
-                                                      //_editEntry(entry);
+                                                      _updateTodayEntry(doc['userid'], doc['editedEntry']);
                                                     },
                                                   ),
                                                   IconButton(
@@ -177,13 +179,139 @@ class _AdminRequestsState extends State<AdminRequests> {
       },
     );
   }
+void _updateTodayEntry(String userId, Map<String, dynamic> editedEntry) {
+  final today = DateTime.now();
+  final todayString = DateFormat('yyyy-MM-dd').format(today);
 
-  Future<void> _showRequestDetails(Map<String, dynamic> requestData) async {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AdminEditsUserDialog(userData: requestData);
-      },
-    );
-  }
+  final userDoc = FirebaseFirestore.instance.collection('client').doc(userId);
+
+  userDoc.get().then((snapshot) {
+    if (snapshot.exists) {
+      final userData = snapshot.data() as Map<String, dynamic>;
+      final entries = List<dynamic>.from(userData['entries'] ?? []);
+
+      // Find the entry for today's date in the list
+      final entryIndex = entries.indexWhere((entry) => entry['date'] == todayString);
+
+      if (entryIndex != -1) {
+        // Update the existing entry in the list
+        final existingEntry = entries[entryIndex];
+        final updatedEntry = {
+          ...existingEntry,
+          ...editedEntry,
+          'editedAt': DateTime.now(),
+        };
+        entries[entryIndex] = updatedEntry;
+      } else {
+        // Add a new entry to the list
+        final newEntry = {
+          ...editedEntry,
+          'date': todayString,
+          'editedAt': DateTime.now(),
+        };
+        entries.add(newEntry);
+      }
+
+      userDoc.update({'entries': entries}).then((_) {
+        print('Today\'s entry updated successfully.');
+      }).catchError((error) {
+        print('Failed to update today\'s entry: $error');
+      });
+    }
+  }).catchError((error) {
+    print('Failed to retrieve user data: $error');
+  });
+}
+
+
+
+
+
+Future<void> _showRequestDetails(Map<String, dynamic> requestData) async {
+  final editedEntry = Map<String, dynamic>.from(requestData['editedEntry']);
+
+  final studentDoc = await FirebaseFirestore.instance
+      .collection('client')
+      .doc(requestData['userid'])
+      .get();
+
+  final studentData = studentDoc.data() as Map<String, dynamic>;
+  final studentEntries = List<Map<String, dynamic>>.from(studentData['entries'] ?? []);
+  final lastEntry = studentEntries.last;
+
+  // Create a list to hold the fields with mismatched values
+  final mismatchedFields = <String, dynamic>{};
+
+  // Iterate over the editedEntry and lastEntry to find the mismatched fields
+  editedEntry.forEach((key, value) {
+    if (lastEntry.containsKey(key) && lastEntry[key] != value) {
+      mismatchedFields[key] = value;
+    }
+  });
+
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Container(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Edited Fields',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 16.0),
+              ListView.separated(
+                shrinkWrap: true,
+                itemCount: mismatchedFields.length,
+                separatorBuilder: (context, index) => const Divider(),
+                itemBuilder: (context, index) {
+                  final field = mismatchedFields.keys.elementAt(index);
+                  final previousValue = lastEntry[field];
+                  final currentValue = mismatchedFields[field];
+
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Field: $field',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text('Previous Value: $previousValue'),
+                      Text('Current Value: $currentValue'),
+                    ],
+                  );
+                },
+              ),
+              const SizedBox(height: 16.0),
+              Align(
+                alignment: Alignment.center,
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Close'),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
+}
+
+
+
 }

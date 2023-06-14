@@ -1,12 +1,12 @@
 -- Merging decision tree log ---
 application
-INJECTED from C:\Users\rpync\Downloads\UPLBeat\android\app\src\main\AndroidManifest.xml:4:5-35:19
-MERGED from [:firebase_auth] C:\Users\rpync\Downloads\UPLBeat\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
-MERGED from [:firebase_auth] C:\Users\rpync\Downloads\UPLBeat\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
-MERGED from [:cloud_firestore] C:\Users\rpync\Downloads\UPLBeat\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
-MERGED from [:cloud_firestore] C:\Users\rpync\Downloads\UPLBeat\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
-MERGED from [:firebase_core] C:\Users\rpync\Downloads\UPLBeat\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
-MERGED from [:firebase_core] C:\Users\rpync\Downloads\UPLBeat\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
+INJECTED from C:\Users\rpync\Music\UPLBeat\android\app\src\main\AndroidManifest.xml:4:5-35:19
+MERGED from [:firebase_auth] C:\Users\rpync\Music\UPLBeat\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
+MERGED from [:firebase_auth] C:\Users\rpync\Music\UPLBeat\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
+MERGED from [:cloud_firestore] C:\Users\rpync\Music\UPLBeat\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
+MERGED from [:cloud_firestore] C:\Users\rpync\Music\UPLBeat\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
+MERGED from [:firebase_core] C:\Users\rpync\Music\UPLBeat\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
+MERGED from [:firebase_core] C:\Users\rpync\Music\UPLBeat\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
 MERGED from [com.google.firebase:firebase-auth:22.0.0] C:\Users\rpync\.gradle\caches\transforms-3\addd1e7d7380e6c086f46a0c78155c8a\transformed\jetified-firebase-auth-22.0.0\AndroidManifest.xml:28:5-73:19
 MERGED from [com.google.firebase:firebase-auth:22.0.0] C:\Users\rpync\.gradle\caches\transforms-3\addd1e7d7380e6c086f46a0c78155c8a\transformed\jetified-firebase-auth-22.0.0\AndroidManifest.xml:28:5-73:19
 MERGED from [androidx.window:window:1.0.0-beta04] C:\Users\rpync\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:24:5-31:19
@@ -46,22 +46,22 @@ MERGED from [com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\rpync\.gradl
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.7.0] C:\Users\rpync\.gradle\caches\transforms-3\57d13c65eae90a7945dea98c1aa2b720\transformed\core-1.7.0\AndroidManifest.xml:24:18-86
 	android:name
-		INJECTED from C:\Users\rpync\Downloads\UPLBeat\android\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\rpync\Music\UPLBeat\android\app\src\main\AndroidManifest.xml
 manifest
-ADDED from C:\Users\rpync\Downloads\UPLBeat\android\app\src\main\AndroidManifest.xml:1:1-36:12
-INJECTED from C:\Users\rpync\Downloads\UPLBeat\android\app\src\main\AndroidManifest.xml:1:1-36:12
-INJECTED from C:\Users\rpync\Downloads\UPLBeat\android\app\src\main\AndroidManifest.xml:1:1-36:12
-INJECTED from C:\Users\rpync\Downloads\UPLBeat\android\app\src\main\AndroidManifest.xml:1:1-36:12
-MERGED from C:\Users\rpync\Downloads\UPLBeat\android\app\src\main\AndroidManifest.xml:1:1-36:12
-MERGED from [:firebase_auth] C:\Users\rpync\Downloads\UPLBeat\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-17:12
-MERGED from [:cloud_firestore] C:\Users\rpync\Downloads\UPLBeat\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-17:12
-MERGED from [:firebase_core] C:\Users\rpync\Downloads\UPLBeat\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-17:12
-MERGED from [:permission_handler_android] C:\Users\rpync\Downloads\UPLBeat\build\permission_handler_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
-MERGED from [:image_gallery_saver] C:\Users\rpync\Downloads\UPLBeat\build\image_gallery_saver\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
-MERGED from [:flutter_share] C:\Users\rpync\Downloads\UPLBeat\build\flutter_share\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
-MERGED from [:path_provider_android] C:\Users\rpync\Downloads\UPLBeat\build\path_provider_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
-MERGED from [:qr_code_scanner] C:\Users\rpync\Downloads\UPLBeat\build\qr_code_scanner\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-11:12
-MERGED from [:google_sign_in_android] C:\Users\rpync\Downloads\UPLBeat\build\google_sign_in_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-11:12
+ADDED from C:\Users\rpync\Music\UPLBeat\android\app\src\main\AndroidManifest.xml:1:1-36:12
+INJECTED from C:\Users\rpync\Music\UPLBeat\android\app\src\main\AndroidManifest.xml:1:1-36:12
+INJECTED from C:\Users\rpync\Music\UPLBeat\android\app\src\main\AndroidManifest.xml:1:1-36:12
+INJECTED from C:\Users\rpync\Music\UPLBeat\android\app\src\main\AndroidManifest.xml:1:1-36:12
+MERGED from C:\Users\rpync\Music\UPLBeat\android\app\src\main\AndroidManifest.xml:1:1-36:12
+MERGED from [:firebase_auth] C:\Users\rpync\Music\UPLBeat\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-17:12
+MERGED from [:cloud_firestore] C:\Users\rpync\Music\UPLBeat\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-17:12
+MERGED from [:firebase_core] C:\Users\rpync\Music\UPLBeat\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-17:12
+MERGED from [:permission_handler_android] C:\Users\rpync\Music\UPLBeat\build\permission_handler_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
+MERGED from [:image_gallery_saver] C:\Users\rpync\Music\UPLBeat\build\image_gallery_saver\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
+MERGED from [:flutter_share] C:\Users\rpync\Music\UPLBeat\build\flutter_share\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
+MERGED from [:path_provider_android] C:\Users\rpync\Music\UPLBeat\build\path_provider_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
+MERGED from [:qr_code_scanner] C:\Users\rpync\Music\UPLBeat\build\qr_code_scanner\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-11:12
+MERGED from [:google_sign_in_android] C:\Users\rpync\Music\UPLBeat\build\google_sign_in_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.multidex:multidex:2.0.1] C:\Users\rpync\.gradle\caches\transforms-3\a8fecca33f39f56dab3426149759de78\transformed\multidex-2.0.1\AndroidManifest.xml:17:1-22:12
 MERGED from [com.google.firebase:firebase-auth:22.0.0] C:\Users\rpync\.gradle\caches\transforms-3\addd1e7d7380e6c086f46a0c78155c8a\transformed\jetified-firebase-auth-22.0.0\AndroidManifest.xml:17:1-75:12
 MERGED from [com.google.android.recaptcha:recaptcha:18.1.2] C:\Users\rpync\.gradle\caches\transforms-3\3ed458108fbd69ced1e2054ebc5e875f\transformed\jetified-recaptcha-18.1.2\AndroidManifest.xml:2:1-10:12
@@ -113,55 +113,55 @@ MERGED from [com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\rpync\.gradl
 MERGED from [io.grpc:grpc-android:1.52.1] C:\Users\rpync\.gradle\caches\transforms-3\c438b1adc71bb659ff68d05d154f5d46\transformed\jetified-grpc-android-1.52.1\AndroidManifest.xml:2:1-11:12
 MERGED from [com.google.firebase:protolite-well-known-types:18.0.0] C:\Users\rpync\.gradle\caches\transforms-3\a5d05b72cf3b664de17b0b9a9aff136c\transformed\jetified-protolite-well-known-types-18.0.0\AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.annotation:annotation-experimental:1.1.0] C:\Users\rpync\.gradle\caches\transforms-3\6c0c163cc77ae6c91f9f7dfcd179c29c\transformed\jetified-annotation-experimental-1.1.0\AndroidManifest.xml:17:1-24:12
-INJECTED from C:\Users\rpync\Downloads\UPLBeat\android\app\src\debug\AndroidManifest.xml:1:1-7:12
-INJECTED from C:\Users\rpync\Downloads\UPLBeat\android\app\src\debug\AndroidManifest.xml:1:1-7:12
-INJECTED from C:\Users\rpync\Downloads\UPLBeat\android\app\src\debug\AndroidManifest.xml:1:1-7:12
+INJECTED from C:\Users\rpync\Music\UPLBeat\android\app\src\debug\AndroidManifest.xml:1:1-7:12
+INJECTED from C:\Users\rpync\Music\UPLBeat\android\app\src\debug\AndroidManifest.xml:1:1-7:12
+INJECTED from C:\Users\rpync\Music\UPLBeat\android\app\src\debug\AndroidManifest.xml:1:1-7:12
 	package
-		INJECTED from C:\Users\rpync\Downloads\UPLBeat\android\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\rpync\Downloads\UPLBeat\android\app\src\main\AndroidManifest.xml:1:1-36:12
-		INJECTED from C:\Users\rpync\Downloads\UPLBeat\android\app\src\debug\AndroidManifest.xml
+		INJECTED from C:\Users\rpync\Music\UPLBeat\android\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\rpync\Music\UPLBeat\android\app\src\main\AndroidManifest.xml:1:1-36:12
+		INJECTED from C:\Users\rpync\Music\UPLBeat\android\app\src\debug\AndroidManifest.xml
 	android:versionName
-		INJECTED from C:\Users\rpync\Downloads\UPLBeat\android\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\rpync\Downloads\UPLBeat\android\app\src\main\AndroidManifest.xml:1:1-36:12
-		INJECTED from C:\Users\rpync\Downloads\UPLBeat\android\app\src\debug\AndroidManifest.xml
+		INJECTED from C:\Users\rpync\Music\UPLBeat\android\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\rpync\Music\UPLBeat\android\app\src\main\AndroidManifest.xml:1:1-36:12
+		INJECTED from C:\Users\rpync\Music\UPLBeat\android\app\src\debug\AndroidManifest.xml
 	android:versionCode
-		INJECTED from C:\Users\rpync\Downloads\UPLBeat\android\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\rpync\Downloads\UPLBeat\android\app\src\main\AndroidManifest.xml:1:1-36:12
-		INJECTED from C:\Users\rpync\Downloads\UPLBeat\android\app\src\debug\AndroidManifest.xml
+		INJECTED from C:\Users\rpync\Music\UPLBeat\android\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\rpync\Music\UPLBeat\android\app\src\main\AndroidManifest.xml:1:1-36:12
+		INJECTED from C:\Users\rpync\Music\UPLBeat\android\app\src\debug\AndroidManifest.xml
 	xmlns:android
-		ADDED from C:\Users\rpync\Downloads\UPLBeat\android\app\src\main\AndroidManifest.xml:1:11-69
+		ADDED from C:\Users\rpync\Music\UPLBeat\android\app\src\main\AndroidManifest.xml:1:11-69
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
-ADDED from C:\Users\rpync\Downloads\UPLBeat\android\app\src\main\AndroidManifest.xml:2:5-81
+ADDED from C:\Users\rpync\Music\UPLBeat\android\app\src\main\AndroidManifest.xml:2:5-81
 	android:name
-		ADDED from C:\Users\rpync\Downloads\UPLBeat\android\app\src\main\AndroidManifest.xml:2:22-78
+		ADDED from C:\Users\rpync\Music\UPLBeat\android\app\src\main\AndroidManifest.xml:2:22-78
 uses-permission#android.permission.CAMERA
-ADDED from C:\Users\rpync\Downloads\UPLBeat\android\app\src\main\AndroidManifest.xml:3:5-65
+ADDED from C:\Users\rpync\Music\UPLBeat\android\app\src\main\AndroidManifest.xml:3:5-65
 MERGED from [com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\rpync\.gradle\caches\transforms-3\421d44eefcaeaaf501208e31a906b756\transformed\jetified-zxing-android-embedded-4.3.0\AndroidManifest.xml:22:5-65
 MERGED from [com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\rpync\.gradle\caches\transforms-3\421d44eefcaeaaf501208e31a906b756\transformed\jetified-zxing-android-embedded-4.3.0\AndroidManifest.xml:22:5-65
 	android:name
-		ADDED from C:\Users\rpync\Downloads\UPLBeat\android\app\src\main\AndroidManifest.xml:3:22-62
+		ADDED from C:\Users\rpync\Music\UPLBeat\android\app\src\main\AndroidManifest.xml:3:22-62
 uses-sdk
-INJECTED from C:\Users\rpync\Downloads\UPLBeat\android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from C:\Users\rpync\Downloads\UPLBeat\android\app\src\main\AndroidManifest.xml
-INJECTED from C:\Users\rpync\Downloads\UPLBeat\android\app\src\main\AndroidManifest.xml
-MERGED from [:firebase_auth] C:\Users\rpync\Downloads\UPLBeat\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
-MERGED from [:firebase_auth] C:\Users\rpync\Downloads\UPLBeat\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
-MERGED from [:cloud_firestore] C:\Users\rpync\Downloads\UPLBeat\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
-MERGED from [:cloud_firestore] C:\Users\rpync\Downloads\UPLBeat\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
-MERGED from [:firebase_core] C:\Users\rpync\Downloads\UPLBeat\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
-MERGED from [:firebase_core] C:\Users\rpync\Downloads\UPLBeat\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
-MERGED from [:permission_handler_android] C:\Users\rpync\Downloads\UPLBeat\build\permission_handler_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
-MERGED from [:permission_handler_android] C:\Users\rpync\Downloads\UPLBeat\build\permission_handler_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
-MERGED from [:image_gallery_saver] C:\Users\rpync\Downloads\UPLBeat\build\image_gallery_saver\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
-MERGED from [:image_gallery_saver] C:\Users\rpync\Downloads\UPLBeat\build\image_gallery_saver\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
-MERGED from [:flutter_share] C:\Users\rpync\Downloads\UPLBeat\build\flutter_share\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
-MERGED from [:flutter_share] C:\Users\rpync\Downloads\UPLBeat\build\flutter_share\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
-MERGED from [:path_provider_android] C:\Users\rpync\Downloads\UPLBeat\build\path_provider_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
-MERGED from [:path_provider_android] C:\Users\rpync\Downloads\UPLBeat\build\path_provider_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
-MERGED from [:qr_code_scanner] C:\Users\rpync\Downloads\UPLBeat\build\qr_code_scanner\intermediates\merged_manifest\debug\AndroidManifest.xml:6:5-9:67
-MERGED from [:qr_code_scanner] C:\Users\rpync\Downloads\UPLBeat\build\qr_code_scanner\intermediates\merged_manifest\debug\AndroidManifest.xml:6:5-9:67
-MERGED from [:google_sign_in_android] C:\Users\rpync\Downloads\UPLBeat\build\google_sign_in_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
-MERGED from [:google_sign_in_android] C:\Users\rpync\Downloads\UPLBeat\build\google_sign_in_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+INJECTED from C:\Users\rpync\Music\UPLBeat\android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\Users\rpync\Music\UPLBeat\android\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\rpync\Music\UPLBeat\android\app\src\main\AndroidManifest.xml
+MERGED from [:firebase_auth] C:\Users\rpync\Music\UPLBeat\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:firebase_auth] C:\Users\rpync\Music\UPLBeat\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:cloud_firestore] C:\Users\rpync\Music\UPLBeat\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:cloud_firestore] C:\Users\rpync\Music\UPLBeat\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:firebase_core] C:\Users\rpync\Music\UPLBeat\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:firebase_core] C:\Users\rpync\Music\UPLBeat\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:permission_handler_android] C:\Users\rpync\Music\UPLBeat\build\permission_handler_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:permission_handler_android] C:\Users\rpync\Music\UPLBeat\build\permission_handler_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:image_gallery_saver] C:\Users\rpync\Music\UPLBeat\build\image_gallery_saver\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:image_gallery_saver] C:\Users\rpync\Music\UPLBeat\build\image_gallery_saver\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:flutter_share] C:\Users\rpync\Music\UPLBeat\build\flutter_share\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:flutter_share] C:\Users\rpync\Music\UPLBeat\build\flutter_share\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:path_provider_android] C:\Users\rpync\Music\UPLBeat\build\path_provider_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:path_provider_android] C:\Users\rpync\Music\UPLBeat\build\path_provider_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:qr_code_scanner] C:\Users\rpync\Music\UPLBeat\build\qr_code_scanner\intermediates\merged_manifest\debug\AndroidManifest.xml:6:5-9:67
+MERGED from [:qr_code_scanner] C:\Users\rpync\Music\UPLBeat\build\qr_code_scanner\intermediates\merged_manifest\debug\AndroidManifest.xml:6:5-9:67
+MERGED from [:google_sign_in_android] C:\Users\rpync\Music\UPLBeat\build\google_sign_in_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:google_sign_in_android] C:\Users\rpync\Music\UPLBeat\build\google_sign_in_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [androidx.multidex:multidex:2.0.1] C:\Users\rpync\.gradle\caches\transforms-3\a8fecca33f39f56dab3426149759de78\transformed\multidex-2.0.1\AndroidManifest.xml:20:5-43
 MERGED from [androidx.multidex:multidex:2.0.1] C:\Users\rpync\.gradle\caches\transforms-3\a8fecca33f39f56dab3426149759de78\transformed\multidex-2.0.1\AndroidManifest.xml:20:5-43
 MERGED from [com.google.firebase:firebase-auth:22.0.0] C:\Users\rpync\.gradle\caches\transforms-3\addd1e7d7380e6c086f46a0c78155c8a\transformed\jetified-firebase-auth-22.0.0\AndroidManifest.xml:21:5-23:64
@@ -264,20 +264,20 @@ MERGED from [com.google.firebase:protolite-well-known-types:18.0.0] C:\Users\rpy
 MERGED from [com.google.firebase:protolite-well-known-types:18.0.0] C:\Users\rpync\.gradle\caches\transforms-3\a5d05b72cf3b664de17b0b9a9aff136c\transformed\jetified-protolite-well-known-types-18.0.0\AndroidManifest.xml:7:5-9:41
 MERGED from [androidx.annotation:annotation-experimental:1.1.0] C:\Users\rpync\.gradle\caches\transforms-3\6c0c163cc77ae6c91f9f7dfcd179c29c\transformed\jetified-annotation-experimental-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.annotation:annotation-experimental:1.1.0] C:\Users\rpync\.gradle\caches\transforms-3\6c0c163cc77ae6c91f9f7dfcd179c29c\transformed\jetified-annotation-experimental-1.1.0\AndroidManifest.xml:20:5-22:41
-INJECTED from C:\Users\rpync\Downloads\UPLBeat\android\app\src\debug\AndroidManifest.xml
-INJECTED from C:\Users\rpync\Downloads\UPLBeat\android\app\src\debug\AndroidManifest.xml
+INJECTED from C:\Users\rpync\Music\UPLBeat\android\app\src\debug\AndroidManifest.xml
+INJECTED from C:\Users\rpync\Music\UPLBeat\android\app\src\debug\AndroidManifest.xml
 	tools:overrideLibrary
-		ADDED from [:qr_code_scanner] C:\Users\rpync\Downloads\UPLBeat\build\qr_code_scanner\intermediates\merged_manifest\debug\AndroidManifest.xml:9:9-64
+		ADDED from [:qr_code_scanner] C:\Users\rpync\Music\UPLBeat\build\qr_code_scanner\intermediates\merged_manifest\debug\AndroidManifest.xml:9:9-64
 	android:targetSdkVersion
-		INJECTED from C:\Users\rpync\Downloads\UPLBeat\android\app\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\rpync\Downloads\UPLBeat\android\app\src\debug\AndroidManifest.xml
+		INJECTED from C:\Users\rpync\Music\UPLBeat\android\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\rpync\Music\UPLBeat\android\app\src\debug\AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from C:\Users\rpync\Downloads\UPLBeat\android\app\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\rpync\Downloads\UPLBeat\android\app\src\debug\AndroidManifest.xml
+		INJECTED from C:\Users\rpync\Music\UPLBeat\android\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\rpync\Music\UPLBeat\android\app\src\debug\AndroidManifest.xml
 uses-permission#android.permission.INTERNET
-ADDED from C:\Users\rpync\Downloads\UPLBeat\android\app\src\debug\AndroidManifest.xml:6:5-66
-MERGED from [:google_sign_in_android] C:\Users\rpync\Downloads\UPLBeat\build\google_sign_in_android\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-67
-MERGED from [:google_sign_in_android] C:\Users\rpync\Downloads\UPLBeat\build\google_sign_in_android\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-67
+ADDED from C:\Users\rpync\Music\UPLBeat\android\app\src\debug\AndroidManifest.xml:6:5-66
+MERGED from [:google_sign_in_android] C:\Users\rpync\Music\UPLBeat\build\google_sign_in_android\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-67
+MERGED from [:google_sign_in_android] C:\Users\rpync\Music\UPLBeat\build\google_sign_in_android\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-67
 MERGED from [com.google.firebase:firebase-auth:22.0.0] C:\Users\rpync\.gradle\caches\transforms-3\addd1e7d7380e6c086f46a0c78155c8a\transformed\jetified-firebase-auth-22.0.0\AndroidManifest.xml:25:5-67
 MERGED from [com.google.firebase:firebase-auth:22.0.0] C:\Users\rpync\.gradle\caches\transforms-3\addd1e7d7380e6c086f46a0c78155c8a\transformed\jetified-firebase-auth-22.0.0\AndroidManifest.xml:25:5-67
 MERGED from [com.google.android.recaptcha:recaptcha:18.1.2] C:\Users\rpync\.gradle\caches\transforms-3\3ed458108fbd69ced1e2054ebc5e875f\transformed\jetified-recaptcha-18.1.2\AndroidManifest.xml:7:5-67
@@ -285,13 +285,13 @@ MERGED from [com.google.android.recaptcha:recaptcha:18.1.2] C:\Users\rpync\.grad
 MERGED from [com.google.firebase:firebase-firestore:24.6.0] C:\Users\rpync\.gradle\caches\transforms-3\72364d1d1285fb1570adb110caaa4c93\transformed\jetified-firebase-firestore-24.6.0\AndroidManifest.xml:13:5-67
 MERGED from [com.google.firebase:firebase-firestore:24.6.0] C:\Users\rpync\.gradle\caches\transforms-3\72364d1d1285fb1570adb110caaa4c93\transformed\jetified-firebase-firestore-24.6.0\AndroidManifest.xml:13:5-67
 	android:name
-		ADDED from C:\Users\rpync\Downloads\UPLBeat\android\app\src\debug\AndroidManifest.xml:6:22-64
+		ADDED from C:\Users\rpync\Music\UPLBeat\android\app\src\debug\AndroidManifest.xml:6:22-64
 service#com.google.firebase.components.ComponentDiscoveryService
-ADDED from [:firebase_auth] C:\Users\rpync\Downloads\UPLBeat\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
-MERGED from [:cloud_firestore] C:\Users\rpync\Downloads\UPLBeat\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
-MERGED from [:cloud_firestore] C:\Users\rpync\Downloads\UPLBeat\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
-MERGED from [:firebase_core] C:\Users\rpync\Downloads\UPLBeat\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
-MERGED from [:firebase_core] C:\Users\rpync\Downloads\UPLBeat\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
+ADDED from [:firebase_auth] C:\Users\rpync\Music\UPLBeat\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
+MERGED from [:cloud_firestore] C:\Users\rpync\Music\UPLBeat\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
+MERGED from [:cloud_firestore] C:\Users\rpync\Music\UPLBeat\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
+MERGED from [:firebase_core] C:\Users\rpync\Music\UPLBeat\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
+MERGED from [:firebase_core] C:\Users\rpync\Music\UPLBeat\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
 MERGED from [com.google.firebase:firebase-auth:22.0.0] C:\Users\rpync\.gradle\caches\transforms-3\addd1e7d7380e6c086f46a0c78155c8a\transformed\jetified-firebase-auth-22.0.0\AndroidManifest.xml:66:9-72:19
 MERGED from [com.google.firebase:firebase-auth:22.0.0] C:\Users\rpync\.gradle\caches\transforms-3\addd1e7d7380e6c086f46a0c78155c8a\transformed\jetified-firebase-auth-22.0.0\AndroidManifest.xml:66:9-72:19
 MERGED from [com.google.firebase:firebase-firestore:24.6.0] C:\Users\rpync\.gradle\caches\transforms-3\72364d1d1285fb1570adb110caaa4c93\transformed\jetified-firebase-firestore-24.6.0\AndroidManifest.xml:16:9-22:19
@@ -305,25 +305,25 @@ MERGED from [com.google.firebase:firebase-common:20.3.2] C:\Users\rpync\.gradle\
 	android:directBootAware
 		ADDED from [com.google.firebase:firebase-common:20.3.2] C:\Users\rpync\.gradle\caches\transforms-3\6e10d488ebcc23afefc866560645fd3c\transformed\jetified-firebase-common-20.3.2\AndroidManifest.xml:34:13-43
 	android:name
-		ADDED from [:firebase_auth] C:\Users\rpync\Downloads\UPLBeat\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:10:18-89
+		ADDED from [:firebase_auth] C:\Users\rpync\Music\UPLBeat\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:10:18-89
 meta-data#com.google.firebase.components:io.flutter.plugins.firebase.auth.FlutterFirebaseAuthRegistrar
-ADDED from [:firebase_auth] C:\Users\rpync\Downloads\UPLBeat\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
+ADDED from [:firebase_auth] C:\Users\rpync\Music\UPLBeat\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
 	android:value
-		ADDED from [:firebase_auth] C:\Users\rpync\Downloads\UPLBeat\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
+		ADDED from [:firebase_auth] C:\Users\rpync\Music\UPLBeat\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
 	android:name
-		ADDED from [:firebase_auth] C:\Users\rpync\Downloads\UPLBeat\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-124
+		ADDED from [:firebase_auth] C:\Users\rpync\Music\UPLBeat\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-124
 meta-data#com.google.firebase.components:io.flutter.plugins.firebase.firestore.FlutterFirebaseFirestoreRegistrar
-ADDED from [:cloud_firestore] C:\Users\rpync\Downloads\UPLBeat\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
+ADDED from [:cloud_firestore] C:\Users\rpync\Music\UPLBeat\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
 	android:value
-		ADDED from [:cloud_firestore] C:\Users\rpync\Downloads\UPLBeat\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
+		ADDED from [:cloud_firestore] C:\Users\rpync\Music\UPLBeat\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
 	android:name
-		ADDED from [:cloud_firestore] C:\Users\rpync\Downloads\UPLBeat\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-134
+		ADDED from [:cloud_firestore] C:\Users\rpync\Music\UPLBeat\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-134
 meta-data#com.google.firebase.components:io.flutter.plugins.firebase.core.FlutterFirebaseCoreRegistrar
-ADDED from [:firebase_core] C:\Users\rpync\Downloads\UPLBeat\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
+ADDED from [:firebase_core] C:\Users\rpync\Music\UPLBeat\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
 	android:value
-		ADDED from [:firebase_core] C:\Users\rpync\Downloads\UPLBeat\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
+		ADDED from [:firebase_core] C:\Users\rpync\Music\UPLBeat\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
 	android:name
-		ADDED from [:firebase_core] C:\Users\rpync\Downloads\UPLBeat\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-124
+		ADDED from [:firebase_core] C:\Users\rpync\Music\UPLBeat\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-124
 uses-permission#android.permission.ACCESS_NETWORK_STATE
 ADDED from [com.google.firebase:firebase-auth:22.0.0] C:\Users\rpync\.gradle\caches\transforms-3\addd1e7d7380e6c086f46a0c78155c8a\transformed\jetified-firebase-auth-22.0.0\AndroidManifest.xml:26:5-79
 MERGED from [com.google.android.recaptcha:recaptcha:18.1.2] C:\Users\rpync\.gradle\caches\transforms-3\3ed458108fbd69ced1e2054ebc5e875f\transformed\jetified-recaptcha-18.1.2\AndroidManifest.xml:8:5-79
