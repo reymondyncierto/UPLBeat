@@ -16,8 +16,9 @@ class _EMLogsPageState extends State<EMLogsPage> {
   Map<String, dynamic> userDetails = {};
   Map<String, dynamic> studentDetails = {};
   List entries = [];
-  List filteredEntries = [];
+  List<Widget> filteredEntries = [];
   String searchQuery = '';
+  DateTime? selectedDate;
   TextEditingController searchController = TextEditingController();
 
   @override
@@ -46,18 +47,43 @@ class _EMLogsPageState extends State<EMLogsPage> {
 
   Widget _searchField() {
     return Container(
-        padding: const EdgeInsets.all(16.0),
-        child: TextFormField(
-            controller: searchController,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: 'Find a student log',
+      padding: const EdgeInsets.all(16.0),
+      child: Row(
+        children: [
+          Expanded(
+            child: TextFormField(
+              controller: searchController,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Find a student log',
+              ),
+              onChanged: (value) {
+                setState(() {
+                  searchQuery = value.toLowerCase();
+                });
+              },
             ),
-            onChanged: (value) {
-              setState(() {
-                searchQuery = value.toLowerCase();
-              });
-            }));
+          ),
+          const SizedBox(width: 10),
+          IconButton(
+            onPressed: () async {
+              final DateTime? pickedDate = await showDatePicker(
+                context: context,
+                initialDate: selectedDate ?? DateTime.now(),
+                firstDate: DateTime(2000),
+                lastDate: DateTime(2100),
+              );
+              if (pickedDate != null) {
+                setState(() {
+                  selectedDate = pickedDate;
+                });
+              }
+            },
+            icon: Icon(Icons.calendar_today),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -66,68 +92,77 @@ class _EMLogsPageState extends State<EMLogsPage> {
       appBar: AppBar(
         title: const Text(""),
       ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('client').snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
-          } else if (snapshot.hasData) {
-            final userDocs = snapshot.data!.docs;
+      body: Column(
+        children: [
+          _searchField(),
+          const SizedBox(height: 10),
+          Expanded(
+            child: StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance.collection('client').snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator();
+                } else if (snapshot.hasData) {
+                  final userDocs = snapshot.data!.docs;
 
-            return ListView.builder(
-              itemCount: userDocs.length,
-              itemBuilder: (context, index) {
-                final userDoc = userDocs[index];
-                final userData = userDoc.data() as Map<String, dynamic>;
-                final studentLogs = userData['student_logs'] as List<dynamic>;
+                  filteredEntries = userDocs.expand((userDoc) {
+                    final userData = userDoc.data() as Map<String, dynamic>;
+                    final studentLogs = userData['student_logs'] as List<dynamic>;
 
-                return Column(
-                  children: studentLogs.map((log) {
-                    final location = log['location'] ?? 'Location not found';
-                    final status = log['status'] ?? 'Status not found';
-                    final studno = log['studno'] ?? 'Student number not found';
-                    final dateTime = log['dateTime'] as Timestamp?;
-                    final formattedDateTime = dateTime != null
-                        ? DateTime.fromMicrosecondsSinceEpoch(
-                                dateTime.microsecondsSinceEpoch)
-                            .toString()
-                        : 'N/A';
+                    return studentLogs.map((log) {
+                      final location = log['location'] ?? 'Location not found';
+                      final status = log['status'] ?? 'Status not found';
+                      final studno = log['studno'] ?? 'Student number not found';
+                      final dateTime = log['dateTime'] as Timestamp?;
+                      final formattedDateTime = dateTime != null
+                          ? DateTime.fromMicrosecondsSinceEpoch(dateTime.microsecondsSinceEpoch).toString()
+                          : 'N/A';
 
-                    return Card(
-                      elevation: 4,
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Name: ${userData['name']}',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(height: 8),
-                            Text('Location: $location'),
-                            Text('Status: $status'),
-                            Text('Student Number: $studno'),
-                            Text('Date and Time: $formattedDateTime'),
-                          ],
+                      if (selectedDate != null) {
+                        final logDate = dateTime != null ? DateTime.fromMicrosecondsSinceEpoch(dateTime.microsecondsSinceEpoch) : null;
+                        if (logDate == null || logDate.day != selectedDate!.day || logDate.month != selectedDate!.month || logDate.year != selectedDate!.year) {
+                          return Container(); // Filter out logs not matching selected date
+                        }
+                      }
+
+                      return Card(
+                        elevation: 4,
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
                         ),
-                      ),
-                    );
-                  }).toList(),
-                );
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Name: ${userData['name']}',
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text('Location: $location'),
+                              Text('Status: $status'),
+                              Text('Student Number: $studno'),
+                              Text('Date and Time: $formattedDateTime'),
+                            ],
+                          ),
+                        ),
+                      );
+                    }).toList();
+                  }).toList();
+
+                  return ListView(children: filteredEntries);
+                } else {
+                  return const Text('Failed to fetch user information.');
+                }
               },
-            );
-          } else {
-            return const Text('Failed to fetch user information.');
-          }
-        },
+            ),
+          ),
+        ],
       ),
       drawer: const createDrawer(),
       floatingActionButton: FloatingActionButton.extended(
