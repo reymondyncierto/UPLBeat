@@ -37,15 +37,15 @@ class _AdminPageState extends State<AdminPage> {
     super.initState();
   }
 
-  Widget _searchField() {
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      child: Row(
-        children: [
-          Expanded(
-            child: TextFormField(
-              controller: searchController,
-              decoration: InputDecoration(
+Widget _searchField() {
+  return Container(
+    padding: const EdgeInsets.all(16.0),
+    child: Row(
+      children: [
+        Expanded(
+          child: TextFormField(
+            controller: searchController,
+            decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8.0),
               ),
@@ -53,46 +53,35 @@ class _AdminPageState extends State<AdminPage> {
               fillColor: Colors.grey[200],
               hintText: 'Find a student',
               prefixIcon: Icon(Icons.search),
+              contentPadding: const EdgeInsets.symmetric(
+                vertical: 16.0,
+                horizontal: 16.0,
+              ),
+              suffixIcon: searchQuery.isNotEmpty
+                  ? IconButton(
+                      icon: Icon(Icons.clear),
+                      onPressed: () {
+                        setState(() {
+                          searchQuery = '';
+                          searchController.clear();
+                          dateController.clear();
+                        });
+                      },
+                    )
+                  : null,
             ),
-              onChanged: (value) {
-                setState(() {
-                  searchQuery = value.toLowerCase();
-                });
-              },
-            ),
-          ),
-          // IconButton(
-          //   icon: const Icon(Icons.calendar_today),
-          //   onPressed: () async {
-          //     // Show date picker
-          //     final DateTime? selectedDate = await showDatePicker(
-          //       context: context,
-          //       initialDate: DateTime.now(),
-          //       firstDate: DateTime(2020),
-          //       lastDate: DateTime.now(),
-          //     );
-
-          //     if (selectedDate != null) {
-          //       setState(() {
-          //         searchQuery = DateFormat('yyyy-MM-dd').format(selectedDate);
-          //       });
-          //     }
-          //   },
-          // ),
-          IconButton(
-            icon: const Icon(Icons.clear),
-            onPressed: () {
+            onChanged: (value) {
               setState(() {
-                searchQuery = '';
-                searchController.clear();
-                dateController.clear();
+                searchQuery = value.toLowerCase();
               });
             },
           ),
-        ],
-      ),
-    );
-  }
+        ),
+      ],
+    ),
+  );
+}
+
 
   @override
   Widget build(BuildContext context) {
