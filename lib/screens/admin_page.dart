@@ -120,7 +120,7 @@ Widget _searchField() {
           BottomNavigationBarItem(
             icon: Icon(Icons.dvr_outlined),
             label: 'Under Monitoring',
-            backgroundColor: Colors.yellow,
+            backgroundColor: Colors.orange,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.masks_outlined),
@@ -302,7 +302,7 @@ Widget _showAllUsers() {
                               horizontal: 8.0,
                             ),
                             decoration: BoxDecoration(
-                              color: Colors.blue,
+                              color: Colors.blueGrey,
                               borderRadius: BorderRadius.circular(20.0),
                             ),
                             child: Text(
@@ -337,8 +337,8 @@ Widget _showAllUsers() {
                               child: ListTile(
                                 contentPadding: const EdgeInsets.all(16.0),
                                 leading: CircleAvatar(
-                                  backgroundColor: Colors.green,
-                                  child: const Icon(Icons.person_outline_outlined),
+                                  backgroundColor: Colors.blueGrey,
+                                  child: const Icon(Icons.person_outline_outlined, color: Colors.white,),
                                 ),
                                 title: Text(
                                   "$name",
@@ -643,7 +643,7 @@ Widget _showMonitored() {
                               horizontal: 8.0,
                             ),
                             decoration: BoxDecoration(
-                              color: Colors.blue,
+                              color: Colors.orange,
                               borderRadius: BorderRadius.circular(20.0),
                             ),
                             child: Text(
@@ -678,7 +678,7 @@ Widget _showMonitored() {
                               child: ListTile(
                                 contentPadding: const EdgeInsets.all(16.0),
                                 leading: CircleAvatar(
-                                  backgroundColor: Colors.blue,
+                                  backgroundColor: Colors.orange,
                                   child: Icon(
                                     Icons.person_outline_outlined,
                                     color: Colors.white,
@@ -863,7 +863,7 @@ Widget _showQuarantined() {
                               horizontal: 8.0,
                             ),
                             decoration: BoxDecoration(
-                              color: Colors.blue,
+                              color: Colors.redAccent,
                               borderRadius: BorderRadius.circular(20.0),
                             ),
                             child: Text(
@@ -896,7 +896,7 @@ Widget _showQuarantined() {
                               child: ListTile(
                                 contentPadding: const EdgeInsets.all(16.0),
                                 leading: CircleAvatar(
-                                  backgroundColor: Colors.blue,
+                                  backgroundColor: Colors.redAccent,
                                   child: Icon(
                                     Icons.person_outline_outlined,
                                     color: Colors.white,
