@@ -94,17 +94,14 @@ class _QRViewExampleState extends State<QRViewExample> {
                           final now = DateTime.now();
                           final dateFormat = DateFormat('yyyy-MM-dd');
                           final todayDate = dateFormat.format(now);
-                          print(userInfo);
-                          print('User Status: $currentStatus');
-                          print('User studno: $studno');
                           if (entryDateTime == todayDate) {
                              if (currentStatus == 'Cleared') {
                             _saveStudentLog(
                                 result!.code!, studno, currentStatus);
                             }
+                          } else {
+                            currentStatus = "Invalid QR Code";
                           }
-                          currentStatus = "Invalid QR Code";
-
                           return Column(
                             children: [
                               Text(

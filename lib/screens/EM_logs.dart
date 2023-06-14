@@ -64,7 +64,7 @@ class _EMLogsPageState extends State<EMLogsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("UPLB Health Monitoring System"),
+        title: const Text(""),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('client').snapshots(),
@@ -82,41 +82,45 @@ class _EMLogsPageState extends State<EMLogsPage> {
                 final studentLogs = userData['student_logs'] as List<dynamic>;
 
                 return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ListTile(
-                      leading: const Icon(Icons.person),
-                      title: Text('Name: ${userData['name']}'),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: studentLogs.map((log) {
-                          final location =
-                              log['location'] ?? 'Location not found';
-                          final status = log['status'] ?? 'Status not found';
-                          final studno =
-                              log['studno'] ?? 'Student number not found';
-                          final dateTime = log['dateTime'] as Timestamp?;
-                          final formattedDateTime = dateTime != null
-                              ? DateTime.fromMicrosecondsSinceEpoch(
-                                      dateTime.microsecondsSinceEpoch)
-                                  .toString()
-                              : 'N/A';
+                  children: studentLogs.map((log) {
+                    final location = log['location'] ?? 'Location not found';
+                    final status = log['status'] ?? 'Status not found';
+                    final studno = log['studno'] ?? 'Student number not found';
+                    final dateTime = log['dateTime'] as Timestamp?;
+                    final formattedDateTime = dateTime != null
+                        ? DateTime.fromMicrosecondsSinceEpoch(
+                            dateTime.microsecondsSinceEpoch)
+                            .toString()
+                        : 'N/A';
 
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Location: $location'),
-                              Text('Status: $status'),
-                              Text('Student Number: $studno'),
-                              Text('Date and Time: $formattedDateTime'),
-                              const Divider(),
-                            ],
-                          );
-                        }).toList(),
+                    return Card(
+                      elevation: 4,
+                      margin: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
                       ),
-                    ),
-                    const Divider(),
-                  ],
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Name: ${userData['name']}',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 8),
+                            Text('Location: $location'),
+                            Text('Status: $status'),
+                            Text('Student Number: $studno'),
+                            Text('Date and Time: $formattedDateTime'),
+                          ],
+                        ),
+                      ),
+                    );
+                  }).toList(),
                 );
               },
             );
