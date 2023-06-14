@@ -98,24 +98,24 @@ class _TodoPageState extends State<TodoPage> {
 
     return Scaffold(
         appBar: AppBar(
-          leading: Padding(
-            padding: const EdgeInsets.only(left: 16.0),
-            child: Image.asset(
-              'images/logo.png',
-              fit: BoxFit.contain,
-              width: 40,
-              height: 40,
-            ),
-          ),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.logout),
-              onPressed: () {
-                context.read<AuthProvider>().signOut();
-                Navigator.pushReplacementNamed(context, '/login');
-              },
-            ),
-          ],
+          // leading: Padding(
+          //   padding: const EdgeInsets.only(left: 16.0),
+          //   child: Image.asset(
+          //     'images/logo.png',
+          //     fit: BoxFit.contain,
+          //     width: 40,
+          //     height: 40,
+          //   ),
+          // ),
+          // actions: [
+          //   IconButton(
+          //     icon: const Icon(Icons.logout),
+          //     onPressed: () {
+          //       context.read<AuthProvider>().signOut();
+          //       Navigator.pushReplacementNamed(context, '/login');
+          //     },
+          //   ),
+          // ],
         ),
         body: Container(
           decoration: const BoxDecoration(
@@ -140,8 +140,8 @@ class _TodoPageState extends State<TodoPage> {
             ],
           ),
         ),
-        drawer: userType == "user" ? null : const createDrawer()
-    );
+        // drawer: userType == "user" ? null : const createDrawer(),
+        drawer: const createDrawer());
   }
 
   // checks if two dates are of the same day
