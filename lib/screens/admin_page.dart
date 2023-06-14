@@ -45,10 +45,15 @@ class _AdminPageState extends State<AdminPage> {
           Expanded(
             child: TextFormField(
               controller: searchController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Find a student',
+              decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.0),
               ),
+              filled: true,
+              fillColor: Colors.grey[200],
+              hintText: 'Find a student',
+              prefixIcon: Icon(Icons.search),
+            ),
               onChanged: (value) {
                 setState(() {
                   searchQuery = value.toLowerCase();
@@ -151,9 +156,12 @@ class _AdminPageState extends State<AdminPage> {
 
   // method to build screens for body of scaffold - depending on selected index on bottom navigation bar
   Widget _buildScreens(int index) {
-    switch (index) {
-      case 0:
-        return ListView(shrinkWrap: true, children: [
+  Widget bodyWidget;
+  switch (index) {
+    case 0:
+      bodyWidget = ListView(
+        shrinkWrap: true,
+        children: [
           Column(
             children: [
               _searchField(),
@@ -161,9 +169,13 @@ class _AdminPageState extends State<AdminPage> {
               const SizedBox(height: 16),
             ],
           ),
-        ]);
-      case 1:
-        return ListView(shrinkWrap: true, children: [
+        ],
+      );
+      break;
+    case 1:
+      bodyWidget = ListView(
+        shrinkWrap: true,
+        children: [
           Column(
             children: [
               _searchField(),
@@ -171,9 +183,12 @@ class _AdminPageState extends State<AdminPage> {
               const SizedBox(height: 16),
             ],
           ),
-        ]);
-      case 2:
-        return ListView(children: [
+        ],
+      );
+      break;
+    case 2:
+      bodyWidget = ListView(
+        children: [
           Column(
             children: [
               _searchField(),
@@ -181,9 +196,12 @@ class _AdminPageState extends State<AdminPage> {
               const SizedBox(height: 16),
             ],
           ),
-        ]);
-      case 3:
-        return ListView(children: [
+        ],
+      );
+      break;
+    case 3:
+      bodyWidget = ListView(
+        children: [
           Column(
             children: [
               _searchField(),
@@ -191,285 +209,283 @@ class _AdminPageState extends State<AdminPage> {
               const SizedBox(height: 16),
             ],
           ),
-        ]);
-    }
-    return ListView(children: [
-      Column(
-        children: [
-          _searchField(),
-          _showAllUsers(),
-          const SizedBox(height: 16),
         ],
-      ),
-    ]);
+      );
+      break;
+    default:
+      bodyWidget = ListView(
+        children: [
+          Column(
+            children: [
+              _searchField(),
+              _showAllUsers(),
+              const SizedBox(height: 16),
+            ],
+          ),
+        ],
+      );
+      break;
   }
+  return bodyWidget;
+}
   // widget that shows all users in the collection
 
-  Widget _showAllUsers() {
-    return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-      stream: FirebaseFirestore.instance.collection('client').snapshots(),
-      builder: (BuildContext context, snapshot) {
-        if (snapshot.data == null) {
-          return const Center(child: CircularProgressIndicator());
-        } else {
-          final List<QueryDocumentSnapshot<Map<String, dynamic>>> docs =
-              snapshot.data!.docs;
+ Widget _showAllUsers() {
+  return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+    stream: FirebaseFirestore.instance.collection('client').snapshots(),
+    builder: (BuildContext context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return const Center(child: CircularProgressIndicator());
+      } else if (snapshot.hasError) {
+        return const Center(child: Text('Error loading data'));
+      } else {
+        final List<QueryDocumentSnapshot<Map<String, dynamic>>> docs =
+            snapshot.data!.docs;
 
-          // Apply search and filter
-          List<QueryDocumentSnapshot<Map<String, dynamic>>> filteredDocs = docs;
+        // Apply search and filter
+        List<QueryDocumentSnapshot<Map<String, dynamic>>> filteredDocs = docs;
 
-          if (searchQuery.isNotEmpty) {
-            filteredDocs = filteredDocs.where((doc) {
-              final name = doc["name"].toLowerCase();
-              final studentNo = doc["studentNumber"].toLowerCase();
-              final course = doc["course"].toLowerCase();
-              final college = doc["college"].toLowerCase();
+        if (searchQuery.isNotEmpty) {
+          filteredDocs = filteredDocs.where((doc) {
+            final name = doc["name"].toLowerCase();
+            final studentNo = doc["studentNumber"].toLowerCase();
+            final course = doc["course"].toLowerCase();
+            final college = doc["college"].toLowerCase();
 
-              return name.contains(searchQuery) ||
-                  studentNo.contains(searchQuery) ||
-                  course.contains(searchQuery) ||
-                  college.contains(searchQuery);
-            }).toList();
-          }
+            return name.contains(searchQuery) ||
+                studentNo.contains(searchQuery) ||
+                course.contains(searchQuery) ||
+                college.contains(searchQuery);
+          }).toList();
+        }
 
-          if (selectedDate != null) {
-            filteredDocs = filteredDocs.where((doc) {
-              final List<dynamic> entries = doc["entries"];
-              for (var entry in entries) {
-                final DateTime entryDate = DateTime.parse(entry["Timestamp"]);
-                final DateTime selectedDateTime = DateTime(
-                  selectedDate!.year,
-                  selectedDate!.month,
-                  selectedDate!.day,
-                );
-                if (entryDate.year == selectedDateTime.year &&
-                    entryDate.month == selectedDateTime.month &&
-                    entryDate.day == selectedDateTime.day) {
-                  return true;
-                }
+        if (selectedDate != null) {
+          filteredDocs = filteredDocs.where((doc) {
+            final List<dynamic> entries = doc["entries"];
+            for (var entry in entries) {
+              final DateTime entryDate = DateTime.parse(entry["Timestamp"]);
+              final DateTime selectedDateTime = DateTime(
+                selectedDate!.year,
+                selectedDate!.month,
+                selectedDate!.day,
+              );
+              if (entryDate.year == selectedDateTime.year &&
+                  entryDate.month == selectedDateTime.month &&
+                  entryDate.day == selectedDateTime.day) {
+                return true;
               }
-              return false;
-            }).toList();
-          }
+            }
+            return false;
+          }).toList();
+        }
 
-          return Padding(
-            padding: const EdgeInsets.fromLTRB(
-                16.0, 16.0, 16.0, 0.0), // Add margin on top
-            child: Column(
-              children: [
-                const SizedBox(height: 8.0),
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(
+              16.0, 16.0, 16.0, 0.0), // Add margin on top
+          child: Column(
+            children: [
+              const SizedBox(height: 8.0),
 
-                // Entries Container
-                Container(
-                  padding: const EdgeInsets.all(16.0),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Center(
-                        child: Text(
-                          '${filteredDocs.length}',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25.0,
-                          ),
+              // Entries Container
+              Container(
+                padding: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: Text(
+                        '${filteredDocs.length}',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25.0,
                         ),
                       ),
-                      const Center(
-                        child: Text(
-                          'Current Users',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18.0,
-                          ),
+                    ),
+                    const Center(
+                      child: Text(
+                        'Current Users',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18.0,
                         ),
                       ),
-                      const SizedBox(height: 16.0),
-                      const Divider(), // Horizontal line
-                      const SizedBox(height: 16.0),
-                      filteredDocs.isNotEmpty
-                          ? ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: filteredDocs.length,
-                              itemBuilder: (_, index) {
-                                final doc = filteredDocs[index];
-                                final name = doc["name"];
-                                final currentStatus = doc["currentStatus"];
+                    ),
+                    const SizedBox(height: 16.0),
+                    const Divider(), // Horizontal line
+                    const SizedBox(height: 16.0),
+                    if (filteredDocs.isNotEmpty)
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: filteredDocs.length,
+                        itemBuilder: (_, index) {
+                          final doc = filteredDocs[index];
+                          final name = doc["name"];
+                          final currentStatus = doc["currentStatus"];
 
-                                return Card(
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      ListTile(
-                                        leading: const Icon(
-                                            Icons.person_outline_outlined),
-                                        title: Text("$name"),
-                                        subtitle:
-                                            Text('Status: $currentStatus'),
-                                        onTap: () {
-                                          showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) =>
-                                                UserDetailsDialog(
-                                              name: name,
-                                              email: doc["email"],
-                                              college: doc["college"],
-                                              course: doc["course"],
-                                              studentNo: doc["studentNumber"],
-                                              userType: doc["userType"],
-                                              showUserType: true,
-                                              onUserTypeChanged: (value) {
-                                                FirebaseFirestore.instance
-                                                    .collection('client')
-                                                    .doc(doc.id)
-                                                    .update(
-                                                        {"userType": value});
-                                              },
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ],
+                          return Card(
+                            child: ListTile(
+                              leading: const Icon(Icons.person_outline_outlined),
+                              title: Text("$name"),
+                              subtitle: Text('Status: $currentStatus'),
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      UserDetailsDialog(
+                                    name: name,
+                                    email: doc["email"],
+                                    college: doc["college"],
+                                    course: doc["course"],
+                                    studentNo: doc["studentNumber"],
+                                    userType: doc["userType"],
+                                    showUserType: true,
+                                    onUserTypeChanged: (value) {
+                                      FirebaseFirestore.instance
+                                          .collection('client')
+                                          .doc(doc.id)
+                                          .update({"userType": value});
+                                    },
                                   ),
                                 );
                               },
-                            )
-                          : const Center(
-                              child: Text('No User'),
                             ),
-                    ],
-                  ),
+                          );
+                        },
+                      )
+                    else
+                      const Center(
+                        child: Text('No User'),
+                      ),
+                  ],
                 ),
-              ],
-            ),
-          );
-        }
-      },
-    );
-  }
+              ),
+            ],
+          ),
+        );
+      }
+    },
+  );
+}
+
 
   // Widget that shows all users who are cleared
   Widget _showCleared() {
-    return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-      stream: FirebaseFirestore.instance
-          .collection('client')
-          .where('currentStatus', isEqualTo: "Cleared")
-          .snapshots(),
-      builder: (BuildContext context, snapshot) {
-        if (snapshot.data == null) {
-          return const Center(child: CircularProgressIndicator());
-        } else {
-          final List<QueryDocumentSnapshot<Map<String, dynamic>>> docs =
-              snapshot.data!.docs;
+  return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+    stream: FirebaseFirestore.instance
+        .collection('client')
+        .where('currentStatus', isEqualTo: "Cleared")
+        .snapshots(),
+    builder: (BuildContext context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return const Center(child: CircularProgressIndicator());
+      } else if (snapshot.hasError) {
+        return const Center(child: Text('Error loading data'));
+      } else {
+        final List<QueryDocumentSnapshot<Map<String, dynamic>>> docs =
+            snapshot.data!.docs;
 
-          return Padding(
-            padding: const EdgeInsets.fromLTRB(
-                16.0, 16.0, 16.0, 0.0), // Add margin on top
-            child: Column(
-              children: [
-                const SizedBox(height: 8.0),
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(
+              16.0, 16.0, 16.0, 0.0), // Add margin on top
+          child: Column(
+            children: [
+              const SizedBox(height: 8.0),
 
-                // Entries Container
-                Container(
-                  padding: const EdgeInsets.all(16.0),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Center(
-                        child: Text(
-                          '${docs.length}',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25.0,
-                          ),
+              // Entries Container
+              Container(
+                padding: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: Text(
+                        '${docs.length}',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25.0,
                         ),
                       ),
-                      const Center(
-                        child: Text(
-                          'Users Cleared',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18.0,
-                          ),
+                    ),
+                    const Center(
+                      child: Text(
+                        'Users Cleared',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18.0,
                         ),
                       ),
-                      const SizedBox(height: 16.0),
-                      const Divider(), // Horizontal line
-                      const SizedBox(height: 16.0),
-                      docs.isNotEmpty
-                          ? ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: docs.length,
-                              itemBuilder: (_, index) {
-                                final doc = docs[index];
-                                final name = doc["name"];
-                                final currentStatus = doc["currentStatus"];
+                    ),
+                    const SizedBox(height: 16.0),
+                    const Divider(), // Horizontal line
+                    const SizedBox(height: 16.0),
+                    if (docs.isNotEmpty)
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: docs.length,
+                        itemBuilder: (_, index) {
+                          final doc = docs[index];
+                          final name = doc["name"];
+                          final currentStatus = doc["currentStatus"];
 
-                                return Card(
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      ListTile(
-                                        leading: const Icon(
-                                          Icons.person_outline_outlined,
-                                        ),
-                                        title: Text("$name"),
-                                        subtitle:
-                                            Text('Status: $currentStatus'),
-                                        onTap: () {
-                                          showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) =>
-                                                UserDetailsDialog(
-                                              name: name,
-                                              email: doc["email"],
-                                              college: doc["college"],
-                                              course: doc["course"],
-                                              studentNo: doc["studentNumber"],
-                                              userType: doc["userType"],
-                                              showUserType: false,
-                                              onUserTypeChanged: (value) {
-                                                FirebaseFirestore.instance
-                                                    .collection('client')
-                                                    .doc(doc.id)
-                                                    .update(
-                                                        {"userType": value});
-                                              },
-                                            ),
-                                          );
-                                        },
-                                        trailing: IconButton(
-                                          icon: const Icon(Icons.warning),
-                                          onPressed: () {
-                                            _addToQuarantine(doc);
-                                          },
-                                        ),
-                                      ),
-                                    ],
+                          return Card(
+                            child: ListTile(
+                              leading: const Icon(Icons.person_outline_outlined),
+                              title: Text("$name"),
+                              subtitle: Text('Status: $currentStatus'),
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      UserDetailsDialog(
+                                    name: name,
+                                    email: doc["email"],
+                                    college: doc["college"],
+                                    course: doc["course"],
+                                    studentNo: doc["studentNumber"],
+                                    userType: doc["userType"],
+                                    showUserType: false,
+                                    onUserTypeChanged: (value) {
+                                      FirebaseFirestore.instance
+                                          .collection('client')
+                                          .doc(doc.id)
+                                          .update({"userType": value});
+                                    },
                                   ),
                                 );
                               },
-                            )
-                          : const Center(
-                              child: Text('No User Cleared'),
+                              trailing: IconButton(
+                                icon: const Icon(Icons.warning),
+                                onPressed: () {
+                                  _addToQuarantine(doc);
+                                },
+                              ),
                             ),
-                    ],
-                  ),
+                          );
+                        },
+                      )
+                    else
+                      const Center(
+                        child: Text('No User Cleared'),
+                      ),
+                  ],
                 ),
-              ],
-            ),
-          );
-        }
-      },
-    );
-  }
+              ),
+            ],
+          ),
+        );
+      }
+    },
+  );
+}
+
 
 void _addToQuarantine(DocumentSnapshot<Map<String, dynamic>> doc) async {
   try {
@@ -504,135 +520,135 @@ void _addToQuarantine(DocumentSnapshot<Map<String, dynamic>> doc) async {
 }
 
 
-  // Widget that shows all users who are Under Monitoring
-  Widget _showMonitored() {
-    return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-      stream: FirebaseFirestore.instance
-          .collection('client')
-          .where('currentStatus', isEqualTo: "Under Monitoring")
-          .snapshots(),
-      builder: (BuildContext context, snapshot) {
-        if (snapshot.data == null) {
-          return const Center(child: CircularProgressIndicator());
-        } else {
-          final List<QueryDocumentSnapshot<Map<String, dynamic>>> docs =
-              snapshot.data!.docs;
+ Widget _showMonitored() {
+  return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+    stream: FirebaseFirestore.instance
+        .collection('client')
+        .where('currentStatus', isEqualTo: "Under Monitoring")
+        .snapshots(),
+    builder: (BuildContext context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return const Center(child: CircularProgressIndicator());
+      } else if (snapshot.hasError) {
+        return const Center(child: Text('Error loading data'));
+      } else {
+        final List<QueryDocumentSnapshot<Map<String, dynamic>>> docs =
+            snapshot.data!.docs;
 
-          return Padding(
-            padding: const EdgeInsets.fromLTRB(
-                16.0, 16.0, 16.0, 0.0), // Add margin on top
-            child: Column(
-              children: [
-                const SizedBox(height: 8.0),
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(
+              16.0, 16.0, 16.0, 0.0), // Add margin on top
+          child: Column(
+            children: [
+              const SizedBox(height: 8.0),
 
-                // Entries Container
-                Container(
-                  padding: const EdgeInsets.all(16.0),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Center(
-                        child: Text(
-                          '${docs.length}',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25.0,
-                          ),
+              // Entries Container
+              Container(
+                padding: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: Text(
+                        '${docs.length}',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25.0,
                         ),
                       ),
-                      const Center(
-                        child: Text(
-                          'Users Under Monitoring',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18.0,
-                          ),
+                    ),
+                    const Center(
+                      child: Text(
+                        'Users Under Monitoring',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18.0,
                         ),
                       ),
-                      const SizedBox(height: 16.0),
-                      const Divider(), // Horizontal line
-                      const SizedBox(height: 16.0),
-                      docs.isNotEmpty
-                          ? ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: docs.length,
-                              itemBuilder: (_, index) {
-                                final doc = docs[index];
+                    ),
+                    const SizedBox(height: 16.0),
+                    const Divider(), // Horizontal line
+                    const SizedBox(height: 16.0),
+                    if (docs.isNotEmpty)
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: docs.length,
+                        itemBuilder: (_, index) {
+                          final doc = docs[index];
+                          final name = doc["name"];
+                          final currentStatus = doc["currentStatus"];
 
-                                final name = doc["name"];
-                                //   final lastName = doc["lastName"];
-                                final currentStatus = doc["currentStatus"];
-
-                                return Card(
-                                  child: ListTile(
-                                    leading: const Icon(
-                                        Icons.person_outline_outlined),
-                                    title: Text("$name"),
-                                    subtitle: Text('Status: $currentStatus'),
-                                    onTap: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) =>
-                                            UserDetailsDialog(
-                                          name: name,
-                                          email: doc["email"],
-                                          college: doc["college"],
-                                          course: doc["course"],
-                                          studentNo: doc["studentNumber"],
-                                          userType: doc["userType"],
-                                          showUserType: false,
-                                          onUserTypeChanged: (value) {
-                                            FirebaseFirestore.instance
-                                                .collection('client')
-                                                .doc(doc.id)
-                                                .update({"userType": value});
-                                          },
-                                        ),
-                                      );
+                          return Card(
+                            child: ListTile(
+                              leading: const Icon(Icons.person_outline_outlined),
+                              title: Text("$name"),
+                              subtitle: Text('Status: $currentStatus'),
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      UserDetailsDialog(
+                                    name: name,
+                                    email: doc["email"],
+                                    college: doc["college"],
+                                    course: doc["course"],
+                                    studentNo: doc["studentNumber"],
+                                    userType: doc["userType"],
+                                    showUserType: false,
+                                    onUserTypeChanged: (value) {
+                                      FirebaseFirestore.instance
+                                          .collection('client')
+                                          .doc(doc.id)
+                                          .update({"userType": value});
                                     },
-                                    trailing: PopupMenuButton<String>(
-                                      icon: const Icon(Icons.swap_horiz),
-                                      onSelected: (value) {
-                                        if (value == 'quarantine') {
-                                          _moveToQuarantine(doc);
-                                        } else if (value == 'endMonitoring') {
-                                          _clearUserFromQuarantine(doc);
-                                        }
-                                      },
-                                      itemBuilder: (BuildContext context) {
-                                        return [
-                                          const PopupMenuItem<String>(
-                                            value: 'quarantine',
-                                            child: Text('Move to Quarantine'),
-                                          ),
-                                          const PopupMenuItem<String>(
-                                            value: 'endMonitoring',
-                                            child: Text('End Monitoring'),
-                                          ),
-                                        ];
-                                      },
-                                    ),
                                   ),
                                 );
                               },
-                            )
-                          : const Center(
-                              child: Text('No User Under Monitoring'),
+                              trailing: PopupMenuButton<String>(
+                                icon: const Icon(Icons.swap_horiz),
+                                onSelected: (value) {
+                                  if (value == 'quarantine') {
+                                    _moveToQuarantine(doc);
+                                  } else if (value == 'endMonitoring') {
+                                    _clearUserFromQuarantine(doc);
+                                  }
+                                },
+                                itemBuilder: (BuildContext context) {
+                                  return [
+                                    const PopupMenuItem<String>(
+                                      value: 'quarantine',
+                                      child: Text('Move to Quarantine'),
+                                    ),
+                                    const PopupMenuItem<String>(
+                                      value: 'endMonitoring',
+                                      child: Text('End Monitoring'),
+                                    ),
+                                  ];
+                                },
+                              ),
                             ),
-                    ],
-                  ),
+                          );
+                        },
+                      )
+                    else
+                      const Center(
+                        child: Text('No User Under Monitoring'),
+                      ),
+                  ],
                 ),
-              ],
-            ),
-          );
-        }
-      },
-    );
-  }
+              ),
+            ],
+          ),
+        );
+      }
+    },
+  );
+}
+
 
 void _moveToQuarantine(QueryDocumentSnapshot<Map<String, dynamic>> doc) async {
   try {
@@ -691,115 +707,118 @@ void _moveToQuarantine(QueryDocumentSnapshot<Map<String, dynamic>> doc) async {
 
 
   Widget _showQuarantined() {
-    return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-      stream: FirebaseFirestore.instance
-          .collection('client')
-          .where('currentStatus', isEqualTo: "Under Quarantine")
-          .snapshots(),
-      builder: (BuildContext context, snapshot) {
-        if (snapshot.data == null) {
-          return const Center(child: CircularProgressIndicator());
-        } else {
-          final List<QueryDocumentSnapshot<Map<String, dynamic>>> docs =
-              snapshot.data!.docs;
+  return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+    stream: FirebaseFirestore.instance
+        .collection('client')
+        .where('currentStatus', isEqualTo: "Under Quarantine")
+        .snapshots(),
+    builder: (BuildContext context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return const Center(child: CircularProgressIndicator());
+      } else if (snapshot.hasError) {
+        return const Center(child: Text('Error loading data'));
+      } else {
+        final List<QueryDocumentSnapshot<Map<String, dynamic>>> docs =
+            snapshot.data!.docs;
 
-          return Padding(
-            padding: const EdgeInsets.fromLTRB(
-                16.0, 16.0, 16.0, 0.0), // Add margin on top
-            child: Column(
-              children: [
-                const SizedBox(height: 8.0),
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(
+              16.0, 16.0, 16.0, 0.0), // Add margin on top
+          child: Column(
+            children: [
+              const SizedBox(height: 8.0),
 
-                // Entries Container
-                Container(
-                  padding: const EdgeInsets.all(16.0),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Center(
-                        child: Text(
-                          '${docs.length}',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25.0,
-                          ),
+              // Entries Container
+              Container(
+                padding: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: Text(
+                        '${docs.length}',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25.0,
                         ),
                       ),
-                      const Center(
-                        child: Text(
-                          'Users Under Quarantine',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18.0,
-                          ),
+                    ),
+                    const Center(
+                      child: Text(
+                        'Users Under Quarantine',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18.0,
                         ),
                       ),
-                      const SizedBox(height: 16.0),
-                      const Divider(), // Horizontal line
-                      const SizedBox(height: 16.0),
-                      docs.isNotEmpty
-                          ? ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: docs.length,
-                              itemBuilder: (_, index) {
-                                final doc = docs[index];
-                                final name = doc["name"];
-                                final currentStatus = doc["currentStatus"];
+                    ),
+                    const SizedBox(height: 16.0),
+                    const Divider(), // Horizontal line
+                    const SizedBox(height: 16.0),
+                    if (docs.isNotEmpty)
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: docs.length,
+                        itemBuilder: (_, index) {
+                          final doc = docs[index];
+                          final name = doc["name"];
+                          final currentStatus = doc["currentStatus"];
 
-                                return Card(
-                                  child: ListTile(
-                                    leading: const Icon(
-                                        Icons.person_outline_outlined),
-                                    title: Text("$name"),
-                                    subtitle: Text('Status: $currentStatus'),
-                                    onTap: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) =>
-                                            UserDetailsDialog(
-                                          name: name,
-                                          email: doc["email"],
-                                          college: doc["college"],
-                                          course: doc["course"],
-                                          studentNo: doc["studentNumber"],
-                                          userType: doc["userType"],
-                                          showUserType: false,
-                                          onUserTypeChanged: (value) {
-                                            FirebaseFirestore.instance
-                                                .collection('client')
-                                                .doc(doc.id)
-                                                .update({"userType": value});
-                                          },
-                                        ),
-                                      );
+                          return Card(
+                            child: ListTile(
+                              leading: const Icon(Icons.person_outline_outlined),
+                              title: Text("$name"),
+                              subtitle: Text('Status: $currentStatus'),
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      UserDetailsDialog(
+                                    name: name,
+                                    email: doc["email"],
+                                    college: doc["college"],
+                                    course: doc["course"],
+                                    studentNo: doc["studentNumber"],
+                                    userType: doc["userType"],
+                                    showUserType: false,
+                                    onUserTypeChanged: (value) {
+                                      FirebaseFirestore.instance
+                                          .collection('client')
+                                          .doc(doc.id)
+                                          .update({"userType": value});
                                     },
-                                    trailing: IconButton(
-                                      icon: const Icon(Icons.clear),
-                                      onPressed: () {
-                                        _clearUserFromQuarantine(doc);
-                                      },
-                                    ),
                                   ),
                                 );
                               },
-                            )
-                          : const Center(
-                              child: Text('No User Under Quarantine'),
+                              trailing: IconButton(
+                                icon: const Icon(Icons.clear),
+                                onPressed: () {
+                                  _clearUserFromQuarantine(doc);
+                                },
+                              ),
                             ),
-                    ],
-                  ),
+                          );
+                        },
+                      )
+                    else
+                      const Center(
+                        child: Text('No User Under Quarantine'),
+                      ),
+                  ],
                 ),
-              ],
-            ),
-          );
-        }
-      },
-    );
-  }
+              ),
+            ],
+          ),
+        );
+      }
+    },
+  );
+}
+
 
 void _clearUserFromQuarantine(QueryDocumentSnapshot<Map<String, dynamic>> doc) {
   try {
