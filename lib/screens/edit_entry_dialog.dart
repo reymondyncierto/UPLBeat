@@ -1,3 +1,4 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,9 +8,10 @@ import '../providers/auth_provider.dart';
 
 class EditEntryDialog extends StatefulWidget {
   final Map<String, dynamic> entry;
+  final bool edit;
 //  final Function(Map<String, dynamic>) onUpdate;
 
-  const EditEntryDialog({super.key, required this.entry});
+  const EditEntryDialog({super.key, required this.entry, required this.edit});
 
   @override
   _EditEntryDialogState createState() => _EditEntryDialogState();
@@ -51,152 +53,230 @@ class _EditEntryDialogState extends State<EditEntryDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Container(
-        margin: const EdgeInsets.only(bottom: 16.0),
-        child: const Center(
-          child: Text(
-            'Edit Entry',
-            style: TextStyle(
-              fontSize: 20.0,
-              fontWeight: FontWeight.bold,
+
+    if(widget.edit){
+      return AlertDialog(
+        title: Container(
+          margin: const EdgeInsets.only(bottom: 16.0),
+          child: const Center(
+            child: Text(
+              'Edit Entry',
+              style: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
-      ),
-      contentPadding: EdgeInsets.zero,
-      insetPadding: EdgeInsets.zero,
-      buttonPadding: EdgeInsets.zero,
-      content: Container(
-        width: MediaQuery.of(context).size.width - 100,
-        height: MediaQuery.of(context).size.height - 300,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16.0),
+        contentPadding: EdgeInsets.zero,
+        insetPadding: EdgeInsets.zero,
+        buttonPadding: EdgeInsets.zero,
+        content: Container(
+          width: MediaQuery.of(context).size.width - 100,
+          height: MediaQuery.of(context).size.height - 300,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16.0),
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                _buildEntryCard('Fever (37.8°C and above)', _isFever, (value) {
+                  setState(() {
+                    _isFever = value;
+                  });
+                }),
+                _buildEntryCard('Feeling Feverish', _isFeelingFeverish, (value) {
+                  setState(() {
+                    _isFeelingFeverish = value;
+                  });
+                }),
+                _buildEntryCard('Muscle or Joint Pains', _isMuscleJointPains,
+                    (value) {
+                  setState(() {
+                    _isMuscleJointPains = value;
+                  });
+                }),
+                _buildEntryCard('Cough', _isCough, (value) {
+                  setState(() {
+                    _isCough = value;
+                  });
+                }),
+                _buildEntryCard('Colds', _isColds, (value) {
+                  setState(() {
+                    _isColds = value;
+                  });
+                }),
+                _buildEntryCard('Sore Throat', _isSoreThroat, (value) {
+                  setState(() {
+                    _isSoreThroat = value;
+                  });
+                }),
+                _buildEntryCard('Difficulty of Breathing', _isDifficultyBreathing,
+                    (value) {
+                  setState(() {
+                    _isDifficultyBreathing = value;
+                  });
+                }),
+                _buildEntryCard('Diarrhea', _isDiarrhea, (value) {
+                  setState(() {
+                    _isDiarrhea = value;
+                  });
+                }),
+                _buildEntryCard('Loss of Taste', _isLossOfTaste, (value) {
+                  setState(() {
+                    _isLossOfTaste = value;
+                  });
+                }),
+                _buildEntryCard('Loss of Smell', _isLossOfSmell, (value) {
+                  setState(() {
+                    _isLossOfSmell = value;
+                  });
+                }),
+                _buildEntryCard('Has Face-to-face Encounter', _hasEncounter,
+                    (value) {
+                  setState(() {
+                    _hasEncounter = value;
+                  });
+                }),
+              ],
+            ),
+          ),
         ),
-        child: SingleChildScrollView(
-          child: Column(
+        actions: [
+          ButtonBar(
             children: [
-              _buildEntryCard('Fever (37.8°C and above)', _isFever, (value) {
-                setState(() {
-                  _isFever = value;
-                });
-              }),
-              _buildEntryCard('Feeling Feverish', _isFeelingFeverish, (value) {
-                setState(() {
-                  _isFeelingFeverish = value;
-                });
-              }),
-              _buildEntryCard('Muscle or Joint Pains', _isMuscleJointPains,
-                  (value) {
-                setState(() {
-                  _isMuscleJointPains = value;
-                });
-              }),
-              _buildEntryCard('Cough', _isCough, (value) {
-                setState(() {
-                  _isCough = value;
-                });
-              }),
-              _buildEntryCard('Colds', _isColds, (value) {
-                setState(() {
-                  _isColds = value;
-                });
-              }),
-              _buildEntryCard('Sore Throat', _isSoreThroat, (value) {
-                setState(() {
-                  _isSoreThroat = value;
-                });
-              }),
-              _buildEntryCard('Difficulty of Breathing', _isDifficultyBreathing,
-                  (value) {
-                setState(() {
-                  _isDifficultyBreathing = value;
-                });
-              }),
-              _buildEntryCard('Diarrhea', _isDiarrhea, (value) {
-                setState(() {
-                  _isDiarrhea = value;
-                });
-              }),
-              _buildEntryCard('Loss of Taste', _isLossOfTaste, (value) {
-                setState(() {
-                  _isLossOfTaste = value;
-                });
-              }),
-              _buildEntryCard('Loss of Smell', _isLossOfSmell, (value) {
-                setState(() {
-                  _isLossOfSmell = value;
-                });
-              }),
-              _buildEntryCard('Has Face-to-face Encounter', _hasEncounter,
-                  (value) {
-                setState(() {
-                  _hasEncounter = value;
-                });
-              }),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Cancel'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  final updatedEntry = {
+                    'Timestamp':
+                        widget.entry['Timestamp'], // Keep the original timestamp
+                    'Fever': _isFever,
+                    'Feeling Feverish': _isFeelingFeverish,
+                    'Muscle or Joint Pains': _isMuscleJointPains,
+                    'Cough': _isCough,
+                    'Colds': _isColds,
+                    'Sore Throat': _isSoreThroat,
+                    'Difficulty of Breathing': _isDifficultyBreathing,
+                    'Diarrhea': _isDiarrhea,
+                    'Loss of Taste': _isLossOfTaste,
+                    'Loss of Smell': _isLossOfSmell,
+                    'Has Face-to-face Encounter': _hasEncounter,
+                    'status': '',
+                  };
+
+                  // Determine the status for the new entry
+                  String status = 'Cleared';
+                  if (_isFever ||
+                      _isFeelingFeverish ||
+                      _isMuscleJointPains ||
+                      _isCough ||
+                      _isColds ||
+                      _isSoreThroat ||
+                      _isDifficultyBreathing ||
+                      _isDiarrhea ||
+                      _isLossOfTaste ||
+                      _isLossOfSmell) {
+                    status = 'Under Quarantine';
+                  } else if (_hasEncounter) {
+                    status = 'Under Monitoring';
+                  }
+
+                  // Update the status of updatedEntry
+                  updatedEntry['status'] = status;
+
+                  // Ask Permission from Admin to Edit Entry
+                  _sendRequestToAdmin(updatedEntry, status, 'edit');
+                  Navigator.pop(context);
+                },
+                child: const Text('Request Permission to Edit'),
+              ),
             ],
           ),
-        ),
-      ),
-      actions: [
-        ButtonBar(
-          children: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('Cancel'),
+        ],
+      );
+    } else{
+      return AlertDialog(
+        title: Container(
+          margin: const EdgeInsets.only(bottom: 16.0),
+          child: const Center(
+            child: Text(
+              'Delete Entry',
+              style: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            ElevatedButton(
-              onPressed: () {
-                final updatedEntry = {
-                  'Timestamp':
-                      widget.entry['Timestamp'], // Keep the original timestamp
-                  'Fever': _isFever,
-                  'Feeling Feverish': _isFeelingFeverish,
-                  'Muscle or Joint Pains': _isMuscleJointPains,
-                  'Cough': _isCough,
-                  'Colds': _isColds,
-                  'Sore Throat': _isSoreThroat,
-                  'Difficulty of Breathing': _isDifficultyBreathing,
-                  'Diarrhea': _isDiarrhea,
-                  'Loss of Taste': _isLossOfTaste,
-                  'Loss of Smell': _isLossOfSmell,
-                  'Has Face-to-face Encounter': _hasEncounter,
-                  'status': '',
-                };
-
-                // Determine the status for the new entry
-                String status = 'Cleared';
-                if (_isFever ||
-                    _isFeelingFeverish ||
-                    _isMuscleJointPains ||
-                    _isCough ||
-                    _isColds ||
-                    _isSoreThroat ||
-                    _isDifficultyBreathing ||
-                    _isDiarrhea ||
-                    _isLossOfTaste ||
-                    _isLossOfSmell) {
-                  status = 'Under Quarantine';
-                } else if (_hasEncounter) {
-                  status = 'Under Monitoring';
-                }
-
-                // Update the status of updatedEntry
-                updatedEntry['status'] = status;
-
-                // Ask Permission from Admin to Edit Entry
-                _sendRequestToAdmin(updatedEntry, status, 'edit');
-                Navigator.pop(context);
-              },
-              child: const Text('Request Permission to Edit'),
-            ),
-          ],
+          ),
         ),
-      ],
-    );
+        contentPadding: EdgeInsets.zero,
+        insetPadding: EdgeInsets.zero,
+        buttonPadding: EdgeInsets.zero,
+        actions: [
+          ButtonBar(
+            children: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Cancel'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  final updatedEntry = {
+                    'Timestamp':
+                        widget.entry['Timestamp'], // Keep the original timestamp
+                    'Fever': _isFever,
+                    'Feeling Feverish': _isFeelingFeverish,
+                    'Muscle or Joint Pains': _isMuscleJointPains,
+                    'Cough': _isCough,
+                    'Colds': _isColds,
+                    'Sore Throat': _isSoreThroat,
+                    'Difficulty of Breathing': _isDifficultyBreathing,
+                    'Diarrhea': _isDiarrhea,
+                    'Loss of Taste': _isLossOfTaste,
+                    'Loss of Smell': _isLossOfSmell,
+                    'Has Face-to-face Encounter': _hasEncounter,
+                    'status': '',
+                  };
+
+                  // Determine the status for the new entry
+                  String status = 'Cleared';
+                  if (_isFever ||
+                      _isFeelingFeverish ||
+                      _isMuscleJointPains ||
+                      _isCough ||
+                      _isColds ||
+                      _isSoreThroat ||
+                      _isDifficultyBreathing ||
+                      _isDiarrhea ||
+                      _isLossOfTaste ||
+                      _isLossOfSmell) {
+                    status = 'Under Quarantine';
+                  } else if (_hasEncounter) {
+                    status = 'Under Monitoring';
+                  }
+
+                  // Update the status of updatedEntry
+                  updatedEntry['status'] = status;
+
+                  // Ask Permission from Admin to Delete Entry
+                  _sendRequestToAdmin(updatedEntry, status, 'delete');
+                  Navigator.pop(context);
+                },
+                child: const Text('Request Permission to Edit'),
+              ),
+            ],
+          ),
+        ]
+      );
+    }
   }
 
   void _sendRequestToAdmin(Map<dynamic, dynamic> editedEntry, String status,
