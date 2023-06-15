@@ -105,22 +105,18 @@ class _QRViewExampleState extends State<QRViewExample> {
                           if (qrDate != todayDate) {
                             currentStatus = "Invalid QR Code";
                           } else {
-                             if (entryDateTime == todayDate) {
-                            if (currentStatus == 'Cleared') {
-                              _saveStudentLog(
-                                  result!.code!.split("\n")[0], studno, currentStatus);
+                            if (entryDateTime == todayDate) {
+                              if (currentStatus == 'Cleared') {
+                                _saveStudentLog(result!.code!.split("\n")[0],
+                                    studno, currentStatus);
+                              }
+                            } else {
+                              currentStatus = "Invalid QR Code";
                             }
-                          } else {
-                            currentStatus = "Invalid QR Code";
-                          }
                           }
 
-                    
                           return Column(
                             children: [
-                              Text(
-                                'Student Number: $studno',
-                              ),
                               Text(
                                 'Status: $currentStatus',
                               ),
