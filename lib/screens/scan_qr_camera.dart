@@ -81,12 +81,13 @@ class _QRViewExampleState extends State<QRViewExample> {
                   if (result == null) const Text('Scan a QR code'),
                   if (result != null) ...[
                     FutureBuilder<Map<String, dynamic>?>(
-                      future: _getUserInfo(result!.code!),
+                      future: _getUserInfo(result!.code!.split("\n")[0]),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
                           return const CircularProgressIndicator();
                         } else if (snapshot.hasData) {
+                          print(result!.code!.split("\n")[0]);
                           final userInfo = snapshot.data!;
                           final studno = userInfo['studno'];
                           var currentStatus = userInfo['currentStatus'];
@@ -94,14 +95,27 @@ class _QRViewExampleState extends State<QRViewExample> {
                           final now = DateTime.now();
                           final dateFormat = DateFormat('yyyy-MM-dd');
                           final todayDate = dateFormat.format(now);
-                          if (entryDateTime == todayDate) {
+                          final qr = result!.code!.split("\n")[1];
+                          final qrDateTime = DateTime.parse(qr);
+
+                          final qrDate = dateFormat.format(qrDateTime);
+                          print(qrDate);
+                          print(todayDate);
+
+                          if (qrDate != todayDate) {
+                            currentStatus = "Invalid QR Code";
+                          } else {
+                             if (entryDateTime == todayDate) {
                             if (currentStatus == 'Cleared') {
                               _saveStudentLog(
-                                  result!.code!, studno, currentStatus);
+                                  result!.code!.split("\n")[0], studno, currentStatus);
                             }
                           } else {
                             currentStatus = "Invalid QR Code";
                           }
+                          }
+
+                    
                           return Column(
                             children: [
                               Text(

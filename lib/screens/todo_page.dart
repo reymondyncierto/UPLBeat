@@ -268,13 +268,17 @@ class _TodoPageState extends State<TodoPage> {
                                         authProvider.getCurrentUser()!.uid;
                                     print(data);
 
-                                    final image = await QrPainter(
-                                      data: data,
-                                      version: QrVersions.auto,
-                                      gapless: false,
-                                      color: Colors.black,
-                                      emptyColor: Colors.white,
-                                    ).toImage(300);
+                                    final currentDate = DateTime.now().toString();
+final dataWithDate = '$data\n$currentDate';
+
+final image = await QrPainter(
+  data: dataWithDate,
+  version: QrVersions.auto,
+  gapless: false,
+  color: Colors.black,
+  emptyColor: Colors.white,
+).toImage(300);
+
 
                                     final recorder = PictureRecorder();
                                     final canvas = Canvas(recorder);
@@ -351,7 +355,7 @@ class _TodoPageState extends State<TodoPage> {
 
                                     // Assign the QR code image to the variable
                                     final qrCodeImage = QrImageView(
-                                      data: '\n$today\nCleared',
+                                      data: dataWithDate,
                                       version: QrVersions.auto,
                                       backgroundColor: Colors.white,
                                       foregroundColor: Colors.black,
