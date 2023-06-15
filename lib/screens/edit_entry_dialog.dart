@@ -19,7 +19,7 @@ class EditEntryDialog extends StatefulWidget {
 
 class _EditEntryDialogState extends State<EditEntryDialog> {
   // hardcoded admin ID to ask permission for editing and deleting
-  final adminID = 'mnPfqvki9BQfxiwVVvxcOrYWOyk2';
+  final adminID = 'apEasskPOCb3HWdIsSNpdVMMwgH3';
 
   late bool _isFever;
   late bool _isFeelingFeverish;

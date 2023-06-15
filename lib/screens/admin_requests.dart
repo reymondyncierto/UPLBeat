@@ -11,7 +11,7 @@ class AdminRequests extends StatefulWidget {
 }
 
 class _AdminRequestsState extends State<AdminRequests> {
-  final adminID = 'mnPfqvki9BQfxiwVVvxcOrYWOyk2';
+  final adminID = 'apEasskPOCb3HWdIsSNpdVMMwgH3';
 
   Map<String, dynamic> userDetails = {};
   Map<String, dynamic> studentDetails = {};
@@ -259,7 +259,7 @@ class _AdminRequestsState extends State<AdminRequests> {
     });
 
     // Remove the specific request from the admin's request array
-    final adminId = 'mnPfqvki9BQfxiwVVvxcOrYWOyk2';
+    final adminId = 'apEasskPOCb3HWdIsSNpdVMMwgH3';
     final adminDoc = FirebaseFirestore.instance.collection('client').doc(adminId);
 
     adminDoc.get().then((adminSnapshot) {
@@ -312,7 +312,7 @@ void _updateTodayEntry(
         print('Today\'s entry updated successfully.');
 
         // Remove the specific request from the admin's request array
-        final adminId = 'mnPfqvki9BQfxiwVVvxcOrYWOyk2';
+        final adminId = 'apEasskPOCb3HWdIsSNpdVMMwgH3';
         final adminDoc = FirebaseFirestore.instance.collection('client').doc(adminId);
 
         adminDoc.get().then((adminSnapshot) {
