@@ -248,26 +248,6 @@ Widget _showAllUsers() {
           }).toList();
         }
 
-        if (selectedDate != null) {
-          filteredDocs = filteredDocs.where((doc) {
-            final List<dynamic> entries = doc["entries"];
-            for (var entry in entries) {
-              final DateTime entryDate = DateTime.parse(entry["Timestamp"]);
-              final DateTime selectedDateTime = DateTime(
-                selectedDate!.year,
-                selectedDate!.month,
-                selectedDate!.day,
-              );
-              if (entryDate.year == selectedDateTime.year &&
-                  entryDate.month == selectedDateTime.month &&
-                  entryDate.day == selectedDateTime.day) {
-                return true;
-              }
-            }
-            return false;
-          }).toList();
-        }
-
         return SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(
@@ -413,6 +393,23 @@ Widget _showCleared() {
         final List<QueryDocumentSnapshot<Map<String, dynamic>>> docs =
             snapshot.data!.docs;
 
+         // Apply search and filter
+        List<QueryDocumentSnapshot<Map<String, dynamic>>> filteredDocs = docs;
+
+        if (searchQuery.isNotEmpty) {
+          filteredDocs = filteredDocs.where((doc) {
+            final name = doc["name"].toLowerCase();
+            final studentNo = doc["studentNumber"].toLowerCase();
+            final course = doc["course"].toLowerCase();
+            final college = doc["college"].toLowerCase();
+
+            return name.contains(searchQuery) ||
+                studentNo.contains(searchQuery) ||
+                course.contains(searchQuery) ||
+                college.contains(searchQuery);
+          }).toList();
+        }
+
         return SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(
@@ -452,7 +449,7 @@ Widget _showCleared() {
                               borderRadius: BorderRadius.circular(20.0),
                             ),
                             child: Text(
-                              '${docs.length}',
+                              '${filteredDocs.length}',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18.0,
@@ -464,13 +461,13 @@ Widget _showCleared() {
                       ),
           
                       const SizedBox(height: 16.0),
-                      if (docs.isNotEmpty)
+                      if (filteredDocs.isNotEmpty)
                         ListView.builder(
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
-                          itemCount: docs.length,
+                          itemCount: filteredDocs.length,
                           itemBuilder: (_, index) {
-                            final doc = docs[index];
+                            final doc = filteredDocs[index];
                             final name = doc["name"];
                             final currentStatus = doc["currentStatus"];
 
@@ -605,6 +602,23 @@ Widget _showMonitored() {
         final List<QueryDocumentSnapshot<Map<String, dynamic>>> docs =
             snapshot.data!.docs;
 
+         // Apply search and filter
+        List<QueryDocumentSnapshot<Map<String, dynamic>>> filteredDocs = docs;
+
+        if (searchQuery.isNotEmpty) {
+          filteredDocs = filteredDocs.where((doc) {
+            final name = doc["name"].toLowerCase();
+            final studentNo = doc["studentNumber"].toLowerCase();
+            final course = doc["course"].toLowerCase();
+            final college = doc["college"].toLowerCase();
+
+            return name.contains(searchQuery) ||
+                studentNo.contains(searchQuery) ||
+                course.contains(searchQuery) ||
+                college.contains(searchQuery);
+          }).toList();
+        }
+
         return SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(
@@ -644,7 +658,7 @@ Widget _showMonitored() {
                               borderRadius: BorderRadius.circular(20.0),
                             ),
                             child: Text(
-                              '${docs.length}',
+                              '${filteredDocs.length}',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18.0,
@@ -655,13 +669,13 @@ Widget _showMonitored() {
                         ],
                       ),
                       const SizedBox(height: 16.0),
-                      if (docs.isNotEmpty)
+                      if (filteredDocs.isNotEmpty)
                         ListView.builder(
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
-                          itemCount: docs.length,
+                          itemCount: filteredDocs.length,
                           itemBuilder: (_, index) {
-                            final doc = docs[index];
+                            final doc = filteredDocs[index];
                             final name = doc["name"];
                             final currentStatus = doc["currentStatus"];
 
@@ -827,6 +841,23 @@ Widget _showQuarantined() {
         final List<QueryDocumentSnapshot<Map<String, dynamic>>> docs =
             snapshot.data!.docs;
 
+         // Apply search and filter
+        List<QueryDocumentSnapshot<Map<String, dynamic>>> filteredDocs = docs;
+
+        if (searchQuery.isNotEmpty) {
+          filteredDocs = filteredDocs.where((doc) {
+            final name = doc["name"].toLowerCase();
+            final studentNo = doc["studentNumber"].toLowerCase();
+            final course = doc["course"].toLowerCase();
+            final college = doc["college"].toLowerCase();
+
+            return name.contains(searchQuery) ||
+                studentNo.contains(searchQuery) ||
+                course.contains(searchQuery) ||
+                college.contains(searchQuery);
+          }).toList();
+        }
+        
         return SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -862,7 +893,7 @@ Widget _showQuarantined() {
                               borderRadius: BorderRadius.circular(20.0),
                             ),
                             child: Text(
-                              '${docs.length}',
+                              '${filteredDocs.length}',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18.0,
@@ -873,13 +904,13 @@ Widget _showQuarantined() {
                         ],
                       ),
                       const SizedBox(height: 16.0),
-                      if (docs.isNotEmpty)
+                      if (filteredDocs.isNotEmpty)
                         ListView.builder(
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
-                          itemCount: docs.length,
+                          itemCount: filteredDocs.length,
                           itemBuilder: (_, index) {
-                            final doc = docs[index];
+                            final doc = filteredDocs[index];
                             final name = doc["name"];
                             final currentStatus = doc["currentStatus"];
 

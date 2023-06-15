@@ -123,8 +123,10 @@ class _EMLogsPageState extends State<EMLogsPage> {
                         final studentNo = userData["studentNumber"].toLowerCase();
                         final course = userData["course"].toLowerCase();
                         final college = userData["college"].toLowerCase();
+                        final location = log['location'].toLowerCase();
 
-                        if(!name.contains(searchQuery) && !studentNo.contains(searchQuery) && !course.contains(searchQuery) && !college.contains(searchQuery)){
+
+                        if(!name.contains(searchQuery) && !studentNo.contains(searchQuery) && !course.contains(searchQuery) && !college.contains(searchQuery) && !location.contains(searchQuery)){
                           return Container();
                         }
                       }
