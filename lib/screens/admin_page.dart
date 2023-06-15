@@ -248,6 +248,9 @@ Widget _showAllUsers() {
           }).toList();
         }
 
+        // Sort filteredDocs alphabetically by name
+        filteredDocs.sort((a, b) => a["name"].compareTo(b["name"]));
+
         return SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(
@@ -409,6 +412,8 @@ Widget _showCleared() {
                 college.contains(searchQuery);
           }).toList();
         }
+        // Sort filteredDocs alphabetically by name
+        filteredDocs.sort((a, b) => a["name"].compareTo(b["name"]));
 
         return SingleChildScrollView(
           child: Padding(
@@ -618,6 +623,9 @@ Widget _showMonitored() {
                 college.contains(searchQuery);
           }).toList();
         }
+
+        // Sort filteredDocs alphabetically by name
+        filteredDocs.sort((a, b) => a["name"].compareTo(b["name"]));
 
         return SingleChildScrollView(
           child: Padding(
@@ -857,6 +865,9 @@ Widget _showQuarantined() {
                 college.contains(searchQuery);
           }).toList();
         }
+
+        // Sort filteredDocs alphabetically by name
+        filteredDocs.sort((a, b) => a["name"].compareTo(b["name"]));
         
         return SingleChildScrollView(
           child: Padding(
