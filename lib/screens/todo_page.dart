@@ -70,35 +70,34 @@ class _TodoPageState extends State<TodoPage> {
     }
   }
 
+  void _showDialogs() async {
+    if (_isNewAdmin == true && (userType == 'admin' || userType == 'em')) {
+      await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return const EmployeeInfoDialog();
+        },
+      );
+    }
+
+    if (_isNewUser) {
+      await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return const PreexistingIllnessDialog();
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    if (_isNewUser) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return const PreexistingIllnessDialog();
-          },
-        );
-      });
-    }
-
-    if (_isNewAdmin == true && (userType == 'admin' || userType == 'em')) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return const EmployeeInfoDialog();
-          },
-        );
-      });
-    }
-
-    // final String userType = "user";
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      _showDialogs();
+    });
 
     return Scaffold(
-        appBar: AppBar(
-        ),
+        appBar: AppBar(),
         body: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
