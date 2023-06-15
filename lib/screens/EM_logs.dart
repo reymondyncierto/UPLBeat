@@ -98,7 +98,8 @@ class _EMLogsPageState extends State<EMLogsPage> {
           const SizedBox(height: 10),
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance.collection('client').snapshots(),
+              stream:
+                  FirebaseFirestore.instance.collection('client').snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const CircularProgressIndicator();
@@ -107,33 +108,47 @@ class _EMLogsPageState extends State<EMLogsPage> {
 
                   filteredEntries = userDocs.expand((userDoc) {
                     final userData = userDoc.data() as Map<String, dynamic>;
-                    final studentLogs = userData['student_logs'] as List<dynamic>;
+                    final studentLogs =
+                        userData['student_logs'] as List<dynamic>;
 
                     return studentLogs.map((log) {
                       final location = log['location'] ?? 'Location not found';
                       final status = log['status'] ?? 'Status not found';
-                      final studno = log['studno'] ?? 'Student number not found';
+                      final studno =
+                          log['studno'] ?? 'Student number not found';
                       final dateTime = log['dateTime'] as Timestamp?;
                       final formattedDateTime = dateTime != null
-                          ? DateTime.fromMicrosecondsSinceEpoch(dateTime.microsecondsSinceEpoch).toString()
+                          ? DateTime.fromMicrosecondsSinceEpoch(
+                                  dateTime.microsecondsSinceEpoch)
+                              .toString()
                           : 'N/A';
 
-                      if(searchQuery.isNotEmpty) {
+                      if (searchQuery.isNotEmpty) {
                         final name = userData["name"].toLowerCase();
-                        final studentNo = userData["studentNumber"].toLowerCase();
+                        final studentNo =
+                            userData["studentNumber"].toLowerCase();
                         final course = userData["course"].toLowerCase();
                         final college = userData["college"].toLowerCase();
                         final location = log['location'].toLowerCase();
 
-
-                        if(!name.contains(searchQuery) && !studentNo.contains(searchQuery) && !course.contains(searchQuery) && !college.contains(searchQuery) && !location.contains(searchQuery)){
+                        if (!name.contains(searchQuery) &&
+                            !studentNo.contains(searchQuery) &&
+                            !course.contains(searchQuery) &&
+                            !college.contains(searchQuery) &&
+                            !location.contains(searchQuery)) {
                           return Container();
                         }
                       }
 
                       if (selectedDate != null) {
-                        final logDate = dateTime != null ? DateTime.fromMicrosecondsSinceEpoch(dateTime.microsecondsSinceEpoch) : null;
-                        if (logDate == null || logDate.day != selectedDate!.day || logDate.month != selectedDate!.month || logDate.year != selectedDate!.year) {
+                        final logDate = dateTime != null
+                            ? DateTime.fromMicrosecondsSinceEpoch(
+                                dateTime.microsecondsSinceEpoch)
+                            : null;
+                        if (logDate == null ||
+                            logDate.day != selectedDate!.day ||
+                            logDate.month != selectedDate!.month ||
+                            logDate.year != selectedDate!.year) {
                           return Container(); // Filter out logs not matching selected date
                         }
                       }
@@ -144,144 +159,141 @@ class _EMLogsPageState extends State<EMLogsPage> {
                           horizontal: 16,
                           vertical: 8,
                         ),
-                        child:  Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(height: 8.0),
-                            Container(
-                              padding: const EdgeInsets.all(16.0),
-                              decoration: BoxDecoration(
-                                color: Colors.grey[200],
-                                borderRadius: BorderRadius.circular(8.0),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 8.0),
+                              Container(
+                                padding: const EdgeInsets.all(16.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[200],
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Details',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18.0,
+                                          ),
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                            vertical: 4.0,
+                                            horizontal: 8.0,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: Colors.blue,
+                                            borderRadius:
+                                                BorderRadius.circular(20.0),
+                                          ),
+                                          child: Text(
+                                            _formatDateTime(dateTime!.toDate()),
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18.0,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 16.0),
+                                    RichText(
+                                        text: TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: 'Name: ',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black,
+                                            fontSize: 16.0,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: userData["name"],
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 16.0,
+                                          ),
+                                        ),
+                                      ],
+                                    )),
+                                    RichText(
+                                        text: TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: 'Location: ',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black,
+                                            fontSize: 16.0,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: location,
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 16.0,
+                                          ),
+                                        ),
+                                      ],
+                                    )),
+                                    RichText(
+                                        text: TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: 'Status: ',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black,
+                                            fontSize: 16.0,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: status,
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 16.0,
+                                          ),
+                                        ),
+                                      ],
+                                    )),
+                                    RichText(
+                                      text: TextSpan(
+                                        children: [
+                                          TextSpan(
+                                            text: 'Student Number: ',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black,
+                                              fontSize: 16.0,
+                                            ),
+                                          ),
+                                          TextSpan(
+                                            text: studno,
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 16.0,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  children: [
-    Text(
-      'Details',
-      style: TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: 18.0,
-      ),
-    ),
-    Container(
-      padding: const EdgeInsets.symmetric(
-        vertical: 4.0,
-        horizontal: 8.0,
-      ),
-      decoration: BoxDecoration(
-        color: Colors.blue,
-        borderRadius: BorderRadius.circular(20.0),
-      ),
-      child: Text(
-        _formatDateTime(dateTime!.toDate()),
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 18.0,
-          color: Colors.white,
-        ),
-      ),
-    ),
-  ],
-),
-const SizedBox(height: 16.0),
-RichText(
-  text: TextSpan(
-    children: [
-      TextSpan(
-        text: 'Name: ',
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          color: Colors.black,
-          fontSize: 16.0,
-        ),
-      ),
-      TextSpan(
-        text: userData["name"],
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 16.0,
-        ),
-      ),
-    ],
-  )
-),
-RichText(
-  text: TextSpan(
-    children: [
-      TextSpan(
-        text: 'Location: ',
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          color: Colors.black,
-          fontSize: 16.0,
-        ),
-      ),
-      TextSpan(
-        text: location,
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 16.0,
-        ),
-      ),
-    ],
-  )
-),
-RichText(
-  text: TextSpan(
-    children: [
-      TextSpan(
-        text: 'Status: ',
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          color: Colors.black,
-          fontSize: 16.0,
-        ),
-      ),
-      TextSpan(
-        text: status,
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 16.0,
-        ),
-      ),
-    ],
-  )
-),
-RichText(
-  text: TextSpan(
-    children: [
-      TextSpan(
-        text: 'Student Number: ',
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          color: Colors.black,
-          fontSize: 16.0,
-        ),
-      ),
-      TextSpan(
-        text: studno,
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 16.0,
-        ),
-      ),
-    ],
-  ),
-),
-
-                                ],
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-
                       );
                     }).toList();
                   }).toList();
