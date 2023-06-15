@@ -298,7 +298,13 @@ class _EMLogsPageState extends State<EMLogsPage> {
                     }).toList();
                   }).toList();
 
-                  return ListView(reverse: true, children: filteredEntries);
+                 return ListView.builder(
+                  itemCount: filteredEntries.length,
+                  itemBuilder: (context, index) {
+                    final reversedIndex = filteredEntries.length - 1 - index;
+                    return filteredEntries[reversedIndex];
+                  },
+                );
                 } else {
                   return const Text('Failed to fetch user information.');
                 }

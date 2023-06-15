@@ -268,17 +268,17 @@ class _TodoPageState extends State<TodoPage> {
                                         authProvider.getCurrentUser()!.uid;
                                     print(data);
 
-                                    final currentDate = DateTime.now().toString();
-final dataWithDate = '$data\n$currentDate';
+                                    final currentDate =
+                                        DateTime.now().toString();
+                                    final dataWithDate = '$data\n$currentDate';
 
-final image = await QrPainter(
-  data: dataWithDate,
-  version: QrVersions.auto,
-  gapless: false,
-  color: Colors.black,
-  emptyColor: Colors.white,
-).toImage(300);
-
+                                    final image = await QrPainter(
+                                      data: dataWithDate,
+                                      version: QrVersions.auto,
+                                      gapless: false,
+                                      color: Colors.black,
+                                      emptyColor: Colors.white,
+                                    ).toImage(300);
 
                                     final recorder = PictureRecorder();
                                     final canvas = Canvas(recorder);
