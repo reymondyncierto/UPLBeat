@@ -6,6 +6,7 @@ CMSC 23 Final Project 2S AY 22-23
 
 */
 
+import 'employee_details_page.dart';
 import 'user_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -330,7 +331,8 @@ Widget _showAllUsers() {
                                 ),
                                 subtitle: Text('Status: $currentStatus'),
                                 onTap: () {
-                                  showDialog(
+                                  if(doc["userType"] == "user") {
+                                     showDialog(
                                     context: context,
                                     builder: (BuildContext context) =>
                                         UserDetailsDialog(
@@ -349,6 +351,28 @@ Widget _showAllUsers() {
                                       },
                                     ),
                                   );
+                                  } else {
+                                     showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        EmployeeDetailsDialog(
+                                      name: name,
+                                      email: doc["email"],
+                                      empNo: doc["empNo"],
+                                      position: doc["position"],
+                                      homeUnit: doc["homeUnit"],
+                                      userType: doc["userType"],
+                                      showUserType: true,
+                                      onUserTypeChanged: (value) {
+                                        FirebaseFirestore.instance
+                                            .collection('client')
+                                            .doc(doc.id)
+                                            .update({"userType": value});
+                                      },
+                                    ),
+                                  );
+                                  }
+              
                                 },
                               ),
                             );
