@@ -298,7 +298,7 @@ class _EMLogsPageState extends State<EMLogsPage> {
                     }).toList();
                   }).toList();
 
-                  return ListView(children: filteredEntries);
+                  return ListView(reverse: true, children: filteredEntries);
                 } else {
                   return const Text('Failed to fetch user information.');
                 }
