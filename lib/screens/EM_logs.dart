@@ -144,26 +144,144 @@ class _EMLogsPageState extends State<EMLogsPage> {
                           horizontal: 16,
                           vertical: 8,
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Name: ${userData['name']}',
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                        child:  Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 8.0),
+                            Container(
+                              padding: const EdgeInsets.all(16.0),
+                              decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(8.0),
                               ),
-                              const SizedBox(height: 8),
-                              Text('Location: $location'),
-                              Text('Status: $status'),
-                              Text('Student Number: $studno'),
-                              Text('Date and Time: $formattedDateTime'),
-                            ],
-                          ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: [
+    Text(
+      'Details',
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 18.0,
+      ),
+    ),
+    Container(
+      padding: const EdgeInsets.symmetric(
+        vertical: 4.0,
+        horizontal: 8.0,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.blue,
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      child: Text(
+        _formatDateTime(dateTime!.toDate()),
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 18.0,
+          color: Colors.white,
+        ),
+      ),
+    ),
+  ],
+),
+const SizedBox(height: 16.0),
+RichText(
+  text: TextSpan(
+    children: [
+      TextSpan(
+        text: 'Name: ',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
+          fontSize: 16.0,
+        ),
+      ),
+      TextSpan(
+        text: userData["name"],
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: 16.0,
+        ),
+      ),
+    ],
+  )
+),
+RichText(
+  text: TextSpan(
+    children: [
+      TextSpan(
+        text: 'Location: ',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
+          fontSize: 16.0,
+        ),
+      ),
+      TextSpan(
+        text: location,
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: 16.0,
+        ),
+      ),
+    ],
+  )
+),
+RichText(
+  text: TextSpan(
+    children: [
+      TextSpan(
+        text: 'Status: ',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
+          fontSize: 16.0,
+        ),
+      ),
+      TextSpan(
+        text: status,
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: 16.0,
+        ),
+      ),
+    ],
+  )
+),
+RichText(
+  text: TextSpan(
+    children: [
+      TextSpan(
+        text: 'Student Number: ',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
+          fontSize: 16.0,
+        ),
+      ),
+      TextSpan(
+        text: studno,
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: 16.0,
+        ),
+      ),
+    ],
+  ),
+),
+
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
+                      ),
+
                       );
                     }).toList();
                   }).toList();
@@ -188,5 +306,37 @@ class _EMLogsPageState extends State<EMLogsPage> {
         label: const Text('Scan QR'),
       ),
     );
+  }
+
+  String _formatDateTime(DateTime dateTime) {
+    // list of months
+    final monthNames = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec'
+    ];
+
+    final month =
+        monthNames[dateTime.month - 1]; // extract current month from date
+    final day = dateTime.day.toString().padLeft(2, '0'); // extract day
+    final year = dateTime.year.toString(); // extract year
+    final hour = dateTime.hour == 0 // extract hour
+        ? 12
+        : dateTime.hour > 12
+            ? dateTime.hour - 12
+            : dateTime.hour;
+    final minute = dateTime.minute.toString().padLeft(2, '0'); // extract minute
+    final period = dateTime.hour >= 12 ? 'pm' : 'am'; // extract period
+
+    return '$month $day, $year at $hour:$minute $period';
   }
 }
